@@ -19,6 +19,7 @@ const UserStatus = {
 
 export const auth = betterAuth({
     baseURL: envVars.BETTER_AUTH_URL,
+    basePath: "/api/v1/auth",
     secret: envVars.BETTER_AUTH_SECRET,
     database: prismaAdapter(prisma, {
         provider: "postgresql", 
@@ -26,7 +27,7 @@ export const auth = betterAuth({
 
     emailAndPassword: {
         enabled: true,
-        requireEmailVerification: true,
+        requireEmailVerification: false,
     },
 
     socialProviders:{
@@ -47,9 +48,9 @@ export const auth = betterAuth({
     },
 
     emailVerification:{
-        sendOnSignUp: true,
-        sendOnSignIn: true,
-        autoSignInAfterVerification: true,
+        sendOnSignUp: false,
+        sendOnSignIn: false,
+        autoSignInAfterVerification: false,
     },
 
     user: {
@@ -160,16 +161,16 @@ export const auth = betterAuth({
         cookies:{
             state:{
                 attributes:{
-                    sameSite: "none",
-                    secure: true,
+                    sameSite: "lax",
+                    secure: false,
                     httpOnly: true,
                     path: "/",
                 }
             },
             sessionToken:{
                 attributes:{
-                    sameSite: "none",
-                    secure: true,
+                    sameSite: "lax",
+                    secure: false,
                     httpOnly: true,
                     path: "/",
                 }

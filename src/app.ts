@@ -22,7 +22,6 @@ app.use(cors({
 
 // Better-Auth Core Handler
 app.all("/api/v1/auth/*path", toNodeHandler(auth));
-// Also add simple path just in case
 app.all("/api/v1/auth", toNodeHandler(auth));
 
 // Application Routes
