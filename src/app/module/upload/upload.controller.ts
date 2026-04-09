@@ -15,7 +15,7 @@ const uploadImage = catchAsync(async (req: Request, res: Response) => {
   const result = await sendImageToCloudinary(imageName, path);
 
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    httpStatusCode: httpStatus.OK,
     success: true,
     message: 'Image uploaded successfully',
     data: result,
@@ -23,12 +23,12 @@ const uploadImage = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteImage = catchAsync(async (req: Request, res: Response) => {
-  const { publicId } = req.params;
+  const publicId = req.params.publicId as string;
 
   const result = await deleteImageFromCloudinary(publicId);
 
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    httpStatusCode: httpStatus.OK,
     success: true,
     message: 'Image deleted successfully',
     data: result,

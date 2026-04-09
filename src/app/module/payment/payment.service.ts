@@ -1,9 +1,8 @@
-import Stripe from 'stripe';
-import { prisma } from '../../lib/prisma';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2025-02-24.acacia',
-});
+import { prisma } from '../../lib/prisma';
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 const createPaymentIntent = async (orderId: string, amount: number) => {
   const amountInCents = Math.round(amount * 100);

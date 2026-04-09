@@ -5,9 +5,7 @@ import { sendResponse } from '../../shared/sendResponse';
 import { PaymentService } from './payment.service';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2025-02-24.acacia',
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 const createPaymentIntent = catchAsync(async (req: Request, res: Response) => {
   const { orderId, amount } = req.body;
@@ -15,7 +13,7 @@ const createPaymentIntent = catchAsync(async (req: Request, res: Response) => {
   const result = await PaymentService.createPaymentIntent(orderId, amount);
 
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    httpStatusCode: httpStatus.OK,
     success: true,
     message: 'Payment intent created successfully',
     data: result,
@@ -28,7 +26,7 @@ const confirmPayment = catchAsync(async (req: Request, res: Response) => {
   const result = await PaymentService.confirmPayment(orderId, paymentIntentId);
 
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    httpStatusCode: httpStatus.OK,
     success: true,
     message: 'Payment confirmed successfully',
     data: result,
