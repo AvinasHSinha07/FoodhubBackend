@@ -4,6 +4,7 @@ import { CategoryRoutes } from '../module/category/category.route';
 import { ProviderProfileRoutes } from '../module/providerProfile/providerProfile.route';
 import { MealRoutes } from '../module/meal/meal.route';
 import { OrderRoutes } from '../module/order/order.route';
+import { ReviewRoutes } from '../module/review/review.route';
 
 const router = express.Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes: any[] = [
     {
       path: '/orders',
       route: OrderRoutes,
+    },
+    {
+      path: '/reviews',
+      route: ReviewRoutes,
     },
 ];
 
