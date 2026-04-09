@@ -2,6 +2,8 @@ import express from 'express';
 import { UserRoutes } from '../module/user/user.route';
 import { CategoryRoutes } from '../module/category/category.route';
 import { ProviderProfileRoutes } from '../module/providerProfile/providerProfile.route';
+import { MealRoutes } from '../module/meal/meal.route';
+import { OrderRoutes } from '../module/order/order.route';
 
 const router = express.Router();
 
@@ -17,6 +19,14 @@ const moduleRoutes: any[] = [
     {
       path: '/provider-profiles',
       route: ProviderProfileRoutes,
+    },
+    {
+      path: '/meals',
+      route: MealRoutes,
+    },
+    {
+      path: '/orders',
+      route: OrderRoutes,
     },
 ];
 
