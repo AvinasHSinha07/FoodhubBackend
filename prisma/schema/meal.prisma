@@ -1,0 +1,20 @@
+model Meal {
+  id            String          @id @default(uuid())
+  providerId    String
+  provider      ProviderProfile @relation(fields: [providerId], references: [id])
+  categoryId    String
+  category      Category        @relation(fields: [categoryId], references: [id])
+  title         String
+  description   String
+  price         Float
+  image         String?
+  isAvailable   Boolean         @default(true)
+  dietaryTag    String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  
+  orderItems    OrderItem[]
+  reviews       Review[]
+  
+  @@map("meal")
+}

@@ -1,0 +1,32 @@
+model Order {
+  id                    String          @id @default(uuid())
+  customerId            String
+  customer              User            @relation(fields: [customerId], references: [id])
+  providerId            String
+  provider              ProviderProfile @relation(fields: [providerId], references: [id])
+  totalPrice            Float
+  deliveryAddress       String
+  orderStatus           OrderStatus     @default(PLACED)
+  paymentStatus         PaymentStatus   @default(PENDING)
+  paymentMethod         PaymentMethod   @default(STRIPE)
+  stripePaymentIntentId String?         @unique
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+  
+  orderItems            OrderItem[]
+  
+  @@map("order")
+}
+
+model OrderItem {
+  id         String   @id @default(uuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  mealId     String
+  meal       Meal     @relation(fields: [mealId], references: [id])
+  quantity   Int
+  unitPrice  Float
+  totalPrice Float
+  
+  @@map("order_item")
+}

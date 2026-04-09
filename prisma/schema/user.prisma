@@ -1,0 +1,23 @@
+model User {
+  id                 String    @id @default(uuid())
+  email              String    @unique
+  name               String
+  emailVerified      Boolean   @default(false)
+  image              String?
+  role               Role      @default(CUSTOMER)
+  status             UserStatus @default(ACTIVE)
+  isDeleted          Boolean   @default(false)
+  deletedAt          DateTime?
+  needPasswordChange Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  sessions           Session[]
+  accounts           Account[]
+  
+  providerProfile    ProviderProfile?
+  orders             Order[]
+  reviews            Review[]
+
+  @@map("user")
+}
