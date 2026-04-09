@@ -15,7 +15,7 @@ router.get('/users', auth('ADMIN'), UserController.getAllUsers);
 // You will implement status toggling inside user.controller.ts if requested
 
 // Order Monitoring (Admin Only)
-router.get('/orders', auth('ADMIN'), OrderController.getAllOrders);
+router.get('/orders', auth('ADMIN'), OrderController.getMyOrders);
 
 // Category Management (Admin Only)
 router.post(

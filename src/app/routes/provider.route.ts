@@ -26,6 +26,6 @@ router.delete('/meals/:id', auth('PROVIDER'), MealController.deleteMeal);
 
 // Order Management (Provider Only)
 // Update order status PATCH /orders/:id
-router.patch('/orders/:id', auth('PROVIDER'), OrderController.updateOrder);
+router.patch('/orders/:id', auth('PROVIDER'), OrderController.updateOrderStatus);
 
 export const ProviderRoutes = router;
