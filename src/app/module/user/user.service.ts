@@ -99,8 +99,36 @@ const updateMyProfile = async (userEmail: string, payload: Partial<Prisma.UserUp
   return result;
 };
 
+const updateUserStatus = async (userId: string, userStatus: 'ACTIVE' | 'BLOCKED') => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) {
+    throw new AppError(status.NOT_FOUND, 'User not found to update status!');
+  }
+
+  const result = await prisma.user.update({
+    where: { id: userId },
+    data: { status: userStatus },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      status: true,
+      image: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+
+  return result;
+};
+
 export const UserServices = {
   getAllUsers,
   getMyProfile,
   updateMyProfile,
+  updateUserStatus,
 };

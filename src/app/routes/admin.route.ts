@@ -2,6 +2,7 @@ import express from 'express';
 import { UserController } from '../module/user/user.controller';
 import { OrderController } from '../module/order/order.controller';
 import { CategoryController } from '../module/category/category.controller';
+import { UserValidation } from '../module/user/user.validation';
 import auth from '../middleware/auth';
 import validateRequest from '../middleware/validateRequest';
 import { CategoryValidation } from '../module/category/category.validation';
@@ -10,9 +11,12 @@ const router = express.Router();
 
 // User Management (Admin Only)
 router.get('/users', auth('ADMIN'), UserController.getAllUsers);
-// Optional: PATCH /users/:id/status (Requires a new controller method or use an update toggle)
-// For now, mapping directly to existing updates handled manually
-// You will implement status toggling inside user.controller.ts if requested
+router.patch(
+  '/users/:id/status',
+  auth('ADMIN'),
+  validateRequest(UserValidation.updateUserStatusZodSchema),
+  UserController.updateUserStatus
+);
 
 // Order Monitoring (Admin Only)
 router.get('/orders', auth('ADMIN'), OrderController.getMyOrders);

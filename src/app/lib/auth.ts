@@ -14,7 +14,7 @@ const Role = {
 
 const UserStatus = {
     ACTIVE: "ACTIVE",
-    SUSPENDED: "SUSPENDED"
+    BLOCKED: "BLOCKED"
 } as const;
 
 export const auth = betterAuth({

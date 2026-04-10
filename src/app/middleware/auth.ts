@@ -18,13 +18,13 @@ const auth = (...requiredRoles: string[]) => {
 
     const { user } = session;
 
-    // 2. Check if user is deleted or suspended (based on your schema)
+    // 2. Check if user is deleted or blocked (based on your schema)
     if (user.isDeleted) {
       throw new AppError(status.FORBIDDEN, 'This user is deleted!');
     }
 
-    if (user.status === 'SUSPENDED') {
-      throw new AppError(status.FORBIDDEN, 'This user is suspended!');
+    if (user.status === 'BLOCKED') {
+      throw new AppError(status.FORBIDDEN, 'This user is blocked!');
     }
 
     // 3. Role Authorization

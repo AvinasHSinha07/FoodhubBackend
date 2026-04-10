@@ -62,8 +62,23 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateUserStatus = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.params.id as string;
+  const { status: userStatus } = req.body as { status: 'ACTIVE' | 'BLOCKED' };
+
+  const result = await UserServices.updateUserStatus(userId, userStatus);
+
+  sendResponse(res, {
+    httpStatusCode: status.OK,
+    success: true,
+    message: 'User status updated successfully!',
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllUsers,
   getMyProfile,
   updateMyProfile,
+  updateUserStatus,
 };
