@@ -52,9 +52,20 @@ const getAllProviders = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getProviderById = catchAsync(async (req: Request, res: Response) => {
+  const result = await ProviderProfileServices.getProviderById(req.params.id);
+  sendResponse(res, {
+    httpStatusCode: status.OK,
+    success: true,
+    message: 'Provider retrieved successfully!',
+    data: result,
+  });
+});
+
 export const ProviderProfileController = {
   createMyProfile,
   getMyProfile,
   updateMyProfile,
   getAllProviders,
+  getProviderById,
 };

@@ -1,0 +1,12 @@
+import express from 'express';
+import { CategoryController } from './category.controller';
+import validateRequest from '../../middleware/validateRequest';
+import { CategoryValidation } from './category.validation';
+import auth from '../../middleware/auth';
+const router = express.Router();
+router.post('/', auth('ADMIN'), validateRequest(CategoryValidation.createCategoryZodSchema), CategoryController.createCategory);
+router.get('/', CategoryController.getAllCategories);
+router.get('/:id', CategoryController.getCategoryById);
+router.patch('/:id', auth('ADMIN'), validateRequest(CategoryValidation.updateCategoryZodSchema), CategoryController.updateCategory);
+router.delete('/:id', auth('ADMIN'), CategoryController.deleteCategory);
+export const CategoryRoutes = router;
