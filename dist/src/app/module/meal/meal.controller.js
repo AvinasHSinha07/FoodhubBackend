@@ -17,6 +17,9 @@ const getAllMeals = catchAsync(async (req, res) => {
         searchTerm: req.query.searchTerm,
         categoryId: req.query.categoryId,
         providerId: req.query.providerId,
+        minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
+        maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
+        dietaryTag: req.query.dietaryTag,
         isAvailable: req.query.isAvailable === 'true' ? true : req.query.isAvailable === 'false' ? false : undefined,
     };
     // Strip out undefined filters cleanly

@@ -8,4 +8,5 @@ router.post('/me', auth('PROVIDER'), validateRequest(ProviderProfileValidation.c
 router.get('/me', auth('PROVIDER'), ProviderProfileController.getMyProfile);
 router.patch('/me', auth('PROVIDER'), validateRequest(ProviderProfileValidation.updateProfileZodSchema), ProviderProfileController.updateMyProfile);
 router.get('/', ProviderProfileController.getAllProviders);
+router.get('/:id', ProviderProfileController.getProviderById);
 export const ProviderProfileRoutes = router;

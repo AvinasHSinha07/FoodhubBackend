@@ -26,7 +26,7 @@ const createMeal = async (userId, data) => {
     return result;
 };
 const getAllMeals = async (filters) => {
-    const { searchTerm, categoryId, providerId, isAvailable } = filters;
+    const { searchTerm, categoryId, providerId, isAvailable, minPrice, maxPrice, dietaryTag } = filters;
     const conditions = [];
     if (searchTerm) {
         conditions.push({
@@ -41,17 +41,17 @@ const getAllMeals = async (filters) => {
         conditions.push({ providerId });
     if (isAvailable !== undefined)
         conditions.push({ isAvailable });
+    if (dietaryTag)
+        conditions.push({ dietaryTag: { equals: dietaryTag, mode: 'insensitive' } });
+    if (minPrice !== undefined)
+        conditions.push({ price: { gte: minPrice } });
+    if (maxPrice !== undefined)
+        conditions.push({ price: { lte: maxPrice } });
     const result = await prisma.meal.findMany({
         where: conditions.length > 0 ? { AND: conditions } : {},
         include: {
             category: true,
-            provider: {
-                include: {
-                    user: {
-                        select: { name: true, email: true }
-                    }
-                }
-            }
+            provider: true, // We don't really need user if we have provider name usually, but frontend type uses it
         },
     });
     return result;

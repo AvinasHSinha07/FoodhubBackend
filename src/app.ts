@@ -9,6 +9,10 @@ import notFound from './app/middleware/notFound';
 
 const app: Application = express();
 
+// Stripe Webhook MUST be placed before express.json() so it gets raw body access for signature verification
+import { PaymentController } from './app/module/payment/payment.controller';
+app.post('/api/v1/payments/webhook', express.raw({ type: 'application/json' }), PaymentController.handleWebhook);
+
 // Parsers
 app.use(express.json());
 app.use(cookieParser());

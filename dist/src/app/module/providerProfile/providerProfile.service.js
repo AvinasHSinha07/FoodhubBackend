@@ -61,9 +61,27 @@ const getAllProviders = async (filters) => {
     });
     return result;
 };
+const getProviderById = async (id) => {
+    const result = await prisma.providerProfile.findUnique({
+        where: { id },
+        include: {
+            user: {
+                select: { id: true, name: true, email: true, status: true, isDeleted: true }
+            },
+            meals: {
+                where: { isAvailable: true }
+            }
+        }
+    });
+    if (!result) {
+        throw new AppError(status.NOT_FOUND, 'Provider profile not found!');
+    }
+    return result;
+};
 export const ProviderProfileServices = {
     createMyProfile,
     getMyProfile,
+    getProviderById,
     updateMyProfile,
     getAllProviders,
 };

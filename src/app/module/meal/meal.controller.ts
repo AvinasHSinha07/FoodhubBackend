@@ -20,6 +20,9 @@ const getAllMeals = catchAsync(async (req: Request, res: Response) => {
     searchTerm: req.query.searchTerm as string,
     categoryId: req.query.categoryId as string,
     providerId: req.query.providerId as string,
+    minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
+    maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
+    dietaryTag: req.query.dietaryTag as string,
     isAvailable: req.query.isAvailable === 'true' ? true : req.query.isAvailable === 'false' ? false : undefined,
   };
 

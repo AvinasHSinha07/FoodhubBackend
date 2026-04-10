@@ -53,7 +53,7 @@ const getAllProviders = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getProviderById = catchAsync(async (req: Request, res: Response) => {
-  const result = await ProviderProfileServices.getProviderById(req.params.id);
+  const result = await ProviderProfileServices.getProviderById(req.params.id as string);
   sendResponse(res, {
     httpStatusCode: status.OK,
     success: true,
