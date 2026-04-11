@@ -2,24 +2,25 @@ import status from 'http-status';
 import { catchAsync } from '../../shared/catchAsync';
 import { sendResponse } from '../../shared/sendResponse';
 import { UserServices } from './user.service';
+import { parsePaginationQuery } from '../../shared/queryParser';
 const getAllUsers = catchAsync(async (req, res) => {
-    const filters = {
-        searchTerm: req.query.searchTerm,
-        role: req.query.role,
-        status: req.query.status,
-    };
-    // Remove undefined
-    Object.keys(filters).forEach((key) => {
-        if (filters[key] === undefined) {
-            delete filters[key];
-        }
+    const queryOptions = parsePaginationQuery(req.query, {
+        allowedSortBy: ['createdAt', 'name', 'email', 'updatedAt'],
+        allowedFilterKeys: ['role', 'status'],
+        defaultSortBy: 'createdAt',
+        defaultSortOrder: 'desc',
+        defaultLimit: 10,
     });
-    const result = await UserServices.getAllUsers(filters);
+    const result = await UserServices.getAllUsers(queryOptions, {
+        role: queryOptions.filters.role,
+        status: queryOptions.filters.status,
+    });
     sendResponse(res, {
         httpStatusCode: status.OK,
         success: true,
         message: 'Users retrieved successfully!',
-        data: result,
+        data: result.data,
+        meta: result.meta,
     });
 });
 const getMyProfile = catchAsync(async (req, res) => {

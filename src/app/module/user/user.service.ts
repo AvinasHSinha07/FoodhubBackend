@@ -2,9 +2,19 @@ import status from 'http-status';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import { Prisma } from '@prisma/client';
+import { buildPaginationMeta, TPaginationQueryOptions } from '../../shared/queryParser';
 
-const getAllUsers = async (filters: { searchTerm?: string }) => {
-  const { searchTerm, ...filterData } = filters;
+type TUserFilters = {
+  role?: string;
+  status?: string;
+};
+
+const getAllUsers = async (
+  queryOptions: TPaginationQueryOptions,
+  filters: TUserFilters
+) => {
+  const { searchTerm, skip, limit, sortBy, sortOrder, page } = queryOptions;
+  const { role, status } = filters;
   const conditions: Prisma.UserWhereInput[] = [];
 
   if (searchTerm) {
@@ -21,31 +31,50 @@ const getAllUsers = async (filters: { searchTerm?: string }) => {
   // Filter only ACTIVE & non-deleted users for general search
   conditions.push({ isDeleted: false });
 
-  if (Object.keys(filterData).length > 0) {
+  if (role) {
     conditions.push({
-      AND: Object.keys(filterData).map((key) => ({
-        [key]: {
-          equals: (filterData as any)[key],
-        },
-      })),
+      role: {
+        equals: role as any,
+      },
     });
   }
 
-  const result = await prisma.user.findMany({
-    where: conditions.length > 0 ? { AND: conditions } : {},
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      status: true,
-      image: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  });
+  if (status) {
+    conditions.push({
+      status: {
+        equals: status as any,
+      },
+    });
+  }
 
-  return result;
+  const whereConditions: Prisma.UserWhereInput = conditions.length > 0 ? { AND: conditions } : {};
+
+  const [result, total] = await prisma.$transaction([
+    prisma.user.findMany({
+      where: whereConditions,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        status: true,
+        image: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      skip,
+      take: limit,
+      orderBy: {
+        [sortBy]: sortOrder,
+      },
+    }),
+    prisma.user.count({ where: whereConditions }),
+  ]);
+
+  return {
+    meta: buildPaginationMeta(page, limit, total),
+    data: result,
+  };
 };
 
 const getMyProfile = async (userEmail: string) => {

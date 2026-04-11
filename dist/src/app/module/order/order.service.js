@@ -1,6 +1,7 @@
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import status from 'http-status';
+import { buildPaginationMeta } from '../../shared/queryParser';
 const normalizeOrderItems = (data) => {
     if (Array.isArray(data?.orderItems)) {
         return data.orderItems;
@@ -73,9 +74,11 @@ const createOrder = async (userId, data) => {
     });
     return newOrder;
 };
-const getMyOrders = async (userId, role) => {
+const getMyOrders = async (userId, role, queryOptions, filters) => {
     // If CUSTOMER, get orders placed by them.
     // If PROVIDER, get orders placed for their associated provider profile.
+    const { skip, limit, sortBy, sortOrder, page } = queryOptions;
+    const { orderStatus, paymentStatus } = filters;
     let whereClause = {};
     if (role === 'CUSTOMER') {
         whereClause = { customerId: userId };
@@ -89,22 +92,44 @@ const getMyOrders = async (userId, role) => {
     else if (role === 'ADMIN' || role === 'SUPER_ADMIN') {
         whereClause = {}; // Admin sees all
     }
-    const result = await prisma.order.findMany({
-        where: whereClause,
-        include: {
-            orderItems: {
-                include: {
-                    meal: {
-                        select: { title: true, price: true, image: true }
+    if (orderStatus) {
+        whereClause = {
+            ...whereClause,
+            orderStatus: orderStatus,
+        };
+    }
+    if (paymentStatus) {
+        whereClause = {
+            ...whereClause,
+            paymentStatus: paymentStatus,
+        };
+    }
+    const [result, total] = await prisma.$transaction([
+        prisma.order.findMany({
+            where: whereClause,
+            include: {
+                orderItems: {
+                    include: {
+                        meal: {
+                            select: { title: true, price: true, image: true, providerId: true }
+                        }
                     }
-                }
+                },
+                customer: { select: { name: true, email: true } },
+                provider: { select: { id: true, restaurantName: true, logo: true, bannerImage: true, address: true } }
             },
-            customer: { select: { name: true, email: true } },
-            provider: { select: { restaurantName: true } }
-        },
-        orderBy: { createdAt: 'desc' }
-    });
-    return result;
+            skip,
+            take: limit,
+            orderBy: {
+                [sortBy]: sortOrder,
+            },
+        }),
+        prisma.order.count({ where: whereClause }),
+    ]);
+    return {
+        meta: buildPaginationMeta(page, limit, total),
+        data: result,
+    };
 };
 const getOrderById = async (id, userId, role) => {
     const result = await prisma.order.findUnique({
@@ -150,9 +175,60 @@ const updateOrderStatus = async (id, userId, updateStatus) => {
     });
     return result;
 };
+const reorderFromPrevious = async (userId, orderId) => {
+    const existingOrder = await prisma.order.findUnique({
+        where: { id: orderId },
+        include: {
+            orderItems: {
+                include: {
+                    meal: {
+                        include: {
+                            category: true,
+                            provider: {
+                                include: {
+                                    user: {
+                                        select: {
+                                            name: true,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            provider: true,
+        },
+    });
+    if (!existingOrder) {
+        throw new AppError(status.NOT_FOUND, 'Order not found!');
+    }
+    if (existingOrder.customerId !== userId) {
+        throw new AppError(status.FORBIDDEN, 'You cannot reorder someone else\'s order.');
+    }
+    if (existingOrder.orderItems.length === 0) {
+        throw new AppError(status.BAD_REQUEST, 'This order has no items to reorder.');
+    }
+    const unavailableMeals = existingOrder.orderItems
+        .filter((item) => !item.meal || !item.meal.isAvailable)
+        .map((item) => item.meal?.title || item.mealId);
+    if (unavailableMeals.length > 0) {
+        throw new AppError(status.BAD_REQUEST, `Some meals are no longer available: ${unavailableMeals.join(', ')}`);
+    }
+    return {
+        provider: existingOrder.provider,
+        deliveryAddress: existingOrder.deliveryAddress,
+        items: existingOrder.orderItems.map((item) => ({
+            mealId: item.mealId,
+            quantity: item.quantity,
+            meal: item.meal,
+        })),
+    };
+};
 export const OrderServices = {
     createOrder,
     getMyOrders,
     getOrderById,
     updateOrderStatus,
+    reorderFromPrevious,
 };

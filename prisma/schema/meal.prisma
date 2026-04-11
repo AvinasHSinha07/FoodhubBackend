@@ -15,6 +15,7 @@ model Meal {
   
   orderItems    OrderItem[]
   reviews       Review[]
+  mealFavorites MealFavorite[]
   
   @@map("meal")
 }

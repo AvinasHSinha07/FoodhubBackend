@@ -85,6 +85,34 @@ enum PaymentMethod {
   STRIPE
 }
 
+model MealFavorite {
+  id         String   @id @default(uuid())
+  customerId String
+  customer   User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  mealId     String
+  meal       Meal     @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([customerId, mealId])
+  @@index([customerId])
+  @@index([mealId])
+  @@map("meal_favorite")
+}
+
+model ProviderFavorite {
+  id         String          @id @default(uuid())
+  customerId String
+  customer   User            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  providerId String
+  provider   ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  createdAt  DateTime        @default(now())
+
+  @@unique([customerId, providerId])
+  @@index([customerId])
+  @@index([providerId])
+  @@map("provider_favorite")
+}
+
 model Meal {
   id          String          @id @default(uuid())
   providerId  String
@@ -100,8 +128,9 @@ model Meal {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 
-  orderItems OrderItem[]
-  reviews    Review[]
+  orderItems    OrderItem[]
+  reviews       Review[]
+  mealFavorites MealFavorite[]
 
   @@map("meal")
 }
@@ -152,8 +181,9 @@ model ProviderProfile {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  meals  Meal[]
-  orders Order[]
+  meals             Meal[]
+  orders            Order[]
+  providerFavorites ProviderFavorite[]
 
   @@map("provider_profile")
 }
@@ -198,9 +228,11 @@ model User {
   sessions Session[]
   accounts Account[]
 
-  providerProfile ProviderProfile?
-  orders          Order[]
-  reviews         Review[]
+  providerProfile   ProviderProfile?
+  orders            Order[]
+  reviews           Review[]
+  mealFavorites     MealFavorite[]
+  providerFavorites ProviderFavorite[]
 
   @@map("user")
 }

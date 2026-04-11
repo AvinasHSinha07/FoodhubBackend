@@ -4,28 +4,28 @@ import { catchAsync } from '../../shared/catchAsync';
 import { sendResponse } from '../../shared/sendResponse';
 import AppError from '../../errorHelpers/AppError';
 import { UserServices } from './user.service';
+import { parsePaginationQuery } from '../../shared/queryParser';
 
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
-  const filters = {
-    searchTerm: req.query.searchTerm as string,
-    role: req.query.role as string,
-    status: req.query.status as string,
-  };
-
-  // Remove undefined
-  Object.keys(filters).forEach((key) => {
-    if ((filters as any)[key] === undefined) {
-      delete (filters as any)[key];
-    }
+  const queryOptions = parsePaginationQuery(req.query, {
+    allowedSortBy: ['createdAt', 'name', 'email', 'updatedAt'],
+    allowedFilterKeys: ['role', 'status'],
+    defaultSortBy: 'createdAt',
+    defaultSortOrder: 'desc',
+    defaultLimit: 10,
   });
 
-  const result = await UserServices.getAllUsers(filters);
+  const result = await UserServices.getAllUsers(queryOptions, {
+    role: queryOptions.filters.role,
+    status: queryOptions.filters.status,
+  });
 
   sendResponse(res, {
     httpStatusCode: status.OK,
     success: true,
     message: 'Users retrieved successfully!',
-    data: result,
+    data: result.data,
+    meta: result.meta,
   });
 });
 

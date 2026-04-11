@@ -1,0 +1,27 @@
+model MealFavorite {
+  id         String   @id @default(uuid())
+  customerId String
+  customer   User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  mealId     String
+  meal       Meal     @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([customerId, mealId])
+  @@index([customerId])
+  @@index([mealId])
+  @@map("meal_favorite")
+}
+
+model ProviderFavorite {
+  id         String          @id @default(uuid())
+  customerId String
+  customer   User            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  providerId String
+  provider   ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  createdAt  DateTime        @default(now())
+
+  @@unique([customerId, providerId])
+  @@index([customerId])
+  @@index([providerId])
+  @@map("provider_favorite")
+}

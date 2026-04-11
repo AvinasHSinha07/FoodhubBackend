@@ -1,6 +1,7 @@
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import status from 'http-status';
+import { buildPaginationMeta } from '../../shared/queryParser';
 const createMeal = async (userId, data) => {
     // Get provider profile using userId
     const provider = await prisma.providerProfile.findUnique({
@@ -25,8 +26,9 @@ const createMeal = async (userId, data) => {
     });
     return result;
 };
-const getAllMeals = async (filters) => {
-    const { searchTerm, categoryId, providerId, isAvailable, minPrice, maxPrice, dietaryTag } = filters;
+const getAllMeals = async (queryOptions, filters) => {
+    const { searchTerm, skip, limit, sortBy, sortOrder, page } = queryOptions;
+    const { categoryId, providerId, isAvailable, minPrice, maxPrice, dietaryTag } = filters;
     const conditions = [];
     if (searchTerm) {
         conditions.push({
@@ -47,14 +49,34 @@ const getAllMeals = async (filters) => {
         conditions.push({ price: { gte: minPrice } });
     if (maxPrice !== undefined)
         conditions.push({ price: { lte: maxPrice } });
-    const result = await prisma.meal.findMany({
-        where: conditions.length > 0 ? { AND: conditions } : {},
-        include: {
-            category: true,
-            provider: true, // We don't really need user if we have provider name usually, but frontend type uses it
-        },
-    });
-    return result;
+    const whereConditions = conditions.length > 0 ? { AND: conditions } : {};
+    const [result, total] = await prisma.$transaction([
+        prisma.meal.findMany({
+            where: whereConditions,
+            include: {
+                category: true,
+                provider: {
+                    include: {
+                        user: {
+                            select: {
+                                name: true,
+                            },
+                        },
+                    },
+                },
+            },
+            skip,
+            take: limit,
+            orderBy: {
+                [sortBy]: sortOrder,
+            },
+        }),
+        prisma.meal.count({ where: whereConditions }),
+    ]);
+    return {
+        meta: buildPaginationMeta(page, limit, total),
+        data: result,
+    };
 };
 const getMealById = async (id) => {
     const result = await prisma.meal.findUnique({

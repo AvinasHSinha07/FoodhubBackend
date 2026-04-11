@@ -163,6 +163,20 @@ exports.Prisma.CategoryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MealFavoriteScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  mealId: 'mealId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ProviderFavoriteScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  providerId: 'providerId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.MealScalarFieldEnum = {
   id: 'id',
   providerId: 'providerId',
@@ -288,6 +302,8 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   Category: 'Category',
+  MealFavorite: 'MealFavorite',
+  ProviderFavorite: 'ProviderFavorite',
   Meal: 'Meal',
   Order: 'Order',
   OrderItem: 'OrderItem',

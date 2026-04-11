@@ -3,6 +3,7 @@ import status from 'http-status';
 import { catchAsync } from '../../shared/catchAsync';
 import { sendResponse } from '../../shared/sendResponse';
 import { ProviderProfileServices } from './providerProfile.service';
+import { parsePaginationQuery } from '../../shared/queryParser';
 
 const createMyProfile = catchAsync(async (req: Request, res: Response) => {
   const { userId } = req.user as any;
@@ -38,17 +39,25 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllProviders = catchAsync(async (req: Request, res: Response) => {
-  const filters: Record<string, any> = {
-    searchTerm: req.query.searchTerm as string,
-  };
-  Object.keys(filters).forEach((key) => filters[key] === undefined && delete filters[key]);
+  const queryOptions = parsePaginationQuery(req.query, {
+    allowedSortBy: ['createdAt', 'restaurantName', 'updatedAt'],
+    allowedFilterKeys: ['cuisineType', 'status'],
+    defaultSortBy: 'createdAt',
+    defaultSortOrder: 'desc',
+    defaultLimit: 12,
+  });
 
-  const result = await ProviderProfileServices.getAllProviders(filters);
+  const result = await ProviderProfileServices.getAllProviders(queryOptions, {
+    cuisineType: queryOptions.filters.cuisineType,
+    status: queryOptions.filters.status,
+  });
+
   sendResponse(res, {
     httpStatusCode: status.OK,
     success: true,
     message: 'Providers retrieved successfully!',
-    data: result,
+    data: result.data,
+    meta: result.meta,
   });
 });
 

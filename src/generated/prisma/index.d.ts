@@ -34,6 +34,16 @@ export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
  */
 export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
 /**
+ * Model MealFavorite
+ * 
+ */
+export type MealFavorite = $Result.DefaultSelection<Prisma.$MealFavoritePayload>
+/**
+ * Model ProviderFavorite
+ * 
+ */
+export type ProviderFavorite = $Result.DefaultSelection<Prisma.$ProviderFavoritePayload>
+/**
  * Model Meal
  * 
  */
@@ -296,6 +306,26 @@ export class PrismaClient<
     * ```
     */
   get category(): Prisma.CategoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.mealFavorite`: Exposes CRUD operations for the **MealFavorite** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MealFavorites
+    * const mealFavorites = await prisma.mealFavorite.findMany()
+    * ```
+    */
+  get mealFavorite(): Prisma.MealFavoriteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.providerFavorite`: Exposes CRUD operations for the **ProviderFavorite** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProviderFavorites
+    * const providerFavorites = await prisma.providerFavorite.findMany()
+    * ```
+    */
+  get providerFavorite(): Prisma.ProviderFavoriteDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.meal`: Exposes CRUD operations for the **Meal** model.
@@ -794,6 +824,8 @@ export namespace Prisma {
     Account: 'Account',
     Verification: 'Verification',
     Category: 'Category',
+    MealFavorite: 'MealFavorite',
+    ProviderFavorite: 'ProviderFavorite',
     Meal: 'Meal',
     Order: 'Order',
     OrderItem: 'OrderItem',
@@ -815,7 +847,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "session" | "account" | "verification" | "category" | "meal" | "order" | "orderItem" | "providerProfile" | "review" | "user"
+      modelProps: "session" | "account" | "verification" | "category" | "mealFavorite" | "providerFavorite" | "meal" | "order" | "orderItem" | "providerProfile" | "review" | "user"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1112,6 +1144,154 @@ export namespace Prisma {
           count: {
             args: Prisma.CategoryCountArgs<ExtArgs>
             result: $Utils.Optional<CategoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      MealFavorite: {
+        payload: Prisma.$MealFavoritePayload<ExtArgs>
+        fields: Prisma.MealFavoriteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MealFavoriteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MealFavoritePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MealFavoriteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MealFavoritePayload>
+          }
+          findFirst: {
+            args: Prisma.MealFavoriteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MealFavoritePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MealFavoriteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MealFavoritePayload>
+          }
+          findMany: {
+            args: Prisma.MealFavoriteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MealFavoritePayload>[]
+          }
+          create: {
+            args: Prisma.MealFavoriteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MealFavoritePayload>
+          }
+          createMany: {
+            args: Prisma.MealFavoriteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MealFavoriteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MealFavoritePayload>[]
+          }
+          delete: {
+            args: Prisma.MealFavoriteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MealFavoritePayload>
+          }
+          update: {
+            args: Prisma.MealFavoriteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MealFavoritePayload>
+          }
+          deleteMany: {
+            args: Prisma.MealFavoriteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MealFavoriteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MealFavoriteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MealFavoritePayload>[]
+          }
+          upsert: {
+            args: Prisma.MealFavoriteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MealFavoritePayload>
+          }
+          aggregate: {
+            args: Prisma.MealFavoriteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMealFavorite>
+          }
+          groupBy: {
+            args: Prisma.MealFavoriteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MealFavoriteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MealFavoriteCountArgs<ExtArgs>
+            result: $Utils.Optional<MealFavoriteCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProviderFavorite: {
+        payload: Prisma.$ProviderFavoritePayload<ExtArgs>
+        fields: Prisma.ProviderFavoriteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProviderFavoriteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderFavoritePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProviderFavoriteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderFavoritePayload>
+          }
+          findFirst: {
+            args: Prisma.ProviderFavoriteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderFavoritePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProviderFavoriteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderFavoritePayload>
+          }
+          findMany: {
+            args: Prisma.ProviderFavoriteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderFavoritePayload>[]
+          }
+          create: {
+            args: Prisma.ProviderFavoriteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderFavoritePayload>
+          }
+          createMany: {
+            args: Prisma.ProviderFavoriteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProviderFavoriteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderFavoritePayload>[]
+          }
+          delete: {
+            args: Prisma.ProviderFavoriteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderFavoritePayload>
+          }
+          update: {
+            args: Prisma.ProviderFavoriteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderFavoritePayload>
+          }
+          deleteMany: {
+            args: Prisma.ProviderFavoriteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProviderFavoriteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProviderFavoriteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderFavoritePayload>[]
+          }
+          upsert: {
+            args: Prisma.ProviderFavoriteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderFavoritePayload>
+          }
+          aggregate: {
+            args: Prisma.ProviderFavoriteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProviderFavorite>
+          }
+          groupBy: {
+            args: Prisma.ProviderFavoriteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProviderFavoriteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProviderFavoriteCountArgs<ExtArgs>
+            result: $Utils.Optional<ProviderFavoriteCountAggregateOutputType> | number
           }
         }
       }
@@ -1671,6 +1851,8 @@ export namespace Prisma {
     account?: AccountOmit
     verification?: VerificationOmit
     category?: CategoryOmit
+    mealFavorite?: MealFavoriteOmit
+    providerFavorite?: ProviderFavoriteOmit
     meal?: MealOmit
     order?: OrderOmit
     orderItem?: OrderItemOmit
@@ -1790,11 +1972,13 @@ export namespace Prisma {
   export type MealCountOutputType = {
     orderItems: number
     reviews: number
+    mealFavorites: number
   }
 
   export type MealCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orderItems?: boolean | MealCountOutputTypeCountOrderItemsArgs
     reviews?: boolean | MealCountOutputTypeCountReviewsArgs
+    mealFavorites?: boolean | MealCountOutputTypeCountMealFavoritesArgs
   }
 
   // Custom InputTypes
@@ -1820,6 +2004,13 @@ export namespace Prisma {
    */
   export type MealCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReviewWhereInput
+  }
+
+  /**
+   * MealCountOutputType without action
+   */
+  export type MealCountOutputTypeCountMealFavoritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MealFavoriteWhereInput
   }
 
 
@@ -1861,11 +2052,13 @@ export namespace Prisma {
   export type ProviderProfileCountOutputType = {
     meals: number
     orders: number
+    providerFavorites: number
   }
 
   export type ProviderProfileCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meals?: boolean | ProviderProfileCountOutputTypeCountMealsArgs
     orders?: boolean | ProviderProfileCountOutputTypeCountOrdersArgs
+    providerFavorites?: boolean | ProviderProfileCountOutputTypeCountProviderFavoritesArgs
   }
 
   // Custom InputTypes
@@ -1893,6 +2086,13 @@ export namespace Prisma {
     where?: OrderWhereInput
   }
 
+  /**
+   * ProviderProfileCountOutputType without action
+   */
+  export type ProviderProfileCountOutputTypeCountProviderFavoritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProviderFavoriteWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -1903,6 +2103,8 @@ export namespace Prisma {
     accounts: number
     orders: number
     reviews: number
+    mealFavorites: number
+    providerFavorites: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1910,6 +2112,8 @@ export namespace Prisma {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     orders?: boolean | UserCountOutputTypeCountOrdersArgs
     reviews?: boolean | UserCountOutputTypeCountReviewsArgs
+    mealFavorites?: boolean | UserCountOutputTypeCountMealFavoritesArgs
+    providerFavorites?: boolean | UserCountOutputTypeCountProviderFavoritesArgs
   }
 
   // Custom InputTypes
@@ -1949,6 +2153,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReviewWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMealFavoritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MealFavoriteWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountProviderFavoritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProviderFavoriteWhereInput
   }
 
 
@@ -6301,6 +6519,2122 @@ export namespace Prisma {
 
 
   /**
+   * Model MealFavorite
+   */
+
+  export type AggregateMealFavorite = {
+    _count: MealFavoriteCountAggregateOutputType | null
+    _min: MealFavoriteMinAggregateOutputType | null
+    _max: MealFavoriteMaxAggregateOutputType | null
+  }
+
+  export type MealFavoriteMinAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    mealId: string | null
+    createdAt: Date | null
+  }
+
+  export type MealFavoriteMaxAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    mealId: string | null
+    createdAt: Date | null
+  }
+
+  export type MealFavoriteCountAggregateOutputType = {
+    id: number
+    customerId: number
+    mealId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type MealFavoriteMinAggregateInputType = {
+    id?: true
+    customerId?: true
+    mealId?: true
+    createdAt?: true
+  }
+
+  export type MealFavoriteMaxAggregateInputType = {
+    id?: true
+    customerId?: true
+    mealId?: true
+    createdAt?: true
+  }
+
+  export type MealFavoriteCountAggregateInputType = {
+    id?: true
+    customerId?: true
+    mealId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type MealFavoriteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MealFavorite to aggregate.
+     */
+    where?: MealFavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MealFavorites to fetch.
+     */
+    orderBy?: MealFavoriteOrderByWithRelationInput | MealFavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MealFavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MealFavorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MealFavorites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MealFavorites
+    **/
+    _count?: true | MealFavoriteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MealFavoriteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MealFavoriteMaxAggregateInputType
+  }
+
+  export type GetMealFavoriteAggregateType<T extends MealFavoriteAggregateArgs> = {
+        [P in keyof T & keyof AggregateMealFavorite]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMealFavorite[P]>
+      : GetScalarType<T[P], AggregateMealFavorite[P]>
+  }
+
+
+
+
+  export type MealFavoriteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MealFavoriteWhereInput
+    orderBy?: MealFavoriteOrderByWithAggregationInput | MealFavoriteOrderByWithAggregationInput[]
+    by: MealFavoriteScalarFieldEnum[] | MealFavoriteScalarFieldEnum
+    having?: MealFavoriteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MealFavoriteCountAggregateInputType | true
+    _min?: MealFavoriteMinAggregateInputType
+    _max?: MealFavoriteMaxAggregateInputType
+  }
+
+  export type MealFavoriteGroupByOutputType = {
+    id: string
+    customerId: string
+    mealId: string
+    createdAt: Date
+    _count: MealFavoriteCountAggregateOutputType | null
+    _min: MealFavoriteMinAggregateOutputType | null
+    _max: MealFavoriteMaxAggregateOutputType | null
+  }
+
+  type GetMealFavoriteGroupByPayload<T extends MealFavoriteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MealFavoriteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MealFavoriteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MealFavoriteGroupByOutputType[P]>
+            : GetScalarType<T[P], MealFavoriteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MealFavoriteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    mealId?: boolean
+    createdAt?: boolean
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    meal?: boolean | MealDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mealFavorite"]>
+
+  export type MealFavoriteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    mealId?: boolean
+    createdAt?: boolean
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    meal?: boolean | MealDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mealFavorite"]>
+
+  export type MealFavoriteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    mealId?: boolean
+    createdAt?: boolean
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    meal?: boolean | MealDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mealFavorite"]>
+
+  export type MealFavoriteSelectScalar = {
+    id?: boolean
+    customerId?: boolean
+    mealId?: boolean
+    createdAt?: boolean
+  }
+
+  export type MealFavoriteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "mealId" | "createdAt", ExtArgs["result"]["mealFavorite"]>
+  export type MealFavoriteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    meal?: boolean | MealDefaultArgs<ExtArgs>
+  }
+  export type MealFavoriteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    meal?: boolean | MealDefaultArgs<ExtArgs>
+  }
+  export type MealFavoriteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    meal?: boolean | MealDefaultArgs<ExtArgs>
+  }
+
+  export type $MealFavoritePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MealFavorite"
+    objects: {
+      customer: Prisma.$UserPayload<ExtArgs>
+      meal: Prisma.$MealPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      customerId: string
+      mealId: string
+      createdAt: Date
+    }, ExtArgs["result"]["mealFavorite"]>
+    composites: {}
+  }
+
+  type MealFavoriteGetPayload<S extends boolean | null | undefined | MealFavoriteDefaultArgs> = $Result.GetResult<Prisma.$MealFavoritePayload, S>
+
+  type MealFavoriteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MealFavoriteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MealFavoriteCountAggregateInputType | true
+    }
+
+  export interface MealFavoriteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MealFavorite'], meta: { name: 'MealFavorite' } }
+    /**
+     * Find zero or one MealFavorite that matches the filter.
+     * @param {MealFavoriteFindUniqueArgs} args - Arguments to find a MealFavorite
+     * @example
+     * // Get one MealFavorite
+     * const mealFavorite = await prisma.mealFavorite.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MealFavoriteFindUniqueArgs>(args: SelectSubset<T, MealFavoriteFindUniqueArgs<ExtArgs>>): Prisma__MealFavoriteClient<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MealFavorite that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MealFavoriteFindUniqueOrThrowArgs} args - Arguments to find a MealFavorite
+     * @example
+     * // Get one MealFavorite
+     * const mealFavorite = await prisma.mealFavorite.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MealFavoriteFindUniqueOrThrowArgs>(args: SelectSubset<T, MealFavoriteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MealFavoriteClient<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MealFavorite that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MealFavoriteFindFirstArgs} args - Arguments to find a MealFavorite
+     * @example
+     * // Get one MealFavorite
+     * const mealFavorite = await prisma.mealFavorite.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MealFavoriteFindFirstArgs>(args?: SelectSubset<T, MealFavoriteFindFirstArgs<ExtArgs>>): Prisma__MealFavoriteClient<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MealFavorite that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MealFavoriteFindFirstOrThrowArgs} args - Arguments to find a MealFavorite
+     * @example
+     * // Get one MealFavorite
+     * const mealFavorite = await prisma.mealFavorite.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MealFavoriteFindFirstOrThrowArgs>(args?: SelectSubset<T, MealFavoriteFindFirstOrThrowArgs<ExtArgs>>): Prisma__MealFavoriteClient<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MealFavorites that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MealFavoriteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MealFavorites
+     * const mealFavorites = await prisma.mealFavorite.findMany()
+     * 
+     * // Get first 10 MealFavorites
+     * const mealFavorites = await prisma.mealFavorite.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const mealFavoriteWithIdOnly = await prisma.mealFavorite.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MealFavoriteFindManyArgs>(args?: SelectSubset<T, MealFavoriteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MealFavorite.
+     * @param {MealFavoriteCreateArgs} args - Arguments to create a MealFavorite.
+     * @example
+     * // Create one MealFavorite
+     * const MealFavorite = await prisma.mealFavorite.create({
+     *   data: {
+     *     // ... data to create a MealFavorite
+     *   }
+     * })
+     * 
+     */
+    create<T extends MealFavoriteCreateArgs>(args: SelectSubset<T, MealFavoriteCreateArgs<ExtArgs>>): Prisma__MealFavoriteClient<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MealFavorites.
+     * @param {MealFavoriteCreateManyArgs} args - Arguments to create many MealFavorites.
+     * @example
+     * // Create many MealFavorites
+     * const mealFavorite = await prisma.mealFavorite.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MealFavoriteCreateManyArgs>(args?: SelectSubset<T, MealFavoriteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MealFavorites and returns the data saved in the database.
+     * @param {MealFavoriteCreateManyAndReturnArgs} args - Arguments to create many MealFavorites.
+     * @example
+     * // Create many MealFavorites
+     * const mealFavorite = await prisma.mealFavorite.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MealFavorites and only return the `id`
+     * const mealFavoriteWithIdOnly = await prisma.mealFavorite.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MealFavoriteCreateManyAndReturnArgs>(args?: SelectSubset<T, MealFavoriteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MealFavorite.
+     * @param {MealFavoriteDeleteArgs} args - Arguments to delete one MealFavorite.
+     * @example
+     * // Delete one MealFavorite
+     * const MealFavorite = await prisma.mealFavorite.delete({
+     *   where: {
+     *     // ... filter to delete one MealFavorite
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MealFavoriteDeleteArgs>(args: SelectSubset<T, MealFavoriteDeleteArgs<ExtArgs>>): Prisma__MealFavoriteClient<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MealFavorite.
+     * @param {MealFavoriteUpdateArgs} args - Arguments to update one MealFavorite.
+     * @example
+     * // Update one MealFavorite
+     * const mealFavorite = await prisma.mealFavorite.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MealFavoriteUpdateArgs>(args: SelectSubset<T, MealFavoriteUpdateArgs<ExtArgs>>): Prisma__MealFavoriteClient<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MealFavorites.
+     * @param {MealFavoriteDeleteManyArgs} args - Arguments to filter MealFavorites to delete.
+     * @example
+     * // Delete a few MealFavorites
+     * const { count } = await prisma.mealFavorite.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MealFavoriteDeleteManyArgs>(args?: SelectSubset<T, MealFavoriteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MealFavorites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MealFavoriteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MealFavorites
+     * const mealFavorite = await prisma.mealFavorite.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MealFavoriteUpdateManyArgs>(args: SelectSubset<T, MealFavoriteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MealFavorites and returns the data updated in the database.
+     * @param {MealFavoriteUpdateManyAndReturnArgs} args - Arguments to update many MealFavorites.
+     * @example
+     * // Update many MealFavorites
+     * const mealFavorite = await prisma.mealFavorite.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MealFavorites and only return the `id`
+     * const mealFavoriteWithIdOnly = await prisma.mealFavorite.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MealFavoriteUpdateManyAndReturnArgs>(args: SelectSubset<T, MealFavoriteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MealFavorite.
+     * @param {MealFavoriteUpsertArgs} args - Arguments to update or create a MealFavorite.
+     * @example
+     * // Update or create a MealFavorite
+     * const mealFavorite = await prisma.mealFavorite.upsert({
+     *   create: {
+     *     // ... data to create a MealFavorite
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MealFavorite we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MealFavoriteUpsertArgs>(args: SelectSubset<T, MealFavoriteUpsertArgs<ExtArgs>>): Prisma__MealFavoriteClient<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MealFavorites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MealFavoriteCountArgs} args - Arguments to filter MealFavorites to count.
+     * @example
+     * // Count the number of MealFavorites
+     * const count = await prisma.mealFavorite.count({
+     *   where: {
+     *     // ... the filter for the MealFavorites we want to count
+     *   }
+     * })
+    **/
+    count<T extends MealFavoriteCountArgs>(
+      args?: Subset<T, MealFavoriteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MealFavoriteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MealFavorite.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MealFavoriteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MealFavoriteAggregateArgs>(args: Subset<T, MealFavoriteAggregateArgs>): Prisma.PrismaPromise<GetMealFavoriteAggregateType<T>>
+
+    /**
+     * Group by MealFavorite.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MealFavoriteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MealFavoriteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MealFavoriteGroupByArgs['orderBy'] }
+        : { orderBy?: MealFavoriteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MealFavoriteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMealFavoriteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MealFavorite model
+   */
+  readonly fields: MealFavoriteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MealFavorite.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MealFavoriteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    customer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    meal<T extends MealDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MealDefaultArgs<ExtArgs>>): Prisma__MealClient<$Result.GetResult<Prisma.$MealPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MealFavorite model
+   */
+  interface MealFavoriteFieldRefs {
+    readonly id: FieldRef<"MealFavorite", 'String'>
+    readonly customerId: FieldRef<"MealFavorite", 'String'>
+    readonly mealId: FieldRef<"MealFavorite", 'String'>
+    readonly createdAt: FieldRef<"MealFavorite", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MealFavorite findUnique
+   */
+  export type MealFavoriteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which MealFavorite to fetch.
+     */
+    where: MealFavoriteWhereUniqueInput
+  }
+
+  /**
+   * MealFavorite findUniqueOrThrow
+   */
+  export type MealFavoriteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which MealFavorite to fetch.
+     */
+    where: MealFavoriteWhereUniqueInput
+  }
+
+  /**
+   * MealFavorite findFirst
+   */
+  export type MealFavoriteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which MealFavorite to fetch.
+     */
+    where?: MealFavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MealFavorites to fetch.
+     */
+    orderBy?: MealFavoriteOrderByWithRelationInput | MealFavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MealFavorites.
+     */
+    cursor?: MealFavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MealFavorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MealFavorites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MealFavorites.
+     */
+    distinct?: MealFavoriteScalarFieldEnum | MealFavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * MealFavorite findFirstOrThrow
+   */
+  export type MealFavoriteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which MealFavorite to fetch.
+     */
+    where?: MealFavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MealFavorites to fetch.
+     */
+    orderBy?: MealFavoriteOrderByWithRelationInput | MealFavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MealFavorites.
+     */
+    cursor?: MealFavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MealFavorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MealFavorites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MealFavorites.
+     */
+    distinct?: MealFavoriteScalarFieldEnum | MealFavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * MealFavorite findMany
+   */
+  export type MealFavoriteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which MealFavorites to fetch.
+     */
+    where?: MealFavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MealFavorites to fetch.
+     */
+    orderBy?: MealFavoriteOrderByWithRelationInput | MealFavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MealFavorites.
+     */
+    cursor?: MealFavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MealFavorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MealFavorites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MealFavorites.
+     */
+    distinct?: MealFavoriteScalarFieldEnum | MealFavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * MealFavorite create
+   */
+  export type MealFavoriteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MealFavorite.
+     */
+    data: XOR<MealFavoriteCreateInput, MealFavoriteUncheckedCreateInput>
+  }
+
+  /**
+   * MealFavorite createMany
+   */
+  export type MealFavoriteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MealFavorites.
+     */
+    data: MealFavoriteCreateManyInput | MealFavoriteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MealFavorite createManyAndReturn
+   */
+  export type MealFavoriteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * The data used to create many MealFavorites.
+     */
+    data: MealFavoriteCreateManyInput | MealFavoriteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MealFavorite update
+   */
+  export type MealFavoriteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MealFavorite.
+     */
+    data: XOR<MealFavoriteUpdateInput, MealFavoriteUncheckedUpdateInput>
+    /**
+     * Choose, which MealFavorite to update.
+     */
+    where: MealFavoriteWhereUniqueInput
+  }
+
+  /**
+   * MealFavorite updateMany
+   */
+  export type MealFavoriteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MealFavorites.
+     */
+    data: XOR<MealFavoriteUpdateManyMutationInput, MealFavoriteUncheckedUpdateManyInput>
+    /**
+     * Filter which MealFavorites to update
+     */
+    where?: MealFavoriteWhereInput
+    /**
+     * Limit how many MealFavorites to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MealFavorite updateManyAndReturn
+   */
+  export type MealFavoriteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * The data used to update MealFavorites.
+     */
+    data: XOR<MealFavoriteUpdateManyMutationInput, MealFavoriteUncheckedUpdateManyInput>
+    /**
+     * Filter which MealFavorites to update
+     */
+    where?: MealFavoriteWhereInput
+    /**
+     * Limit how many MealFavorites to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MealFavorite upsert
+   */
+  export type MealFavoriteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MealFavorite to update in case it exists.
+     */
+    where: MealFavoriteWhereUniqueInput
+    /**
+     * In case the MealFavorite found by the `where` argument doesn't exist, create a new MealFavorite with this data.
+     */
+    create: XOR<MealFavoriteCreateInput, MealFavoriteUncheckedCreateInput>
+    /**
+     * In case the MealFavorite was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MealFavoriteUpdateInput, MealFavoriteUncheckedUpdateInput>
+  }
+
+  /**
+   * MealFavorite delete
+   */
+  export type MealFavoriteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter which MealFavorite to delete.
+     */
+    where: MealFavoriteWhereUniqueInput
+  }
+
+  /**
+   * MealFavorite deleteMany
+   */
+  export type MealFavoriteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MealFavorites to delete
+     */
+    where?: MealFavoriteWhereInput
+    /**
+     * Limit how many MealFavorites to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MealFavorite without action
+   */
+  export type MealFavoriteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProviderFavorite
+   */
+
+  export type AggregateProviderFavorite = {
+    _count: ProviderFavoriteCountAggregateOutputType | null
+    _min: ProviderFavoriteMinAggregateOutputType | null
+    _max: ProviderFavoriteMaxAggregateOutputType | null
+  }
+
+  export type ProviderFavoriteMinAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    providerId: string | null
+    createdAt: Date | null
+  }
+
+  export type ProviderFavoriteMaxAggregateOutputType = {
+    id: string | null
+    customerId: string | null
+    providerId: string | null
+    createdAt: Date | null
+  }
+
+  export type ProviderFavoriteCountAggregateOutputType = {
+    id: number
+    customerId: number
+    providerId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ProviderFavoriteMinAggregateInputType = {
+    id?: true
+    customerId?: true
+    providerId?: true
+    createdAt?: true
+  }
+
+  export type ProviderFavoriteMaxAggregateInputType = {
+    id?: true
+    customerId?: true
+    providerId?: true
+    createdAt?: true
+  }
+
+  export type ProviderFavoriteCountAggregateInputType = {
+    id?: true
+    customerId?: true
+    providerId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ProviderFavoriteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProviderFavorite to aggregate.
+     */
+    where?: ProviderFavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProviderFavorites to fetch.
+     */
+    orderBy?: ProviderFavoriteOrderByWithRelationInput | ProviderFavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProviderFavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProviderFavorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProviderFavorites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProviderFavorites
+    **/
+    _count?: true | ProviderFavoriteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProviderFavoriteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProviderFavoriteMaxAggregateInputType
+  }
+
+  export type GetProviderFavoriteAggregateType<T extends ProviderFavoriteAggregateArgs> = {
+        [P in keyof T & keyof AggregateProviderFavorite]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProviderFavorite[P]>
+      : GetScalarType<T[P], AggregateProviderFavorite[P]>
+  }
+
+
+
+
+  export type ProviderFavoriteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProviderFavoriteWhereInput
+    orderBy?: ProviderFavoriteOrderByWithAggregationInput | ProviderFavoriteOrderByWithAggregationInput[]
+    by: ProviderFavoriteScalarFieldEnum[] | ProviderFavoriteScalarFieldEnum
+    having?: ProviderFavoriteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProviderFavoriteCountAggregateInputType | true
+    _min?: ProviderFavoriteMinAggregateInputType
+    _max?: ProviderFavoriteMaxAggregateInputType
+  }
+
+  export type ProviderFavoriteGroupByOutputType = {
+    id: string
+    customerId: string
+    providerId: string
+    createdAt: Date
+    _count: ProviderFavoriteCountAggregateOutputType | null
+    _min: ProviderFavoriteMinAggregateOutputType | null
+    _max: ProviderFavoriteMaxAggregateOutputType | null
+  }
+
+  type GetProviderFavoriteGroupByPayload<T extends ProviderFavoriteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProviderFavoriteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProviderFavoriteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProviderFavoriteGroupByOutputType[P]>
+            : GetScalarType<T[P], ProviderFavoriteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProviderFavoriteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    providerId?: boolean
+    createdAt?: boolean
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    provider?: boolean | ProviderProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["providerFavorite"]>
+
+  export type ProviderFavoriteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    providerId?: boolean
+    createdAt?: boolean
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    provider?: boolean | ProviderProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["providerFavorite"]>
+
+  export type ProviderFavoriteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customerId?: boolean
+    providerId?: boolean
+    createdAt?: boolean
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    provider?: boolean | ProviderProfileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["providerFavorite"]>
+
+  export type ProviderFavoriteSelectScalar = {
+    id?: boolean
+    customerId?: boolean
+    providerId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ProviderFavoriteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "providerId" | "createdAt", ExtArgs["result"]["providerFavorite"]>
+  export type ProviderFavoriteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    provider?: boolean | ProviderProfileDefaultArgs<ExtArgs>
+  }
+  export type ProviderFavoriteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    provider?: boolean | ProviderProfileDefaultArgs<ExtArgs>
+  }
+  export type ProviderFavoriteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    provider?: boolean | ProviderProfileDefaultArgs<ExtArgs>
+  }
+
+  export type $ProviderFavoritePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProviderFavorite"
+    objects: {
+      customer: Prisma.$UserPayload<ExtArgs>
+      provider: Prisma.$ProviderProfilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      customerId: string
+      providerId: string
+      createdAt: Date
+    }, ExtArgs["result"]["providerFavorite"]>
+    composites: {}
+  }
+
+  type ProviderFavoriteGetPayload<S extends boolean | null | undefined | ProviderFavoriteDefaultArgs> = $Result.GetResult<Prisma.$ProviderFavoritePayload, S>
+
+  type ProviderFavoriteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProviderFavoriteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProviderFavoriteCountAggregateInputType | true
+    }
+
+  export interface ProviderFavoriteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProviderFavorite'], meta: { name: 'ProviderFavorite' } }
+    /**
+     * Find zero or one ProviderFavorite that matches the filter.
+     * @param {ProviderFavoriteFindUniqueArgs} args - Arguments to find a ProviderFavorite
+     * @example
+     * // Get one ProviderFavorite
+     * const providerFavorite = await prisma.providerFavorite.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProviderFavoriteFindUniqueArgs>(args: SelectSubset<T, ProviderFavoriteFindUniqueArgs<ExtArgs>>): Prisma__ProviderFavoriteClient<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProviderFavorite that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProviderFavoriteFindUniqueOrThrowArgs} args - Arguments to find a ProviderFavorite
+     * @example
+     * // Get one ProviderFavorite
+     * const providerFavorite = await prisma.providerFavorite.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProviderFavoriteFindUniqueOrThrowArgs>(args: SelectSubset<T, ProviderFavoriteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProviderFavoriteClient<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProviderFavorite that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderFavoriteFindFirstArgs} args - Arguments to find a ProviderFavorite
+     * @example
+     * // Get one ProviderFavorite
+     * const providerFavorite = await prisma.providerFavorite.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProviderFavoriteFindFirstArgs>(args?: SelectSubset<T, ProviderFavoriteFindFirstArgs<ExtArgs>>): Prisma__ProviderFavoriteClient<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProviderFavorite that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderFavoriteFindFirstOrThrowArgs} args - Arguments to find a ProviderFavorite
+     * @example
+     * // Get one ProviderFavorite
+     * const providerFavorite = await prisma.providerFavorite.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProviderFavoriteFindFirstOrThrowArgs>(args?: SelectSubset<T, ProviderFavoriteFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProviderFavoriteClient<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProviderFavorites that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderFavoriteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProviderFavorites
+     * const providerFavorites = await prisma.providerFavorite.findMany()
+     * 
+     * // Get first 10 ProviderFavorites
+     * const providerFavorites = await prisma.providerFavorite.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const providerFavoriteWithIdOnly = await prisma.providerFavorite.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProviderFavoriteFindManyArgs>(args?: SelectSubset<T, ProviderFavoriteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProviderFavorite.
+     * @param {ProviderFavoriteCreateArgs} args - Arguments to create a ProviderFavorite.
+     * @example
+     * // Create one ProviderFavorite
+     * const ProviderFavorite = await prisma.providerFavorite.create({
+     *   data: {
+     *     // ... data to create a ProviderFavorite
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProviderFavoriteCreateArgs>(args: SelectSubset<T, ProviderFavoriteCreateArgs<ExtArgs>>): Prisma__ProviderFavoriteClient<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProviderFavorites.
+     * @param {ProviderFavoriteCreateManyArgs} args - Arguments to create many ProviderFavorites.
+     * @example
+     * // Create many ProviderFavorites
+     * const providerFavorite = await prisma.providerFavorite.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProviderFavoriteCreateManyArgs>(args?: SelectSubset<T, ProviderFavoriteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProviderFavorites and returns the data saved in the database.
+     * @param {ProviderFavoriteCreateManyAndReturnArgs} args - Arguments to create many ProviderFavorites.
+     * @example
+     * // Create many ProviderFavorites
+     * const providerFavorite = await prisma.providerFavorite.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProviderFavorites and only return the `id`
+     * const providerFavoriteWithIdOnly = await prisma.providerFavorite.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProviderFavoriteCreateManyAndReturnArgs>(args?: SelectSubset<T, ProviderFavoriteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProviderFavorite.
+     * @param {ProviderFavoriteDeleteArgs} args - Arguments to delete one ProviderFavorite.
+     * @example
+     * // Delete one ProviderFavorite
+     * const ProviderFavorite = await prisma.providerFavorite.delete({
+     *   where: {
+     *     // ... filter to delete one ProviderFavorite
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProviderFavoriteDeleteArgs>(args: SelectSubset<T, ProviderFavoriteDeleteArgs<ExtArgs>>): Prisma__ProviderFavoriteClient<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProviderFavorite.
+     * @param {ProviderFavoriteUpdateArgs} args - Arguments to update one ProviderFavorite.
+     * @example
+     * // Update one ProviderFavorite
+     * const providerFavorite = await prisma.providerFavorite.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProviderFavoriteUpdateArgs>(args: SelectSubset<T, ProviderFavoriteUpdateArgs<ExtArgs>>): Prisma__ProviderFavoriteClient<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProviderFavorites.
+     * @param {ProviderFavoriteDeleteManyArgs} args - Arguments to filter ProviderFavorites to delete.
+     * @example
+     * // Delete a few ProviderFavorites
+     * const { count } = await prisma.providerFavorite.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProviderFavoriteDeleteManyArgs>(args?: SelectSubset<T, ProviderFavoriteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProviderFavorites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderFavoriteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProviderFavorites
+     * const providerFavorite = await prisma.providerFavorite.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProviderFavoriteUpdateManyArgs>(args: SelectSubset<T, ProviderFavoriteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProviderFavorites and returns the data updated in the database.
+     * @param {ProviderFavoriteUpdateManyAndReturnArgs} args - Arguments to update many ProviderFavorites.
+     * @example
+     * // Update many ProviderFavorites
+     * const providerFavorite = await prisma.providerFavorite.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProviderFavorites and only return the `id`
+     * const providerFavoriteWithIdOnly = await prisma.providerFavorite.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProviderFavoriteUpdateManyAndReturnArgs>(args: SelectSubset<T, ProviderFavoriteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProviderFavorite.
+     * @param {ProviderFavoriteUpsertArgs} args - Arguments to update or create a ProviderFavorite.
+     * @example
+     * // Update or create a ProviderFavorite
+     * const providerFavorite = await prisma.providerFavorite.upsert({
+     *   create: {
+     *     // ... data to create a ProviderFavorite
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProviderFavorite we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProviderFavoriteUpsertArgs>(args: SelectSubset<T, ProviderFavoriteUpsertArgs<ExtArgs>>): Prisma__ProviderFavoriteClient<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProviderFavorites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderFavoriteCountArgs} args - Arguments to filter ProviderFavorites to count.
+     * @example
+     * // Count the number of ProviderFavorites
+     * const count = await prisma.providerFavorite.count({
+     *   where: {
+     *     // ... the filter for the ProviderFavorites we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProviderFavoriteCountArgs>(
+      args?: Subset<T, ProviderFavoriteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProviderFavoriteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProviderFavorite.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderFavoriteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProviderFavoriteAggregateArgs>(args: Subset<T, ProviderFavoriteAggregateArgs>): Prisma.PrismaPromise<GetProviderFavoriteAggregateType<T>>
+
+    /**
+     * Group by ProviderFavorite.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderFavoriteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProviderFavoriteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProviderFavoriteGroupByArgs['orderBy'] }
+        : { orderBy?: ProviderFavoriteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProviderFavoriteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProviderFavoriteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProviderFavorite model
+   */
+  readonly fields: ProviderFavoriteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProviderFavorite.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProviderFavoriteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    customer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    provider<T extends ProviderProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProviderProfileDefaultArgs<ExtArgs>>): Prisma__ProviderProfileClient<$Result.GetResult<Prisma.$ProviderProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProviderFavorite model
+   */
+  interface ProviderFavoriteFieldRefs {
+    readonly id: FieldRef<"ProviderFavorite", 'String'>
+    readonly customerId: FieldRef<"ProviderFavorite", 'String'>
+    readonly providerId: FieldRef<"ProviderFavorite", 'String'>
+    readonly createdAt: FieldRef<"ProviderFavorite", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProviderFavorite findUnique
+   */
+  export type ProviderFavoriteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which ProviderFavorite to fetch.
+     */
+    where: ProviderFavoriteWhereUniqueInput
+  }
+
+  /**
+   * ProviderFavorite findUniqueOrThrow
+   */
+  export type ProviderFavoriteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which ProviderFavorite to fetch.
+     */
+    where: ProviderFavoriteWhereUniqueInput
+  }
+
+  /**
+   * ProviderFavorite findFirst
+   */
+  export type ProviderFavoriteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which ProviderFavorite to fetch.
+     */
+    where?: ProviderFavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProviderFavorites to fetch.
+     */
+    orderBy?: ProviderFavoriteOrderByWithRelationInput | ProviderFavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProviderFavorites.
+     */
+    cursor?: ProviderFavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProviderFavorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProviderFavorites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProviderFavorites.
+     */
+    distinct?: ProviderFavoriteScalarFieldEnum | ProviderFavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * ProviderFavorite findFirstOrThrow
+   */
+  export type ProviderFavoriteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which ProviderFavorite to fetch.
+     */
+    where?: ProviderFavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProviderFavorites to fetch.
+     */
+    orderBy?: ProviderFavoriteOrderByWithRelationInput | ProviderFavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProviderFavorites.
+     */
+    cursor?: ProviderFavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProviderFavorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProviderFavorites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProviderFavorites.
+     */
+    distinct?: ProviderFavoriteScalarFieldEnum | ProviderFavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * ProviderFavorite findMany
+   */
+  export type ProviderFavoriteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter, which ProviderFavorites to fetch.
+     */
+    where?: ProviderFavoriteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProviderFavorites to fetch.
+     */
+    orderBy?: ProviderFavoriteOrderByWithRelationInput | ProviderFavoriteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProviderFavorites.
+     */
+    cursor?: ProviderFavoriteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProviderFavorites from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProviderFavorites.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProviderFavorites.
+     */
+    distinct?: ProviderFavoriteScalarFieldEnum | ProviderFavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * ProviderFavorite create
+   */
+  export type ProviderFavoriteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProviderFavorite.
+     */
+    data: XOR<ProviderFavoriteCreateInput, ProviderFavoriteUncheckedCreateInput>
+  }
+
+  /**
+   * ProviderFavorite createMany
+   */
+  export type ProviderFavoriteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProviderFavorites.
+     */
+    data: ProviderFavoriteCreateManyInput | ProviderFavoriteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProviderFavorite createManyAndReturn
+   */
+  export type ProviderFavoriteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProviderFavorites.
+     */
+    data: ProviderFavoriteCreateManyInput | ProviderFavoriteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProviderFavorite update
+   */
+  export type ProviderFavoriteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProviderFavorite.
+     */
+    data: XOR<ProviderFavoriteUpdateInput, ProviderFavoriteUncheckedUpdateInput>
+    /**
+     * Choose, which ProviderFavorite to update.
+     */
+    where: ProviderFavoriteWhereUniqueInput
+  }
+
+  /**
+   * ProviderFavorite updateMany
+   */
+  export type ProviderFavoriteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProviderFavorites.
+     */
+    data: XOR<ProviderFavoriteUpdateManyMutationInput, ProviderFavoriteUncheckedUpdateManyInput>
+    /**
+     * Filter which ProviderFavorites to update
+     */
+    where?: ProviderFavoriteWhereInput
+    /**
+     * Limit how many ProviderFavorites to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProviderFavorite updateManyAndReturn
+   */
+  export type ProviderFavoriteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * The data used to update ProviderFavorites.
+     */
+    data: XOR<ProviderFavoriteUpdateManyMutationInput, ProviderFavoriteUncheckedUpdateManyInput>
+    /**
+     * Filter which ProviderFavorites to update
+     */
+    where?: ProviderFavoriteWhereInput
+    /**
+     * Limit how many ProviderFavorites to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProviderFavorite upsert
+   */
+  export type ProviderFavoriteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProviderFavorite to update in case it exists.
+     */
+    where: ProviderFavoriteWhereUniqueInput
+    /**
+     * In case the ProviderFavorite found by the `where` argument doesn't exist, create a new ProviderFavorite with this data.
+     */
+    create: XOR<ProviderFavoriteCreateInput, ProviderFavoriteUncheckedCreateInput>
+    /**
+     * In case the ProviderFavorite was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProviderFavoriteUpdateInput, ProviderFavoriteUncheckedUpdateInput>
+  }
+
+  /**
+   * ProviderFavorite delete
+   */
+  export type ProviderFavoriteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+    /**
+     * Filter which ProviderFavorite to delete.
+     */
+    where: ProviderFavoriteWhereUniqueInput
+  }
+
+  /**
+   * ProviderFavorite deleteMany
+   */
+  export type ProviderFavoriteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProviderFavorites to delete
+     */
+    where?: ProviderFavoriteWhereInput
+    /**
+     * Limit how many ProviderFavorites to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProviderFavorite without action
+   */
+  export type ProviderFavoriteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Meal
    */
 
@@ -6550,6 +8884,7 @@ export namespace Prisma {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     orderItems?: boolean | Meal$orderItemsArgs<ExtArgs>
     reviews?: boolean | Meal$reviewsArgs<ExtArgs>
+    mealFavorites?: boolean | Meal$mealFavoritesArgs<ExtArgs>
     _count?: boolean | MealCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["meal"]>
 
@@ -6605,6 +8940,7 @@ export namespace Prisma {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     orderItems?: boolean | Meal$orderItemsArgs<ExtArgs>
     reviews?: boolean | Meal$reviewsArgs<ExtArgs>
+    mealFavorites?: boolean | Meal$mealFavoritesArgs<ExtArgs>
     _count?: boolean | MealCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MealIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6623,6 +8959,7 @@ export namespace Prisma {
       category: Prisma.$CategoryPayload<ExtArgs>
       orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
+      mealFavorites: Prisma.$MealFavoritePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7034,6 +9371,7 @@ export namespace Prisma {
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     orderItems<T extends Meal$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Meal$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends Meal$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Meal$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mealFavorites<T extends Meal$mealFavoritesArgs<ExtArgs> = {}>(args?: Subset<T, Meal$mealFavoritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7520,6 +9858,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * Meal.mealFavorites
+   */
+  export type Meal$mealFavoritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+    where?: MealFavoriteWhereInput
+    orderBy?: MealFavoriteOrderByWithRelationInput | MealFavoriteOrderByWithRelationInput[]
+    cursor?: MealFavoriteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MealFavoriteScalarFieldEnum | MealFavoriteScalarFieldEnum[]
   }
 
   /**
@@ -10087,6 +12449,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     meals?: boolean | ProviderProfile$mealsArgs<ExtArgs>
     orders?: boolean | ProviderProfile$ordersArgs<ExtArgs>
+    providerFavorites?: boolean | ProviderProfile$providerFavoritesArgs<ExtArgs>
     _count?: boolean | ProviderProfileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["providerProfile"]>
 
@@ -10136,6 +12499,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     meals?: boolean | ProviderProfile$mealsArgs<ExtArgs>
     orders?: boolean | ProviderProfile$ordersArgs<ExtArgs>
+    providerFavorites?: boolean | ProviderProfile$providerFavoritesArgs<ExtArgs>
     _count?: boolean | ProviderProfileCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProviderProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10151,6 +12515,7 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
       meals: Prisma.$MealPayload<ExtArgs>[]
       orders: Prisma.$OrderPayload<ExtArgs>[]
+      providerFavorites: Prisma.$ProviderFavoritePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10560,6 +12925,7 @@ export namespace Prisma {
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     meals<T extends ProviderProfile$mealsArgs<ExtArgs> = {}>(args?: Subset<T, ProviderProfile$mealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orders<T extends ProviderProfile$ordersArgs<ExtArgs> = {}>(args?: Subset<T, ProviderProfile$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    providerFavorites<T extends ProviderProfile$providerFavoritesArgs<ExtArgs> = {}>(args?: Subset<T, ProviderProfile$providerFavoritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11045,6 +13411,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * ProviderProfile.providerFavorites
+   */
+  export type ProviderProfile$providerFavoritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+    where?: ProviderFavoriteWhereInput
+    orderBy?: ProviderFavoriteOrderByWithRelationInput | ProviderFavoriteOrderByWithRelationInput[]
+    cursor?: ProviderFavoriteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProviderFavoriteScalarFieldEnum | ProviderFavoriteScalarFieldEnum[]
   }
 
   /**
@@ -12409,6 +14799,8 @@ export namespace Prisma {
     providerProfile?: boolean | User$providerProfileArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
     reviews?: boolean | User$reviewsArgs<ExtArgs>
+    mealFavorites?: boolean | User$mealFavoritesArgs<ExtArgs>
+    providerFavorites?: boolean | User$providerFavoritesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -12464,6 +14856,8 @@ export namespace Prisma {
     providerProfile?: boolean | User$providerProfileArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
     reviews?: boolean | User$reviewsArgs<ExtArgs>
+    mealFavorites?: boolean | User$mealFavoritesArgs<ExtArgs>
+    providerFavorites?: boolean | User$providerFavoritesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -12477,6 +14871,8 @@ export namespace Prisma {
       providerProfile: Prisma.$ProviderProfilePayload<ExtArgs> | null
       orders: Prisma.$OrderPayload<ExtArgs>[]
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
+      mealFavorites: Prisma.$MealFavoritePayload<ExtArgs>[]
+      providerFavorites: Prisma.$ProviderFavoritePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12890,6 +15286,8 @@ export namespace Prisma {
     providerProfile<T extends User$providerProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$providerProfileArgs<ExtArgs>>): Prisma__ProviderProfileClient<$Result.GetResult<Prisma.$ProviderProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     orders<T extends User$ordersArgs<ExtArgs> = {}>(args?: Subset<T, User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviews<T extends User$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mealFavorites<T extends User$mealFavoritesArgs<ExtArgs> = {}>(args?: Subset<T, User$mealFavoritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MealFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    providerFavorites<T extends User$providerFavoritesArgs<ExtArgs> = {}>(args?: Subset<T, User$providerFavoritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProviderFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13439,6 +15837,54 @@ export namespace Prisma {
   }
 
   /**
+   * User.mealFavorites
+   */
+  export type User$mealFavoritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MealFavorite
+     */
+    select?: MealFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MealFavorite
+     */
+    omit?: MealFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MealFavoriteInclude<ExtArgs> | null
+    where?: MealFavoriteWhereInput
+    orderBy?: MealFavoriteOrderByWithRelationInput | MealFavoriteOrderByWithRelationInput[]
+    cursor?: MealFavoriteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MealFavoriteScalarFieldEnum | MealFavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * User.providerFavorites
+   */
+  export type User$providerFavoritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderFavorite
+     */
+    select?: ProviderFavoriteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderFavorite
+     */
+    omit?: ProviderFavoriteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderFavoriteInclude<ExtArgs> | null
+    where?: ProviderFavoriteWhereInput
+    orderBy?: ProviderFavoriteOrderByWithRelationInput | ProviderFavoriteOrderByWithRelationInput[]
+    cursor?: ProviderFavoriteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProviderFavoriteScalarFieldEnum | ProviderFavoriteScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13524,6 +15970,26 @@ export namespace Prisma {
   };
 
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+  export const MealFavoriteScalarFieldEnum: {
+    id: 'id',
+    customerId: 'customerId',
+    mealId: 'mealId',
+    createdAt: 'createdAt'
+  };
+
+  export type MealFavoriteScalarFieldEnum = (typeof MealFavoriteScalarFieldEnum)[keyof typeof MealFavoriteScalarFieldEnum]
+
+
+  export const ProviderFavoriteScalarFieldEnum: {
+    id: 'id',
+    customerId: 'customerId',
+    providerId: 'providerId',
+    createdAt: 'createdAt'
+  };
+
+  export type ProviderFavoriteScalarFieldEnum = (typeof ProviderFavoriteScalarFieldEnum)[keyof typeof ProviderFavoriteScalarFieldEnum]
 
 
   export const MealScalarFieldEnum: {
@@ -14055,6 +16521,114 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
   }
 
+  export type MealFavoriteWhereInput = {
+    AND?: MealFavoriteWhereInput | MealFavoriteWhereInput[]
+    OR?: MealFavoriteWhereInput[]
+    NOT?: MealFavoriteWhereInput | MealFavoriteWhereInput[]
+    id?: StringFilter<"MealFavorite"> | string
+    customerId?: StringFilter<"MealFavorite"> | string
+    mealId?: StringFilter<"MealFavorite"> | string
+    createdAt?: DateTimeFilter<"MealFavorite"> | Date | string
+    customer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    meal?: XOR<MealScalarRelationFilter, MealWhereInput>
+  }
+
+  export type MealFavoriteOrderByWithRelationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    mealId?: SortOrder
+    createdAt?: SortOrder
+    customer?: UserOrderByWithRelationInput
+    meal?: MealOrderByWithRelationInput
+  }
+
+  export type MealFavoriteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    customerId_mealId?: MealFavoriteCustomerIdMealIdCompoundUniqueInput
+    AND?: MealFavoriteWhereInput | MealFavoriteWhereInput[]
+    OR?: MealFavoriteWhereInput[]
+    NOT?: MealFavoriteWhereInput | MealFavoriteWhereInput[]
+    customerId?: StringFilter<"MealFavorite"> | string
+    mealId?: StringFilter<"MealFavorite"> | string
+    createdAt?: DateTimeFilter<"MealFavorite"> | Date | string
+    customer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    meal?: XOR<MealScalarRelationFilter, MealWhereInput>
+  }, "id" | "customerId_mealId">
+
+  export type MealFavoriteOrderByWithAggregationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    mealId?: SortOrder
+    createdAt?: SortOrder
+    _count?: MealFavoriteCountOrderByAggregateInput
+    _max?: MealFavoriteMaxOrderByAggregateInput
+    _min?: MealFavoriteMinOrderByAggregateInput
+  }
+
+  export type MealFavoriteScalarWhereWithAggregatesInput = {
+    AND?: MealFavoriteScalarWhereWithAggregatesInput | MealFavoriteScalarWhereWithAggregatesInput[]
+    OR?: MealFavoriteScalarWhereWithAggregatesInput[]
+    NOT?: MealFavoriteScalarWhereWithAggregatesInput | MealFavoriteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MealFavorite"> | string
+    customerId?: StringWithAggregatesFilter<"MealFavorite"> | string
+    mealId?: StringWithAggregatesFilter<"MealFavorite"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"MealFavorite"> | Date | string
+  }
+
+  export type ProviderFavoriteWhereInput = {
+    AND?: ProviderFavoriteWhereInput | ProviderFavoriteWhereInput[]
+    OR?: ProviderFavoriteWhereInput[]
+    NOT?: ProviderFavoriteWhereInput | ProviderFavoriteWhereInput[]
+    id?: StringFilter<"ProviderFavorite"> | string
+    customerId?: StringFilter<"ProviderFavorite"> | string
+    providerId?: StringFilter<"ProviderFavorite"> | string
+    createdAt?: DateTimeFilter<"ProviderFavorite"> | Date | string
+    customer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    provider?: XOR<ProviderProfileScalarRelationFilter, ProviderProfileWhereInput>
+  }
+
+  export type ProviderFavoriteOrderByWithRelationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    providerId?: SortOrder
+    createdAt?: SortOrder
+    customer?: UserOrderByWithRelationInput
+    provider?: ProviderProfileOrderByWithRelationInput
+  }
+
+  export type ProviderFavoriteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    customerId_providerId?: ProviderFavoriteCustomerIdProviderIdCompoundUniqueInput
+    AND?: ProviderFavoriteWhereInput | ProviderFavoriteWhereInput[]
+    OR?: ProviderFavoriteWhereInput[]
+    NOT?: ProviderFavoriteWhereInput | ProviderFavoriteWhereInput[]
+    customerId?: StringFilter<"ProviderFavorite"> | string
+    providerId?: StringFilter<"ProviderFavorite"> | string
+    createdAt?: DateTimeFilter<"ProviderFavorite"> | Date | string
+    customer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    provider?: XOR<ProviderProfileScalarRelationFilter, ProviderProfileWhereInput>
+  }, "id" | "customerId_providerId">
+
+  export type ProviderFavoriteOrderByWithAggregationInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    providerId?: SortOrder
+    createdAt?: SortOrder
+    _count?: ProviderFavoriteCountOrderByAggregateInput
+    _max?: ProviderFavoriteMaxOrderByAggregateInput
+    _min?: ProviderFavoriteMinOrderByAggregateInput
+  }
+
+  export type ProviderFavoriteScalarWhereWithAggregatesInput = {
+    AND?: ProviderFavoriteScalarWhereWithAggregatesInput | ProviderFavoriteScalarWhereWithAggregatesInput[]
+    OR?: ProviderFavoriteScalarWhereWithAggregatesInput[]
+    NOT?: ProviderFavoriteScalarWhereWithAggregatesInput | ProviderFavoriteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProviderFavorite"> | string
+    customerId?: StringWithAggregatesFilter<"ProviderFavorite"> | string
+    providerId?: StringWithAggregatesFilter<"ProviderFavorite"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ProviderFavorite"> | Date | string
+  }
+
   export type MealWhereInput = {
     AND?: MealWhereInput | MealWhereInput[]
     OR?: MealWhereInput[]
@@ -14074,6 +16648,7 @@ export namespace Prisma {
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     orderItems?: OrderItemListRelationFilter
     reviews?: ReviewListRelationFilter
+    mealFavorites?: MealFavoriteListRelationFilter
   }
 
   export type MealOrderByWithRelationInput = {
@@ -14092,6 +16667,7 @@ export namespace Prisma {
     category?: CategoryOrderByWithRelationInput
     orderItems?: OrderItemOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
+    mealFavorites?: MealFavoriteOrderByRelationAggregateInput
   }
 
   export type MealWhereUniqueInput = Prisma.AtLeast<{
@@ -14113,6 +16689,7 @@ export namespace Prisma {
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     orderItems?: OrderItemListRelationFilter
     reviews?: ReviewListRelationFilter
+    mealFavorites?: MealFavoriteListRelationFilter
   }, "id">
 
   export type MealOrderByWithAggregationInput = {
@@ -14326,6 +16903,7 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     meals?: MealListRelationFilter
     orders?: OrderListRelationFilter
+    providerFavorites?: ProviderFavoriteListRelationFilter
   }
 
   export type ProviderProfileOrderByWithRelationInput = {
@@ -14342,6 +16920,7 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     meals?: MealOrderByRelationAggregateInput
     orders?: OrderOrderByRelationAggregateInput
+    providerFavorites?: ProviderFavoriteOrderByRelationAggregateInput
   }
 
   export type ProviderProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -14361,6 +16940,7 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     meals?: MealListRelationFilter
     orders?: OrderListRelationFilter
+    providerFavorites?: ProviderFavoriteListRelationFilter
   }, "id" | "userId">
 
   export type ProviderProfileOrderByWithAggregationInput = {
@@ -14482,6 +17062,8 @@ export namespace Prisma {
     providerProfile?: XOR<ProviderProfileNullableScalarRelationFilter, ProviderProfileWhereInput> | null
     orders?: OrderListRelationFilter
     reviews?: ReviewListRelationFilter
+    mealFavorites?: MealFavoriteListRelationFilter
+    providerFavorites?: ProviderFavoriteListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -14502,6 +17084,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileOrderByWithRelationInput
     orders?: OrderOrderByRelationAggregateInput
     reviews?: ReviewOrderByRelationAggregateInput
+    mealFavorites?: MealFavoriteOrderByRelationAggregateInput
+    providerFavorites?: ProviderFavoriteOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -14525,6 +17109,8 @@ export namespace Prisma {
     providerProfile?: XOR<ProviderProfileNullableScalarRelationFilter, ProviderProfileWhereInput> | null
     orders?: OrderListRelationFilter
     reviews?: ReviewListRelationFilter
+    mealFavorites?: MealFavoriteListRelationFilter
+    providerFavorites?: ProviderFavoriteListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -14866,6 +17452,100 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MealFavoriteCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    customer: UserCreateNestedOneWithoutMealFavoritesInput
+    meal: MealCreateNestedOneWithoutMealFavoritesInput
+  }
+
+  export type MealFavoriteUncheckedCreateInput = {
+    id?: string
+    customerId: string
+    mealId: string
+    createdAt?: Date | string
+  }
+
+  export type MealFavoriteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: UserUpdateOneRequiredWithoutMealFavoritesNestedInput
+    meal?: MealUpdateOneRequiredWithoutMealFavoritesNestedInput
+  }
+
+  export type MealFavoriteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    mealId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MealFavoriteCreateManyInput = {
+    id?: string
+    customerId: string
+    mealId: string
+    createdAt?: Date | string
+  }
+
+  export type MealFavoriteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MealFavoriteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    mealId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderFavoriteCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    customer: UserCreateNestedOneWithoutProviderFavoritesInput
+    provider: ProviderProfileCreateNestedOneWithoutProviderFavoritesInput
+  }
+
+  export type ProviderFavoriteUncheckedCreateInput = {
+    id?: string
+    customerId: string
+    providerId: string
+    createdAt?: Date | string
+  }
+
+  export type ProviderFavoriteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: UserUpdateOneRequiredWithoutProviderFavoritesNestedInput
+    provider?: ProviderProfileUpdateOneRequiredWithoutProviderFavoritesNestedInput
+  }
+
+  export type ProviderFavoriteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderFavoriteCreateManyInput = {
+    id?: string
+    customerId: string
+    providerId: string
+    createdAt?: Date | string
+  }
+
+  export type ProviderFavoriteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderFavoriteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MealCreateInput = {
     id?: string
     title: string
@@ -14880,6 +17560,7 @@ export namespace Prisma {
     category: CategoryCreateNestedOneWithoutMealsInput
     orderItems?: OrderItemCreateNestedManyWithoutMealInput
     reviews?: ReviewCreateNestedManyWithoutMealInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutMealInput
   }
 
   export type MealUncheckedCreateInput = {
@@ -14896,6 +17577,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutMealInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutMealInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutMealInput
   }
 
   export type MealUpdateInput = {
@@ -14912,6 +17594,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneRequiredWithoutMealsNestedInput
     orderItems?: OrderItemUpdateManyWithoutMealNestedInput
     reviews?: ReviewUpdateManyWithoutMealNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutMealNestedInput
   }
 
   export type MealUncheckedUpdateInput = {
@@ -14928,6 +17611,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutMealNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutMealNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutMealNestedInput
   }
 
   export type MealCreateManyInput = {
@@ -15144,6 +17828,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutProviderProfileInput
     meals?: MealCreateNestedManyWithoutProviderInput
     orders?: OrderCreateNestedManyWithoutProviderInput
+    providerFavorites?: ProviderFavoriteCreateNestedManyWithoutProviderInput
   }
 
   export type ProviderProfileUncheckedCreateInput = {
@@ -15159,6 +17844,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     meals?: MealUncheckedCreateNestedManyWithoutProviderInput
     orders?: OrderUncheckedCreateNestedManyWithoutProviderInput
+    providerFavorites?: ProviderFavoriteUncheckedCreateNestedManyWithoutProviderInput
   }
 
   export type ProviderProfileUpdateInput = {
@@ -15174,6 +17860,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutProviderProfileNestedInput
     meals?: MealUpdateManyWithoutProviderNestedInput
     orders?: OrderUpdateManyWithoutProviderNestedInput
+    providerFavorites?: ProviderFavoriteUpdateManyWithoutProviderNestedInput
   }
 
   export type ProviderProfileUncheckedUpdateInput = {
@@ -15189,6 +17876,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     meals?: MealUncheckedUpdateManyWithoutProviderNestedInput
     orders?: OrderUncheckedUpdateManyWithoutProviderNestedInput
+    providerFavorites?: ProviderFavoriteUncheckedUpdateManyWithoutProviderNestedInput
   }
 
   export type ProviderProfileCreateManyInput = {
@@ -15308,6 +17996,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileCreateNestedOneWithoutUserInput
     orders?: OrderCreateNestedManyWithoutCustomerInput
     reviews?: ReviewCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteCreateNestedManyWithoutCustomerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -15328,6 +18018,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileUncheckedCreateNestedOneWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type UserUpdateInput = {
@@ -15348,6 +18040,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileUpdateOneWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUpdateManyWithoutCustomerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -15368,6 +18062,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileUncheckedUpdateOneWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -15680,6 +18376,68 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type MealScalarRelationFilter = {
+    is?: MealWhereInput
+    isNot?: MealWhereInput
+  }
+
+  export type MealFavoriteCustomerIdMealIdCompoundUniqueInput = {
+    customerId: string
+    mealId: string
+  }
+
+  export type MealFavoriteCountOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    mealId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MealFavoriteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    mealId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MealFavoriteMinOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    mealId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProviderProfileScalarRelationFilter = {
+    is?: ProviderProfileWhereInput
+    isNot?: ProviderProfileWhereInput
+  }
+
+  export type ProviderFavoriteCustomerIdProviderIdCompoundUniqueInput = {
+    customerId: string
+    providerId: string
+  }
+
+  export type ProviderFavoriteCountOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    providerId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProviderFavoriteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    providerId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProviderFavoriteMinOrderByAggregateInput = {
+    id?: SortOrder
+    customerId?: SortOrder
+    providerId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -15694,11 +18452,6 @@ export namespace Prisma {
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type ProviderProfileScalarRelationFilter = {
-    is?: ProviderProfileWhereInput
-    isNot?: ProviderProfileWhereInput
   }
 
   export type CategoryScalarRelationFilter = {
@@ -15718,11 +18471,21 @@ export namespace Prisma {
     none?: ReviewWhereInput
   }
 
+  export type MealFavoriteListRelationFilter = {
+    every?: MealFavoriteWhereInput
+    some?: MealFavoriteWhereInput
+    none?: MealFavoriteWhereInput
+  }
+
   export type OrderItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type ReviewOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MealFavoriteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15917,11 +18680,6 @@ export namespace Prisma {
     isNot?: OrderWhereInput
   }
 
-  export type MealScalarRelationFilter = {
-    is?: MealWhereInput
-    isNot?: MealWhereInput
-  }
-
   export type OrderItemCountOrderByAggregateInput = {
     id?: SortOrder
     orderId?: SortOrder
@@ -15983,7 +18741,17 @@ export namespace Prisma {
     none?: OrderWhereInput
   }
 
+  export type ProviderFavoriteListRelationFilter = {
+    every?: ProviderFavoriteWhereInput
+    some?: ProviderFavoriteWhereInput
+    none?: ProviderFavoriteWhereInput
+  }
+
   export type OrderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProviderFavoriteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16256,6 +19024,62 @@ export namespace Prisma {
     deleteMany?: MealScalarWhereInput | MealScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutMealFavoritesInput = {
+    create?: XOR<UserCreateWithoutMealFavoritesInput, UserUncheckedCreateWithoutMealFavoritesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMealFavoritesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type MealCreateNestedOneWithoutMealFavoritesInput = {
+    create?: XOR<MealCreateWithoutMealFavoritesInput, MealUncheckedCreateWithoutMealFavoritesInput>
+    connectOrCreate?: MealCreateOrConnectWithoutMealFavoritesInput
+    connect?: MealWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutMealFavoritesNestedInput = {
+    create?: XOR<UserCreateWithoutMealFavoritesInput, UserUncheckedCreateWithoutMealFavoritesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMealFavoritesInput
+    upsert?: UserUpsertWithoutMealFavoritesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMealFavoritesInput, UserUpdateWithoutMealFavoritesInput>, UserUncheckedUpdateWithoutMealFavoritesInput>
+  }
+
+  export type MealUpdateOneRequiredWithoutMealFavoritesNestedInput = {
+    create?: XOR<MealCreateWithoutMealFavoritesInput, MealUncheckedCreateWithoutMealFavoritesInput>
+    connectOrCreate?: MealCreateOrConnectWithoutMealFavoritesInput
+    upsert?: MealUpsertWithoutMealFavoritesInput
+    connect?: MealWhereUniqueInput
+    update?: XOR<XOR<MealUpdateToOneWithWhereWithoutMealFavoritesInput, MealUpdateWithoutMealFavoritesInput>, MealUncheckedUpdateWithoutMealFavoritesInput>
+  }
+
+  export type UserCreateNestedOneWithoutProviderFavoritesInput = {
+    create?: XOR<UserCreateWithoutProviderFavoritesInput, UserUncheckedCreateWithoutProviderFavoritesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProviderFavoritesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ProviderProfileCreateNestedOneWithoutProviderFavoritesInput = {
+    create?: XOR<ProviderProfileCreateWithoutProviderFavoritesInput, ProviderProfileUncheckedCreateWithoutProviderFavoritesInput>
+    connectOrCreate?: ProviderProfileCreateOrConnectWithoutProviderFavoritesInput
+    connect?: ProviderProfileWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutProviderFavoritesNestedInput = {
+    create?: XOR<UserCreateWithoutProviderFavoritesInput, UserUncheckedCreateWithoutProviderFavoritesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProviderFavoritesInput
+    upsert?: UserUpsertWithoutProviderFavoritesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProviderFavoritesInput, UserUpdateWithoutProviderFavoritesInput>, UserUncheckedUpdateWithoutProviderFavoritesInput>
+  }
+
+  export type ProviderProfileUpdateOneRequiredWithoutProviderFavoritesNestedInput = {
+    create?: XOR<ProviderProfileCreateWithoutProviderFavoritesInput, ProviderProfileUncheckedCreateWithoutProviderFavoritesInput>
+    connectOrCreate?: ProviderProfileCreateOrConnectWithoutProviderFavoritesInput
+    upsert?: ProviderProfileUpsertWithoutProviderFavoritesInput
+    connect?: ProviderProfileWhereUniqueInput
+    update?: XOR<XOR<ProviderProfileUpdateToOneWithWhereWithoutProviderFavoritesInput, ProviderProfileUpdateWithoutProviderFavoritesInput>, ProviderProfileUncheckedUpdateWithoutProviderFavoritesInput>
+  }
+
   export type ProviderProfileCreateNestedOneWithoutMealsInput = {
     create?: XOR<ProviderProfileCreateWithoutMealsInput, ProviderProfileUncheckedCreateWithoutMealsInput>
     connectOrCreate?: ProviderProfileCreateOrConnectWithoutMealsInput
@@ -16282,6 +19106,13 @@ export namespace Prisma {
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
   }
 
+  export type MealFavoriteCreateNestedManyWithoutMealInput = {
+    create?: XOR<MealFavoriteCreateWithoutMealInput, MealFavoriteUncheckedCreateWithoutMealInput> | MealFavoriteCreateWithoutMealInput[] | MealFavoriteUncheckedCreateWithoutMealInput[]
+    connectOrCreate?: MealFavoriteCreateOrConnectWithoutMealInput | MealFavoriteCreateOrConnectWithoutMealInput[]
+    createMany?: MealFavoriteCreateManyMealInputEnvelope
+    connect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+  }
+
   export type OrderItemUncheckedCreateNestedManyWithoutMealInput = {
     create?: XOR<OrderItemCreateWithoutMealInput, OrderItemUncheckedCreateWithoutMealInput> | OrderItemCreateWithoutMealInput[] | OrderItemUncheckedCreateWithoutMealInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutMealInput | OrderItemCreateOrConnectWithoutMealInput[]
@@ -16294,6 +19125,13 @@ export namespace Prisma {
     connectOrCreate?: ReviewCreateOrConnectWithoutMealInput | ReviewCreateOrConnectWithoutMealInput[]
     createMany?: ReviewCreateManyMealInputEnvelope
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type MealFavoriteUncheckedCreateNestedManyWithoutMealInput = {
+    create?: XOR<MealFavoriteCreateWithoutMealInput, MealFavoriteUncheckedCreateWithoutMealInput> | MealFavoriteCreateWithoutMealInput[] | MealFavoriteUncheckedCreateWithoutMealInput[]
+    connectOrCreate?: MealFavoriteCreateOrConnectWithoutMealInput | MealFavoriteCreateOrConnectWithoutMealInput[]
+    createMany?: MealFavoriteCreateManyMealInputEnvelope
+    connect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -16352,6 +19190,20 @@ export namespace Prisma {
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
+  export type MealFavoriteUpdateManyWithoutMealNestedInput = {
+    create?: XOR<MealFavoriteCreateWithoutMealInput, MealFavoriteUncheckedCreateWithoutMealInput> | MealFavoriteCreateWithoutMealInput[] | MealFavoriteUncheckedCreateWithoutMealInput[]
+    connectOrCreate?: MealFavoriteCreateOrConnectWithoutMealInput | MealFavoriteCreateOrConnectWithoutMealInput[]
+    upsert?: MealFavoriteUpsertWithWhereUniqueWithoutMealInput | MealFavoriteUpsertWithWhereUniqueWithoutMealInput[]
+    createMany?: MealFavoriteCreateManyMealInputEnvelope
+    set?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    disconnect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    delete?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    connect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    update?: MealFavoriteUpdateWithWhereUniqueWithoutMealInput | MealFavoriteUpdateWithWhereUniqueWithoutMealInput[]
+    updateMany?: MealFavoriteUpdateManyWithWhereWithoutMealInput | MealFavoriteUpdateManyWithWhereWithoutMealInput[]
+    deleteMany?: MealFavoriteScalarWhereInput | MealFavoriteScalarWhereInput[]
+  }
+
   export type OrderItemUncheckedUpdateManyWithoutMealNestedInput = {
     create?: XOR<OrderItemCreateWithoutMealInput, OrderItemUncheckedCreateWithoutMealInput> | OrderItemCreateWithoutMealInput[] | OrderItemUncheckedCreateWithoutMealInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutMealInput | OrderItemCreateOrConnectWithoutMealInput[]
@@ -16378,6 +19230,20 @@ export namespace Prisma {
     update?: ReviewUpdateWithWhereUniqueWithoutMealInput | ReviewUpdateWithWhereUniqueWithoutMealInput[]
     updateMany?: ReviewUpdateManyWithWhereWithoutMealInput | ReviewUpdateManyWithWhereWithoutMealInput[]
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type MealFavoriteUncheckedUpdateManyWithoutMealNestedInput = {
+    create?: XOR<MealFavoriteCreateWithoutMealInput, MealFavoriteUncheckedCreateWithoutMealInput> | MealFavoriteCreateWithoutMealInput[] | MealFavoriteUncheckedCreateWithoutMealInput[]
+    connectOrCreate?: MealFavoriteCreateOrConnectWithoutMealInput | MealFavoriteCreateOrConnectWithoutMealInput[]
+    upsert?: MealFavoriteUpsertWithWhereUniqueWithoutMealInput | MealFavoriteUpsertWithWhereUniqueWithoutMealInput[]
+    createMany?: MealFavoriteCreateManyMealInputEnvelope
+    set?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    disconnect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    delete?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    connect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    update?: MealFavoriteUpdateWithWhereUniqueWithoutMealInput | MealFavoriteUpdateWithWhereUniqueWithoutMealInput[]
+    updateMany?: MealFavoriteUpdateManyWithWhereWithoutMealInput | MealFavoriteUpdateManyWithWhereWithoutMealInput[]
+    deleteMany?: MealFavoriteScalarWhereInput | MealFavoriteScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutOrdersInput = {
@@ -16518,6 +19384,13 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
+  export type ProviderFavoriteCreateNestedManyWithoutProviderInput = {
+    create?: XOR<ProviderFavoriteCreateWithoutProviderInput, ProviderFavoriteUncheckedCreateWithoutProviderInput> | ProviderFavoriteCreateWithoutProviderInput[] | ProviderFavoriteUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: ProviderFavoriteCreateOrConnectWithoutProviderInput | ProviderFavoriteCreateOrConnectWithoutProviderInput[]
+    createMany?: ProviderFavoriteCreateManyProviderInputEnvelope
+    connect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+  }
+
   export type MealUncheckedCreateNestedManyWithoutProviderInput = {
     create?: XOR<MealCreateWithoutProviderInput, MealUncheckedCreateWithoutProviderInput> | MealCreateWithoutProviderInput[] | MealUncheckedCreateWithoutProviderInput[]
     connectOrCreate?: MealCreateOrConnectWithoutProviderInput | MealCreateOrConnectWithoutProviderInput[]
@@ -16530,6 +19403,13 @@ export namespace Prisma {
     connectOrCreate?: OrderCreateOrConnectWithoutProviderInput | OrderCreateOrConnectWithoutProviderInput[]
     createMany?: OrderCreateManyProviderInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type ProviderFavoriteUncheckedCreateNestedManyWithoutProviderInput = {
+    create?: XOR<ProviderFavoriteCreateWithoutProviderInput, ProviderFavoriteUncheckedCreateWithoutProviderInput> | ProviderFavoriteCreateWithoutProviderInput[] | ProviderFavoriteUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: ProviderFavoriteCreateOrConnectWithoutProviderInput | ProviderFavoriteCreateOrConnectWithoutProviderInput[]
+    createMany?: ProviderFavoriteCreateManyProviderInputEnvelope
+    connect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutProviderProfileNestedInput = {
@@ -16568,6 +19448,20 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type ProviderFavoriteUpdateManyWithoutProviderNestedInput = {
+    create?: XOR<ProviderFavoriteCreateWithoutProviderInput, ProviderFavoriteUncheckedCreateWithoutProviderInput> | ProviderFavoriteCreateWithoutProviderInput[] | ProviderFavoriteUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: ProviderFavoriteCreateOrConnectWithoutProviderInput | ProviderFavoriteCreateOrConnectWithoutProviderInput[]
+    upsert?: ProviderFavoriteUpsertWithWhereUniqueWithoutProviderInput | ProviderFavoriteUpsertWithWhereUniqueWithoutProviderInput[]
+    createMany?: ProviderFavoriteCreateManyProviderInputEnvelope
+    set?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    disconnect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    delete?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    connect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    update?: ProviderFavoriteUpdateWithWhereUniqueWithoutProviderInput | ProviderFavoriteUpdateWithWhereUniqueWithoutProviderInput[]
+    updateMany?: ProviderFavoriteUpdateManyWithWhereWithoutProviderInput | ProviderFavoriteUpdateManyWithWhereWithoutProviderInput[]
+    deleteMany?: ProviderFavoriteScalarWhereInput | ProviderFavoriteScalarWhereInput[]
+  }
+
   export type MealUncheckedUpdateManyWithoutProviderNestedInput = {
     create?: XOR<MealCreateWithoutProviderInput, MealUncheckedCreateWithoutProviderInput> | MealCreateWithoutProviderInput[] | MealUncheckedCreateWithoutProviderInput[]
     connectOrCreate?: MealCreateOrConnectWithoutProviderInput | MealCreateOrConnectWithoutProviderInput[]
@@ -16594,6 +19488,20 @@ export namespace Prisma {
     update?: OrderUpdateWithWhereUniqueWithoutProviderInput | OrderUpdateWithWhereUniqueWithoutProviderInput[]
     updateMany?: OrderUpdateManyWithWhereWithoutProviderInput | OrderUpdateManyWithWhereWithoutProviderInput[]
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type ProviderFavoriteUncheckedUpdateManyWithoutProviderNestedInput = {
+    create?: XOR<ProviderFavoriteCreateWithoutProviderInput, ProviderFavoriteUncheckedCreateWithoutProviderInput> | ProviderFavoriteCreateWithoutProviderInput[] | ProviderFavoriteUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: ProviderFavoriteCreateOrConnectWithoutProviderInput | ProviderFavoriteCreateOrConnectWithoutProviderInput[]
+    upsert?: ProviderFavoriteUpsertWithWhereUniqueWithoutProviderInput | ProviderFavoriteUpsertWithWhereUniqueWithoutProviderInput[]
+    createMany?: ProviderFavoriteCreateManyProviderInputEnvelope
+    set?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    disconnect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    delete?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    connect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    update?: ProviderFavoriteUpdateWithWhereUniqueWithoutProviderInput | ProviderFavoriteUpdateWithWhereUniqueWithoutProviderInput[]
+    updateMany?: ProviderFavoriteUpdateManyWithWhereWithoutProviderInput | ProviderFavoriteUpdateManyWithWhereWithoutProviderInput[]
+    deleteMany?: ProviderFavoriteScalarWhereInput | ProviderFavoriteScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutReviewsInput = {
@@ -16658,6 +19566,20 @@ export namespace Prisma {
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
   }
 
+  export type MealFavoriteCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<MealFavoriteCreateWithoutCustomerInput, MealFavoriteUncheckedCreateWithoutCustomerInput> | MealFavoriteCreateWithoutCustomerInput[] | MealFavoriteUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: MealFavoriteCreateOrConnectWithoutCustomerInput | MealFavoriteCreateOrConnectWithoutCustomerInput[]
+    createMany?: MealFavoriteCreateManyCustomerInputEnvelope
+    connect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+  }
+
+  export type ProviderFavoriteCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<ProviderFavoriteCreateWithoutCustomerInput, ProviderFavoriteUncheckedCreateWithoutCustomerInput> | ProviderFavoriteCreateWithoutCustomerInput[] | ProviderFavoriteUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ProviderFavoriteCreateOrConnectWithoutCustomerInput | ProviderFavoriteCreateOrConnectWithoutCustomerInput[]
+    createMany?: ProviderFavoriteCreateManyCustomerInputEnvelope
+    connect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -16690,6 +19612,20 @@ export namespace Prisma {
     connectOrCreate?: ReviewCreateOrConnectWithoutCustomerInput | ReviewCreateOrConnectWithoutCustomerInput[]
     createMany?: ReviewCreateManyCustomerInputEnvelope
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type MealFavoriteUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<MealFavoriteCreateWithoutCustomerInput, MealFavoriteUncheckedCreateWithoutCustomerInput> | MealFavoriteCreateWithoutCustomerInput[] | MealFavoriteUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: MealFavoriteCreateOrConnectWithoutCustomerInput | MealFavoriteCreateOrConnectWithoutCustomerInput[]
+    createMany?: MealFavoriteCreateManyCustomerInputEnvelope
+    connect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+  }
+
+  export type ProviderFavoriteUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<ProviderFavoriteCreateWithoutCustomerInput, ProviderFavoriteUncheckedCreateWithoutCustomerInput> | ProviderFavoriteCreateWithoutCustomerInput[] | ProviderFavoriteUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ProviderFavoriteCreateOrConnectWithoutCustomerInput | ProviderFavoriteCreateOrConnectWithoutCustomerInput[]
+    createMany?: ProviderFavoriteCreateManyCustomerInputEnvelope
+    connect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
   }
 
   export type EnumRoleFieldUpdateOperationsInput = {
@@ -16766,6 +19702,34 @@ export namespace Prisma {
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
   }
 
+  export type MealFavoriteUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<MealFavoriteCreateWithoutCustomerInput, MealFavoriteUncheckedCreateWithoutCustomerInput> | MealFavoriteCreateWithoutCustomerInput[] | MealFavoriteUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: MealFavoriteCreateOrConnectWithoutCustomerInput | MealFavoriteCreateOrConnectWithoutCustomerInput[]
+    upsert?: MealFavoriteUpsertWithWhereUniqueWithoutCustomerInput | MealFavoriteUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: MealFavoriteCreateManyCustomerInputEnvelope
+    set?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    disconnect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    delete?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    connect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    update?: MealFavoriteUpdateWithWhereUniqueWithoutCustomerInput | MealFavoriteUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: MealFavoriteUpdateManyWithWhereWithoutCustomerInput | MealFavoriteUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: MealFavoriteScalarWhereInput | MealFavoriteScalarWhereInput[]
+  }
+
+  export type ProviderFavoriteUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<ProviderFavoriteCreateWithoutCustomerInput, ProviderFavoriteUncheckedCreateWithoutCustomerInput> | ProviderFavoriteCreateWithoutCustomerInput[] | ProviderFavoriteUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ProviderFavoriteCreateOrConnectWithoutCustomerInput | ProviderFavoriteCreateOrConnectWithoutCustomerInput[]
+    upsert?: ProviderFavoriteUpsertWithWhereUniqueWithoutCustomerInput | ProviderFavoriteUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: ProviderFavoriteCreateManyCustomerInputEnvelope
+    set?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    disconnect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    delete?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    connect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    update?: ProviderFavoriteUpdateWithWhereUniqueWithoutCustomerInput | ProviderFavoriteUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: ProviderFavoriteUpdateManyWithWhereWithoutCustomerInput | ProviderFavoriteUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: ProviderFavoriteScalarWhereInput | ProviderFavoriteScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -16830,6 +19794,34 @@ export namespace Prisma {
     update?: ReviewUpdateWithWhereUniqueWithoutCustomerInput | ReviewUpdateWithWhereUniqueWithoutCustomerInput[]
     updateMany?: ReviewUpdateManyWithWhereWithoutCustomerInput | ReviewUpdateManyWithWhereWithoutCustomerInput[]
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type MealFavoriteUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<MealFavoriteCreateWithoutCustomerInput, MealFavoriteUncheckedCreateWithoutCustomerInput> | MealFavoriteCreateWithoutCustomerInput[] | MealFavoriteUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: MealFavoriteCreateOrConnectWithoutCustomerInput | MealFavoriteCreateOrConnectWithoutCustomerInput[]
+    upsert?: MealFavoriteUpsertWithWhereUniqueWithoutCustomerInput | MealFavoriteUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: MealFavoriteCreateManyCustomerInputEnvelope
+    set?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    disconnect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    delete?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    connect?: MealFavoriteWhereUniqueInput | MealFavoriteWhereUniqueInput[]
+    update?: MealFavoriteUpdateWithWhereUniqueWithoutCustomerInput | MealFavoriteUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: MealFavoriteUpdateManyWithWhereWithoutCustomerInput | MealFavoriteUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: MealFavoriteScalarWhereInput | MealFavoriteScalarWhereInput[]
+  }
+
+  export type ProviderFavoriteUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<ProviderFavoriteCreateWithoutCustomerInput, ProviderFavoriteUncheckedCreateWithoutCustomerInput> | ProviderFavoriteCreateWithoutCustomerInput[] | ProviderFavoriteUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: ProviderFavoriteCreateOrConnectWithoutCustomerInput | ProviderFavoriteCreateOrConnectWithoutCustomerInput[]
+    upsert?: ProviderFavoriteUpsertWithWhereUniqueWithoutCustomerInput | ProviderFavoriteUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: ProviderFavoriteCreateManyCustomerInputEnvelope
+    set?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    disconnect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    delete?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    connect?: ProviderFavoriteWhereUniqueInput | ProviderFavoriteWhereUniqueInput[]
+    update?: ProviderFavoriteUpdateWithWhereUniqueWithoutCustomerInput | ProviderFavoriteUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: ProviderFavoriteUpdateManyWithWhereWithoutCustomerInput | ProviderFavoriteUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: ProviderFavoriteScalarWhereInput | ProviderFavoriteScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -17124,6 +20116,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileCreateNestedOneWithoutUserInput
     orders?: OrderCreateNestedManyWithoutCustomerInput
     reviews?: ReviewCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteCreateNestedManyWithoutCustomerInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -17143,6 +20137,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileUncheckedCreateNestedOneWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -17178,6 +20174,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileUpdateOneWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUpdateManyWithoutCustomerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -17197,6 +20195,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileUncheckedUpdateOneWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -17216,6 +20216,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileCreateNestedOneWithoutUserInput
     orders?: OrderCreateNestedManyWithoutCustomerInput
     reviews?: ReviewCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteCreateNestedManyWithoutCustomerInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -17235,6 +20237,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileUncheckedCreateNestedOneWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -17270,6 +20274,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileUpdateOneWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUpdateManyWithoutCustomerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -17289,6 +20295,8 @@ export namespace Prisma {
     providerProfile?: ProviderProfileUncheckedUpdateOneWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type MealCreateWithoutCategoryInput = {
@@ -17304,6 +20312,7 @@ export namespace Prisma {
     provider: ProviderProfileCreateNestedOneWithoutMealsInput
     orderItems?: OrderItemCreateNestedManyWithoutMealInput
     reviews?: ReviewCreateNestedManyWithoutMealInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutMealInput
   }
 
   export type MealUncheckedCreateWithoutCategoryInput = {
@@ -17319,6 +20328,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutMealInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutMealInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutMealInput
   }
 
   export type MealCreateOrConnectWithoutCategoryInput = {
@@ -17364,6 +20374,362 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Meal"> | Date | string
   }
 
+  export type UserCreateWithoutMealFavoritesInput = {
+    id?: string
+    email: string
+    name: string
+    emailVerified?: boolean
+    image?: string | null
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    isDeleted?: boolean
+    deletedAt?: Date | string | null
+    needPasswordChange?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    providerProfile?: ProviderProfileCreateNestedOneWithoutUserInput
+    orders?: OrderCreateNestedManyWithoutCustomerInput
+    reviews?: ReviewCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteCreateNestedManyWithoutCustomerInput
+  }
+
+  export type UserUncheckedCreateWithoutMealFavoritesInput = {
+    id?: string
+    email: string
+    name: string
+    emailVerified?: boolean
+    image?: string | null
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    isDeleted?: boolean
+    deletedAt?: Date | string | null
+    needPasswordChange?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    providerProfile?: ProviderProfileUncheckedCreateNestedOneWithoutUserInput
+    orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type UserCreateOrConnectWithoutMealFavoritesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMealFavoritesInput, UserUncheckedCreateWithoutMealFavoritesInput>
+  }
+
+  export type MealCreateWithoutMealFavoritesInput = {
+    id?: string
+    title: string
+    description: string
+    price: number
+    image?: string | null
+    isAvailable?: boolean
+    dietaryTag?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    provider: ProviderProfileCreateNestedOneWithoutMealsInput
+    category: CategoryCreateNestedOneWithoutMealsInput
+    orderItems?: OrderItemCreateNestedManyWithoutMealInput
+    reviews?: ReviewCreateNestedManyWithoutMealInput
+  }
+
+  export type MealUncheckedCreateWithoutMealFavoritesInput = {
+    id?: string
+    providerId: string
+    categoryId: string
+    title: string
+    description: string
+    price: number
+    image?: string | null
+    isAvailable?: boolean
+    dietaryTag?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orderItems?: OrderItemUncheckedCreateNestedManyWithoutMealInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutMealInput
+  }
+
+  export type MealCreateOrConnectWithoutMealFavoritesInput = {
+    where: MealWhereUniqueInput
+    create: XOR<MealCreateWithoutMealFavoritesInput, MealUncheckedCreateWithoutMealFavoritesInput>
+  }
+
+  export type UserUpsertWithoutMealFavoritesInput = {
+    update: XOR<UserUpdateWithoutMealFavoritesInput, UserUncheckedUpdateWithoutMealFavoritesInput>
+    create: XOR<UserCreateWithoutMealFavoritesInput, UserUncheckedCreateWithoutMealFavoritesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMealFavoritesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMealFavoritesInput, UserUncheckedUpdateWithoutMealFavoritesInput>
+  }
+
+  export type UserUpdateWithoutMealFavoritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    providerProfile?: ProviderProfileUpdateOneWithoutUserNestedInput
+    orders?: OrderUpdateManyWithoutCustomerNestedInput
+    reviews?: ReviewUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMealFavoritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    providerProfile?: ProviderProfileUncheckedUpdateOneWithoutUserNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type MealUpsertWithoutMealFavoritesInput = {
+    update: XOR<MealUpdateWithoutMealFavoritesInput, MealUncheckedUpdateWithoutMealFavoritesInput>
+    create: XOR<MealCreateWithoutMealFavoritesInput, MealUncheckedCreateWithoutMealFavoritesInput>
+    where?: MealWhereInput
+  }
+
+  export type MealUpdateToOneWithWhereWithoutMealFavoritesInput = {
+    where?: MealWhereInput
+    data: XOR<MealUpdateWithoutMealFavoritesInput, MealUncheckedUpdateWithoutMealFavoritesInput>
+  }
+
+  export type MealUpdateWithoutMealFavoritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    dietaryTag?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    provider?: ProviderProfileUpdateOneRequiredWithoutMealsNestedInput
+    category?: CategoryUpdateOneRequiredWithoutMealsNestedInput
+    orderItems?: OrderItemUpdateManyWithoutMealNestedInput
+    reviews?: ReviewUpdateManyWithoutMealNestedInput
+  }
+
+  export type MealUncheckedUpdateWithoutMealFavoritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    isAvailable?: BoolFieldUpdateOperationsInput | boolean
+    dietaryTag?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderItems?: OrderItemUncheckedUpdateManyWithoutMealNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutMealNestedInput
+  }
+
+  export type UserCreateWithoutProviderFavoritesInput = {
+    id?: string
+    email: string
+    name: string
+    emailVerified?: boolean
+    image?: string | null
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    isDeleted?: boolean
+    deletedAt?: Date | string | null
+    needPasswordChange?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    providerProfile?: ProviderProfileCreateNestedOneWithoutUserInput
+    orders?: OrderCreateNestedManyWithoutCustomerInput
+    reviews?: ReviewCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutCustomerInput
+  }
+
+  export type UserUncheckedCreateWithoutProviderFavoritesInput = {
+    id?: string
+    email: string
+    name: string
+    emailVerified?: boolean
+    image?: string | null
+    role?: $Enums.Role
+    status?: $Enums.UserStatus
+    isDeleted?: boolean
+    deletedAt?: Date | string | null
+    needPasswordChange?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    providerProfile?: ProviderProfileUncheckedCreateNestedOneWithoutUserInput
+    orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type UserCreateOrConnectWithoutProviderFavoritesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutProviderFavoritesInput, UserUncheckedCreateWithoutProviderFavoritesInput>
+  }
+
+  export type ProviderProfileCreateWithoutProviderFavoritesInput = {
+    id?: string
+    restaurantName: string
+    description?: string | null
+    address: string
+    cuisineType?: string | null
+    logo?: string | null
+    bannerImage?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutProviderProfileInput
+    meals?: MealCreateNestedManyWithoutProviderInput
+    orders?: OrderCreateNestedManyWithoutProviderInput
+  }
+
+  export type ProviderProfileUncheckedCreateWithoutProviderFavoritesInput = {
+    id?: string
+    userId: string
+    restaurantName: string
+    description?: string | null
+    address: string
+    cuisineType?: string | null
+    logo?: string | null
+    bannerImage?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    meals?: MealUncheckedCreateNestedManyWithoutProviderInput
+    orders?: OrderUncheckedCreateNestedManyWithoutProviderInput
+  }
+
+  export type ProviderProfileCreateOrConnectWithoutProviderFavoritesInput = {
+    where: ProviderProfileWhereUniqueInput
+    create: XOR<ProviderProfileCreateWithoutProviderFavoritesInput, ProviderProfileUncheckedCreateWithoutProviderFavoritesInput>
+  }
+
+  export type UserUpsertWithoutProviderFavoritesInput = {
+    update: XOR<UserUpdateWithoutProviderFavoritesInput, UserUncheckedUpdateWithoutProviderFavoritesInput>
+    create: XOR<UserCreateWithoutProviderFavoritesInput, UserUncheckedCreateWithoutProviderFavoritesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutProviderFavoritesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutProviderFavoritesInput, UserUncheckedUpdateWithoutProviderFavoritesInput>
+  }
+
+  export type UserUpdateWithoutProviderFavoritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    providerProfile?: ProviderProfileUpdateOneWithoutUserNestedInput
+    orders?: OrderUpdateManyWithoutCustomerNestedInput
+    reviews?: ReviewUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutProviderFavoritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    needPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    providerProfile?: ProviderProfileUncheckedUpdateOneWithoutUserNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type ProviderProfileUpsertWithoutProviderFavoritesInput = {
+    update: XOR<ProviderProfileUpdateWithoutProviderFavoritesInput, ProviderProfileUncheckedUpdateWithoutProviderFavoritesInput>
+    create: XOR<ProviderProfileCreateWithoutProviderFavoritesInput, ProviderProfileUncheckedCreateWithoutProviderFavoritesInput>
+    where?: ProviderProfileWhereInput
+  }
+
+  export type ProviderProfileUpdateToOneWithWhereWithoutProviderFavoritesInput = {
+    where?: ProviderProfileWhereInput
+    data: XOR<ProviderProfileUpdateWithoutProviderFavoritesInput, ProviderProfileUncheckedUpdateWithoutProviderFavoritesInput>
+  }
+
+  export type ProviderProfileUpdateWithoutProviderFavoritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    restaurantName?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
+    cuisineType?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerImage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutProviderProfileNestedInput
+    meals?: MealUpdateManyWithoutProviderNestedInput
+    orders?: OrderUpdateManyWithoutProviderNestedInput
+  }
+
+  export type ProviderProfileUncheckedUpdateWithoutProviderFavoritesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    restaurantName?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
+    cuisineType?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerImage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    meals?: MealUncheckedUpdateManyWithoutProviderNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutProviderNestedInput
+  }
+
   export type ProviderProfileCreateWithoutMealsInput = {
     id?: string
     restaurantName: string
@@ -17376,6 +20742,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutProviderProfileInput
     orders?: OrderCreateNestedManyWithoutProviderInput
+    providerFavorites?: ProviderFavoriteCreateNestedManyWithoutProviderInput
   }
 
   export type ProviderProfileUncheckedCreateWithoutMealsInput = {
@@ -17390,6 +20757,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderUncheckedCreateNestedManyWithoutProviderInput
+    providerFavorites?: ProviderFavoriteUncheckedCreateNestedManyWithoutProviderInput
   }
 
   export type ProviderProfileCreateOrConnectWithoutMealsInput = {
@@ -17470,6 +20838,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MealFavoriteCreateWithoutMealInput = {
+    id?: string
+    createdAt?: Date | string
+    customer: UserCreateNestedOneWithoutMealFavoritesInput
+  }
+
+  export type MealFavoriteUncheckedCreateWithoutMealInput = {
+    id?: string
+    customerId: string
+    createdAt?: Date | string
+  }
+
+  export type MealFavoriteCreateOrConnectWithoutMealInput = {
+    where: MealFavoriteWhereUniqueInput
+    create: XOR<MealFavoriteCreateWithoutMealInput, MealFavoriteUncheckedCreateWithoutMealInput>
+  }
+
+  export type MealFavoriteCreateManyMealInputEnvelope = {
+    data: MealFavoriteCreateManyMealInput | MealFavoriteCreateManyMealInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProviderProfileUpsertWithoutMealsInput = {
     update: XOR<ProviderProfileUpdateWithoutMealsInput, ProviderProfileUncheckedUpdateWithoutMealsInput>
     create: XOR<ProviderProfileCreateWithoutMealsInput, ProviderProfileUncheckedCreateWithoutMealsInput>
@@ -17493,6 +20883,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutProviderProfileNestedInput
     orders?: OrderUpdateManyWithoutProviderNestedInput
+    providerFavorites?: ProviderFavoriteUpdateManyWithoutProviderNestedInput
   }
 
   export type ProviderProfileUncheckedUpdateWithoutMealsInput = {
@@ -17507,6 +20898,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUncheckedUpdateManyWithoutProviderNestedInput
+    providerFavorites?: ProviderFavoriteUncheckedUpdateManyWithoutProviderNestedInput
   }
 
   export type CategoryUpsertWithoutMealsInput = {
@@ -17592,6 +20984,32 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Review"> | Date | string
   }
 
+  export type MealFavoriteUpsertWithWhereUniqueWithoutMealInput = {
+    where: MealFavoriteWhereUniqueInput
+    update: XOR<MealFavoriteUpdateWithoutMealInput, MealFavoriteUncheckedUpdateWithoutMealInput>
+    create: XOR<MealFavoriteCreateWithoutMealInput, MealFavoriteUncheckedCreateWithoutMealInput>
+  }
+
+  export type MealFavoriteUpdateWithWhereUniqueWithoutMealInput = {
+    where: MealFavoriteWhereUniqueInput
+    data: XOR<MealFavoriteUpdateWithoutMealInput, MealFavoriteUncheckedUpdateWithoutMealInput>
+  }
+
+  export type MealFavoriteUpdateManyWithWhereWithoutMealInput = {
+    where: MealFavoriteScalarWhereInput
+    data: XOR<MealFavoriteUpdateManyMutationInput, MealFavoriteUncheckedUpdateManyWithoutMealInput>
+  }
+
+  export type MealFavoriteScalarWhereInput = {
+    AND?: MealFavoriteScalarWhereInput | MealFavoriteScalarWhereInput[]
+    OR?: MealFavoriteScalarWhereInput[]
+    NOT?: MealFavoriteScalarWhereInput | MealFavoriteScalarWhereInput[]
+    id?: StringFilter<"MealFavorite"> | string
+    customerId?: StringFilter<"MealFavorite"> | string
+    mealId?: StringFilter<"MealFavorite"> | string
+    createdAt?: DateTimeFilter<"MealFavorite"> | Date | string
+  }
+
   export type UserCreateWithoutOrdersInput = {
     id?: string
     email: string
@@ -17609,6 +21027,8 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     providerProfile?: ProviderProfileCreateNestedOneWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteCreateNestedManyWithoutCustomerInput
   }
 
   export type UserUncheckedCreateWithoutOrdersInput = {
@@ -17628,6 +21048,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     providerProfile?: ProviderProfileUncheckedCreateNestedOneWithoutUserInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type UserCreateOrConnectWithoutOrdersInput = {
@@ -17647,6 +21069,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutProviderProfileInput
     meals?: MealCreateNestedManyWithoutProviderInput
+    providerFavorites?: ProviderFavoriteCreateNestedManyWithoutProviderInput
   }
 
   export type ProviderProfileUncheckedCreateWithoutOrdersInput = {
@@ -17661,6 +21084,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     meals?: MealUncheckedCreateNestedManyWithoutProviderInput
+    providerFavorites?: ProviderFavoriteUncheckedCreateNestedManyWithoutProviderInput
   }
 
   export type ProviderProfileCreateOrConnectWithoutOrdersInput = {
@@ -17722,6 +21146,8 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     providerProfile?: ProviderProfileUpdateOneWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUpdateManyWithoutCustomerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -17741,6 +21167,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     providerProfile?: ProviderProfileUncheckedUpdateOneWithoutUserNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type ProviderProfileUpsertWithoutOrdersInput = {
@@ -17766,6 +21194,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutProviderProfileNestedInput
     meals?: MealUpdateManyWithoutProviderNestedInput
+    providerFavorites?: ProviderFavoriteUpdateManyWithoutProviderNestedInput
   }
 
   export type ProviderProfileUncheckedUpdateWithoutOrdersInput = {
@@ -17780,6 +21209,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     meals?: MealUncheckedUpdateManyWithoutProviderNestedInput
+    providerFavorites?: ProviderFavoriteUncheckedUpdateManyWithoutProviderNestedInput
   }
 
   export type OrderItemUpsertWithWhereUniqueWithoutOrderInput = {
@@ -17844,6 +21274,7 @@ export namespace Prisma {
     provider: ProviderProfileCreateNestedOneWithoutMealsInput
     category: CategoryCreateNestedOneWithoutMealsInput
     reviews?: ReviewCreateNestedManyWithoutMealInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutMealInput
   }
 
   export type MealUncheckedCreateWithoutOrderItemsInput = {
@@ -17859,6 +21290,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     reviews?: ReviewUncheckedCreateNestedManyWithoutMealInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutMealInput
   }
 
   export type MealCreateOrConnectWithoutOrderItemsInput = {
@@ -17929,6 +21361,7 @@ export namespace Prisma {
     provider?: ProviderProfileUpdateOneRequiredWithoutMealsNestedInput
     category?: CategoryUpdateOneRequiredWithoutMealsNestedInput
     reviews?: ReviewUpdateManyWithoutMealNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutMealNestedInput
   }
 
   export type MealUncheckedUpdateWithoutOrderItemsInput = {
@@ -17944,6 +21377,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviews?: ReviewUncheckedUpdateManyWithoutMealNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutMealNestedInput
   }
 
   export type UserCreateWithoutProviderProfileInput = {
@@ -17963,6 +21397,8 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutCustomerInput
     reviews?: ReviewCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteCreateNestedManyWithoutCustomerInput
   }
 
   export type UserUncheckedCreateWithoutProviderProfileInput = {
@@ -17982,6 +21418,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type UserCreateOrConnectWithoutProviderProfileInput = {
@@ -18002,6 +21440,7 @@ export namespace Prisma {
     category: CategoryCreateNestedOneWithoutMealsInput
     orderItems?: OrderItemCreateNestedManyWithoutMealInput
     reviews?: ReviewCreateNestedManyWithoutMealInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutMealInput
   }
 
   export type MealUncheckedCreateWithoutProviderInput = {
@@ -18017,6 +21456,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutMealInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutMealInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutMealInput
   }
 
   export type MealCreateOrConnectWithoutProviderInput = {
@@ -18067,6 +21507,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ProviderFavoriteCreateWithoutProviderInput = {
+    id?: string
+    createdAt?: Date | string
+    customer: UserCreateNestedOneWithoutProviderFavoritesInput
+  }
+
+  export type ProviderFavoriteUncheckedCreateWithoutProviderInput = {
+    id?: string
+    customerId: string
+    createdAt?: Date | string
+  }
+
+  export type ProviderFavoriteCreateOrConnectWithoutProviderInput = {
+    where: ProviderFavoriteWhereUniqueInput
+    create: XOR<ProviderFavoriteCreateWithoutProviderInput, ProviderFavoriteUncheckedCreateWithoutProviderInput>
+  }
+
+  export type ProviderFavoriteCreateManyProviderInputEnvelope = {
+    data: ProviderFavoriteCreateManyProviderInput | ProviderFavoriteCreateManyProviderInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutProviderProfileInput = {
     update: XOR<UserUpdateWithoutProviderProfileInput, UserUncheckedUpdateWithoutProviderProfileInput>
     create: XOR<UserCreateWithoutProviderProfileInput, UserUncheckedCreateWithoutProviderProfileInput>
@@ -18095,6 +21557,8 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUpdateManyWithoutCustomerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProviderProfileInput = {
@@ -18114,6 +21578,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type MealUpsertWithWhereUniqueWithoutProviderInput = {
@@ -18165,6 +21631,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Order"> | Date | string
   }
 
+  export type ProviderFavoriteUpsertWithWhereUniqueWithoutProviderInput = {
+    where: ProviderFavoriteWhereUniqueInput
+    update: XOR<ProviderFavoriteUpdateWithoutProviderInput, ProviderFavoriteUncheckedUpdateWithoutProviderInput>
+    create: XOR<ProviderFavoriteCreateWithoutProviderInput, ProviderFavoriteUncheckedCreateWithoutProviderInput>
+  }
+
+  export type ProviderFavoriteUpdateWithWhereUniqueWithoutProviderInput = {
+    where: ProviderFavoriteWhereUniqueInput
+    data: XOR<ProviderFavoriteUpdateWithoutProviderInput, ProviderFavoriteUncheckedUpdateWithoutProviderInput>
+  }
+
+  export type ProviderFavoriteUpdateManyWithWhereWithoutProviderInput = {
+    where: ProviderFavoriteScalarWhereInput
+    data: XOR<ProviderFavoriteUpdateManyMutationInput, ProviderFavoriteUncheckedUpdateManyWithoutProviderInput>
+  }
+
+  export type ProviderFavoriteScalarWhereInput = {
+    AND?: ProviderFavoriteScalarWhereInput | ProviderFavoriteScalarWhereInput[]
+    OR?: ProviderFavoriteScalarWhereInput[]
+    NOT?: ProviderFavoriteScalarWhereInput | ProviderFavoriteScalarWhereInput[]
+    id?: StringFilter<"ProviderFavorite"> | string
+    customerId?: StringFilter<"ProviderFavorite"> | string
+    providerId?: StringFilter<"ProviderFavorite"> | string
+    createdAt?: DateTimeFilter<"ProviderFavorite"> | Date | string
+  }
+
   export type UserCreateWithoutReviewsInput = {
     id?: string
     email: string
@@ -18182,6 +21674,8 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     providerProfile?: ProviderProfileCreateNestedOneWithoutUserInput
     orders?: OrderCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteCreateNestedManyWithoutCustomerInput
   }
 
   export type UserUncheckedCreateWithoutReviewsInput = {
@@ -18201,6 +21695,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     providerProfile?: ProviderProfileUncheckedCreateNestedOneWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutCustomerInput
+    providerFavorites?: ProviderFavoriteUncheckedCreateNestedManyWithoutCustomerInput
   }
 
   export type UserCreateOrConnectWithoutReviewsInput = {
@@ -18221,6 +21717,7 @@ export namespace Prisma {
     provider: ProviderProfileCreateNestedOneWithoutMealsInput
     category: CategoryCreateNestedOneWithoutMealsInput
     orderItems?: OrderItemCreateNestedManyWithoutMealInput
+    mealFavorites?: MealFavoriteCreateNestedManyWithoutMealInput
   }
 
   export type MealUncheckedCreateWithoutReviewsInput = {
@@ -18236,6 +21733,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutMealInput
+    mealFavorites?: MealFavoriteUncheckedCreateNestedManyWithoutMealInput
   }
 
   export type MealCreateOrConnectWithoutReviewsInput = {
@@ -18271,6 +21769,8 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     providerProfile?: ProviderProfileUpdateOneWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUpdateManyWithoutCustomerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -18290,6 +21790,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     providerProfile?: ProviderProfileUncheckedUpdateOneWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
+    providerFavorites?: ProviderFavoriteUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
   export type MealUpsertWithoutReviewsInput = {
@@ -18316,6 +21818,7 @@ export namespace Prisma {
     provider?: ProviderProfileUpdateOneRequiredWithoutMealsNestedInput
     category?: CategoryUpdateOneRequiredWithoutMealsNestedInput
     orderItems?: OrderItemUpdateManyWithoutMealNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutMealNestedInput
   }
 
   export type MealUncheckedUpdateWithoutReviewsInput = {
@@ -18331,6 +21834,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutMealNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutMealNestedInput
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -18413,6 +21917,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     meals?: MealCreateNestedManyWithoutProviderInput
     orders?: OrderCreateNestedManyWithoutProviderInput
+    providerFavorites?: ProviderFavoriteCreateNestedManyWithoutProviderInput
   }
 
   export type ProviderProfileUncheckedCreateWithoutUserInput = {
@@ -18427,6 +21932,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     meals?: MealUncheckedCreateNestedManyWithoutProviderInput
     orders?: OrderUncheckedCreateNestedManyWithoutProviderInput
+    providerFavorites?: ProviderFavoriteUncheckedCreateNestedManyWithoutProviderInput
   }
 
   export type ProviderProfileCreateOrConnectWithoutUserInput = {
@@ -18495,6 +22001,50 @@ export namespace Prisma {
 
   export type ReviewCreateManyCustomerInputEnvelope = {
     data: ReviewCreateManyCustomerInput | ReviewCreateManyCustomerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MealFavoriteCreateWithoutCustomerInput = {
+    id?: string
+    createdAt?: Date | string
+    meal: MealCreateNestedOneWithoutMealFavoritesInput
+  }
+
+  export type MealFavoriteUncheckedCreateWithoutCustomerInput = {
+    id?: string
+    mealId: string
+    createdAt?: Date | string
+  }
+
+  export type MealFavoriteCreateOrConnectWithoutCustomerInput = {
+    where: MealFavoriteWhereUniqueInput
+    create: XOR<MealFavoriteCreateWithoutCustomerInput, MealFavoriteUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type MealFavoriteCreateManyCustomerInputEnvelope = {
+    data: MealFavoriteCreateManyCustomerInput | MealFavoriteCreateManyCustomerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProviderFavoriteCreateWithoutCustomerInput = {
+    id?: string
+    createdAt?: Date | string
+    provider: ProviderProfileCreateNestedOneWithoutProviderFavoritesInput
+  }
+
+  export type ProviderFavoriteUncheckedCreateWithoutCustomerInput = {
+    id?: string
+    providerId: string
+    createdAt?: Date | string
+  }
+
+  export type ProviderFavoriteCreateOrConnectWithoutCustomerInput = {
+    where: ProviderFavoriteWhereUniqueInput
+    create: XOR<ProviderFavoriteCreateWithoutCustomerInput, ProviderFavoriteUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type ProviderFavoriteCreateManyCustomerInputEnvelope = {
+    data: ProviderFavoriteCreateManyCustomerInput | ProviderFavoriteCreateManyCustomerInput[]
     skipDuplicates?: boolean
   }
 
@@ -18585,6 +22135,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     meals?: MealUpdateManyWithoutProviderNestedInput
     orders?: OrderUpdateManyWithoutProviderNestedInput
+    providerFavorites?: ProviderFavoriteUpdateManyWithoutProviderNestedInput
   }
 
   export type ProviderProfileUncheckedUpdateWithoutUserInput = {
@@ -18599,6 +22150,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     meals?: MealUncheckedUpdateManyWithoutProviderNestedInput
     orders?: OrderUncheckedUpdateManyWithoutProviderNestedInput
+    providerFavorites?: ProviderFavoriteUncheckedUpdateManyWithoutProviderNestedInput
   }
 
   export type OrderUpsertWithWhereUniqueWithoutCustomerInput = {
@@ -18633,6 +22185,38 @@ export namespace Prisma {
     data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutCustomerInput>
   }
 
+  export type MealFavoriteUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: MealFavoriteWhereUniqueInput
+    update: XOR<MealFavoriteUpdateWithoutCustomerInput, MealFavoriteUncheckedUpdateWithoutCustomerInput>
+    create: XOR<MealFavoriteCreateWithoutCustomerInput, MealFavoriteUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type MealFavoriteUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: MealFavoriteWhereUniqueInput
+    data: XOR<MealFavoriteUpdateWithoutCustomerInput, MealFavoriteUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type MealFavoriteUpdateManyWithWhereWithoutCustomerInput = {
+    where: MealFavoriteScalarWhereInput
+    data: XOR<MealFavoriteUpdateManyMutationInput, MealFavoriteUncheckedUpdateManyWithoutCustomerInput>
+  }
+
+  export type ProviderFavoriteUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: ProviderFavoriteWhereUniqueInput
+    update: XOR<ProviderFavoriteUpdateWithoutCustomerInput, ProviderFavoriteUncheckedUpdateWithoutCustomerInput>
+    create: XOR<ProviderFavoriteCreateWithoutCustomerInput, ProviderFavoriteUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type ProviderFavoriteUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: ProviderFavoriteWhereUniqueInput
+    data: XOR<ProviderFavoriteUpdateWithoutCustomerInput, ProviderFavoriteUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type ProviderFavoriteUpdateManyWithWhereWithoutCustomerInput = {
+    where: ProviderFavoriteScalarWhereInput
+    data: XOR<ProviderFavoriteUpdateManyMutationInput, ProviderFavoriteUncheckedUpdateManyWithoutCustomerInput>
+  }
+
   export type MealCreateManyCategoryInput = {
     id?: string
     providerId: string
@@ -18659,6 +22243,7 @@ export namespace Prisma {
     provider?: ProviderProfileUpdateOneRequiredWithoutMealsNestedInput
     orderItems?: OrderItemUpdateManyWithoutMealNestedInput
     reviews?: ReviewUpdateManyWithoutMealNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutMealNestedInput
   }
 
   export type MealUncheckedUpdateWithoutCategoryInput = {
@@ -18674,6 +22259,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutMealNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutMealNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutMealNestedInput
   }
 
   export type MealUncheckedUpdateManyWithoutCategoryInput = {
@@ -18702,6 +22288,12 @@ export namespace Prisma {
     customerId: string
     rating: number
     comment?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MealFavoriteCreateManyMealInput = {
+    id?: string
+    customerId: string
     createdAt?: Date | string
   }
 
@@ -18750,6 +22342,24 @@ export namespace Prisma {
     customerId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MealFavoriteUpdateWithoutMealInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: UserUpdateOneRequiredWithoutMealFavoritesNestedInput
+  }
+
+  export type MealFavoriteUncheckedUpdateWithoutMealInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MealFavoriteUncheckedUpdateManyWithoutMealInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -18811,6 +22421,12 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ProviderFavoriteCreateManyProviderInput = {
+    id?: string
+    customerId: string
+    createdAt?: Date | string
+  }
+
   export type MealUpdateWithoutProviderInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -18824,6 +22440,7 @@ export namespace Prisma {
     category?: CategoryUpdateOneRequiredWithoutMealsNestedInput
     orderItems?: OrderItemUpdateManyWithoutMealNestedInput
     reviews?: ReviewUpdateManyWithoutMealNestedInput
+    mealFavorites?: MealFavoriteUpdateManyWithoutMealNestedInput
   }
 
   export type MealUncheckedUpdateWithoutProviderInput = {
@@ -18839,6 +22456,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutMealNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutMealNestedInput
+    mealFavorites?: MealFavoriteUncheckedUpdateManyWithoutMealNestedInput
   }
 
   export type MealUncheckedUpdateManyWithoutProviderInput = {
@@ -18895,6 +22513,24 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ProviderFavoriteUpdateWithoutProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: UserUpdateOneRequiredWithoutProviderFavoritesNestedInput
+  }
+
+  export type ProviderFavoriteUncheckedUpdateWithoutProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderFavoriteUncheckedUpdateManyWithoutProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SessionCreateManyUserInput = {
     id?: string
     token: string
@@ -18937,6 +22573,18 @@ export namespace Prisma {
     mealId: string
     rating: number
     comment?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MealFavoriteCreateManyCustomerInput = {
+    id?: string
+    mealId: string
+    createdAt?: Date | string
+  }
+
+  export type ProviderFavoriteCreateManyCustomerInput = {
+    id?: string
+    providerId: string
     createdAt?: Date | string
   }
 
@@ -19074,6 +22722,42 @@ export namespace Prisma {
     mealId?: StringFieldUpdateOperationsInput | string
     rating?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MealFavoriteUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    meal?: MealUpdateOneRequiredWithoutMealFavoritesNestedInput
+  }
+
+  export type MealFavoriteUncheckedUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mealId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MealFavoriteUncheckedUpdateManyWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mealId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderFavoriteUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    provider?: ProviderProfileUpdateOneRequiredWithoutProviderFavoritesNestedInput
+  }
+
+  export type ProviderFavoriteUncheckedUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderFavoriteUncheckedUpdateManyWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

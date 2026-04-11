@@ -3,6 +3,7 @@ import status from 'http-status';
 import { catchAsync } from '../../shared/catchAsync';
 import { sendResponse } from '../../shared/sendResponse';
 import { MealServices } from './meal.service';
+import { parsePaginationQuery } from '../../shared/queryParser';
 
 const createMeal = catchAsync(async (req: Request, res: Response) => {
   const { userId } = req.user as any;
@@ -16,25 +17,34 @@ const createMeal = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllMeals = catchAsync(async (req: Request, res: Response) => {
-  const filters: Record<string, any> = {
-    searchTerm: req.query.searchTerm as string,
-    categoryId: req.query.categoryId as string,
-    providerId: req.query.providerId as string,
-    minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
-    maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
-    dietaryTag: req.query.dietaryTag as string,
-    isAvailable: req.query.isAvailable === 'true' ? true : req.query.isAvailable === 'false' ? false : undefined,
-  };
+  const queryOptions = parsePaginationQuery(req.query, {
+    allowedSortBy: ['createdAt', 'price', 'title', 'updatedAt'],
+    allowedFilterKeys: ['categoryId', 'providerId', 'minPrice', 'maxPrice', 'dietaryTag', 'isAvailable'],
+    defaultSortBy: 'createdAt',
+    defaultSortOrder: 'desc',
+    defaultLimit: 12,
+  });
 
-  // Strip out undefined filters cleanly
-  Object.keys(filters).forEach((key) => filters[key] === undefined && delete filters[key]);
+  const result = await MealServices.getAllMeals(queryOptions, {
+    categoryId: queryOptions.filters.categoryId,
+    providerId: queryOptions.filters.providerId,
+    minPrice: queryOptions.filters.minPrice ? Number(queryOptions.filters.minPrice) : undefined,
+    maxPrice: queryOptions.filters.maxPrice ? Number(queryOptions.filters.maxPrice) : undefined,
+    dietaryTag: queryOptions.filters.dietaryTag,
+    isAvailable:
+      queryOptions.filters.isAvailable === 'true'
+        ? true
+        : queryOptions.filters.isAvailable === 'false'
+        ? false
+        : undefined,
+  });
 
-  const result = await MealServices.getAllMeals(filters);
   sendResponse(res, {
     httpStatusCode: status.OK,
     success: true,
     message: 'Meals retrieved successfully!',
-    data: result,
+    data: result.data,
+    meta: result.meta,
   });
 });
 

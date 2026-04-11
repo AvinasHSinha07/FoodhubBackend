@@ -1,8 +1,10 @@
 import status from 'http-status';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
-const getAllUsers = async (filters) => {
-    const { searchTerm, ...filterData } = filters;
+import { buildPaginationMeta } from '../../shared/queryParser';
+const getAllUsers = async (queryOptions, filters) => {
+    const { searchTerm, skip, limit, sortBy, sortOrder, page } = queryOptions;
+    const { role, status } = filters;
     const conditions = [];
     if (searchTerm) {
         conditions.push({
@@ -16,29 +18,46 @@ const getAllUsers = async (filters) => {
     }
     // Filter only ACTIVE & non-deleted users for general search
     conditions.push({ isDeleted: false });
-    if (Object.keys(filterData).length > 0) {
+    if (role) {
         conditions.push({
-            AND: Object.keys(filterData).map((key) => ({
-                [key]: {
-                    equals: filterData[key],
-                },
-            })),
+            role: {
+                equals: role,
+            },
         });
     }
-    const result = await prisma.user.findMany({
-        where: conditions.length > 0 ? { AND: conditions } : {},
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-            status: true,
-            image: true,
-            createdAt: true,
-            updatedAt: true,
-        },
-    });
-    return result;
+    if (status) {
+        conditions.push({
+            status: {
+                equals: status,
+            },
+        });
+    }
+    const whereConditions = conditions.length > 0 ? { AND: conditions } : {};
+    const [result, total] = await prisma.$transaction([
+        prisma.user.findMany({
+            where: whereConditions,
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                status: true,
+                image: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+            skip,
+            take: limit,
+            orderBy: {
+                [sortBy]: sortOrder,
+            },
+        }),
+        prisma.user.count({ where: whereConditions }),
+    ]);
+    return {
+        meta: buildPaginationMeta(page, limit, total),
+        data: result,
+    };
 };
 const getMyProfile = async (userEmail) => {
     const user = await prisma.user.findUnique({

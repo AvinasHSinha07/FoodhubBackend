@@ -13,6 +13,7 @@ model ProviderProfile {
   
   meals          Meal[]
   orders         Order[]
+  providerFavorites ProviderFavorite[]
   
   @@map("provider_profile")
 }

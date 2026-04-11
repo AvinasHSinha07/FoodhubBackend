@@ -15,6 +15,7 @@ router.post(
 
 router.get('/my-orders', auth('CUSTOMER', 'PROVIDER', 'ADMIN'), OrderController.getMyOrders);
 router.get('/:id', auth('CUSTOMER', 'PROVIDER', 'ADMIN'), OrderController.getOrderById);
+router.post('/:id/reorder', auth('CUSTOMER'), OrderController.reorderFromPrevious);
 
 router.patch(
   '/:id/status',

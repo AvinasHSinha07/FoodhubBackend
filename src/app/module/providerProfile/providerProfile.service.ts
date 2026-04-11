@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import status from 'http-status';
+import { buildPaginationMeta, TPaginationQueryOptions } from '../../shared/queryParser';
 
 const createMyProfile = async (userId: string, data: Prisma.ProviderProfileUncheckedCreateInput) => {
   const existingProfile = await prisma.providerProfile.findUnique({
@@ -43,8 +44,17 @@ const updateMyProfile = async (userId: string, data: Partial<Prisma.ProviderProf
   return result;
 };
 
-const getAllProviders = async (filters: { searchTerm?: string }) => {
-  const { searchTerm, ...filterData } = filters;
+type TProviderFilters = {
+  cuisineType?: string;
+  status?: string;
+};
+
+const getAllProviders = async (
+  queryOptions: TPaginationQueryOptions,
+  filters: TProviderFilters
+) => {
+  const { searchTerm, skip, limit, sortBy, sortOrder, page } = queryOptions;
+  const { cuisineType, status } = filters;
   const conditions: Prisma.ProviderProfileWhereInput[] = [];
 
   if (searchTerm) {
@@ -55,31 +65,55 @@ const getAllProviders = async (filters: { searchTerm?: string }) => {
     });
   }
 
-  if (Object.keys(filterData).length > 0) {
+  if (cuisineType) {
     conditions.push({
-      AND: Object.keys(filterData).map((key) => ({
-        [key]: { equals: (filterData as any)[key] },
-      })),
+      cuisineType: {
+        contains: cuisineType,
+        mode: 'insensitive',
+      },
     });
   }
 
-  const result = await prisma.providerProfile.findMany({
-    where: conditions.length > 0 ? { AND: conditions } : {},
-    include: {
+  if (status) {
+    conditions.push({
       user: {
-         select: { id: true, name: true, email: true, status: true, isDeleted: true }
+        status: {
+          equals: status as any,
+        },
       },
-      meals: {
-         include: {
-           reviews: {
-             select: { rating: true }
-           }
-         }
-      }
-    }
-  });
+    });
+  }
 
-  return result;
+  const whereConditions: Prisma.ProviderProfileWhereInput = conditions.length > 0 ? { AND: conditions } : {};
+
+  const [result, total] = await prisma.$transaction([
+    prisma.providerProfile.findMany({
+      where: whereConditions,
+      include: {
+        user: {
+          select: { id: true, name: true, status: true },
+        },
+        meals: {
+          include: {
+            reviews: {
+              select: { rating: true },
+            },
+          },
+        },
+      },
+      skip,
+      take: limit,
+      orderBy: {
+        [sortBy]: sortOrder,
+      },
+    }),
+    prisma.providerProfile.count({ where: whereConditions }),
+  ]);
+
+  return {
+    meta: buildPaginationMeta(page, limit, total),
+    data: result,
+  };
 };
 
 const getProviderById = async (id: string) => {

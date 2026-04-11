@@ -2,6 +2,7 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import status from 'http-status';
+import { buildPaginationMeta, TPaginationQueryOptions } from '../../shared/queryParser';
 
 const createMeal = async (userId: string, data: Prisma.MealUncheckedCreateInput) => {
   // Get provider profile using userId
@@ -34,8 +35,21 @@ const createMeal = async (userId: string, data: Prisma.MealUncheckedCreateInput)
   return result;
 };
 
-const getAllMeals = async (filters: { searchTerm?: string; categoryId?: string; providerId?: string; isAvailable?: boolean; minPrice?: number; maxPrice?: number; dietaryTag?: string }) => {
-  const { searchTerm, categoryId, providerId, isAvailable, minPrice, maxPrice, dietaryTag } = filters;
+type TMealFilters = {
+  categoryId?: string;
+  providerId?: string;
+  isAvailable?: boolean;
+  minPrice?: number;
+  maxPrice?: number;
+  dietaryTag?: string;
+};
+
+const getAllMeals = async (
+  queryOptions: TPaginationQueryOptions,
+  filters: TMealFilters
+) => {
+  const { searchTerm, skip, limit, sortBy, sortOrder, page } = queryOptions;
+  const { categoryId, providerId, isAvailable, minPrice, maxPrice, dietaryTag } = filters;
   const conditions: Prisma.MealWhereInput[] = [];
 
   if (searchTerm) {
@@ -54,15 +68,36 @@ const getAllMeals = async (filters: { searchTerm?: string; categoryId?: string; 
   if (minPrice !== undefined) conditions.push({ price: { gte: minPrice } });
   if (maxPrice !== undefined) conditions.push({ price: { lte: maxPrice } });
 
-  const result = await prisma.meal.findMany({
-    where: conditions.length > 0 ? { AND: conditions } : {},
-    include: {
-      category: true,
-      provider: true, // We don't really need user if we have provider name usually, but frontend type uses it
-    },
-  });
+  const whereConditions: Prisma.MealWhereInput = conditions.length > 0 ? { AND: conditions } : {};
 
-  return result;
+  const [result, total] = await prisma.$transaction([
+    prisma.meal.findMany({
+      where: whereConditions,
+      include: {
+        category: true,
+        provider: {
+          include: {
+            user: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+      skip,
+      take: limit,
+      orderBy: {
+        [sortBy]: sortOrder,
+      },
+    }),
+    prisma.meal.count({ where: whereConditions }),
+  ]);
+
+  return {
+    meta: buildPaginationMeta(page, limit, total),
+    data: result,
+  };
 };
 
 const getMealById = async (id: string) => {

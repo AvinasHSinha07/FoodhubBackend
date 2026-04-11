@@ -18,6 +18,8 @@ model User {
   providerProfile    ProviderProfile?
   orders             Order[]
   reviews            Review[]
+  mealFavorites      MealFavorite[]
+  providerFavorites  ProviderFavorite[]
 
   @@map("user")
 }

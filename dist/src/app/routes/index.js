@@ -10,6 +10,8 @@ import { AdminRoutes } from './admin.route';
 import { ProviderRoutes } from './provider.route';
 import { UploadRoutes } from '../module/upload/upload.route';
 import { PaymentRoutes } from '../module/payment/payment.route';
+import { HomeRoutes } from '../module/home/home.route';
+import { FavoriteRoutes } from '../module/favorite/favorite.route';
 const router = express.Router();
 const moduleRoutes = [
     {
@@ -27,6 +29,14 @@ const moduleRoutes = [
     {
         path: '/payments',
         route: PaymentRoutes,
+    },
+    {
+        path: '/home',
+        route: HomeRoutes,
+    },
+    {
+        path: '/favorites',
+        route: FavoriteRoutes,
     },
     // Standard Public/Customer Routes
     {

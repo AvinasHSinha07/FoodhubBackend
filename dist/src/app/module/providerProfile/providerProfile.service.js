@@ -1,6 +1,7 @@
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import status from 'http-status';
+import { buildPaginationMeta } from '../../shared/queryParser';
 const createMyProfile = async (userId, data) => {
     const existingProfile = await prisma.providerProfile.findUnique({
         where: { userId },
@@ -34,8 +35,9 @@ const updateMyProfile = async (userId, data) => {
     });
     return result;
 };
-const getAllProviders = async (filters) => {
-    const { searchTerm, ...filterData } = filters;
+const getAllProviders = async (queryOptions, filters) => {
+    const { searchTerm, skip, limit, sortBy, sortOrder, page } = queryOptions;
+    const { cuisineType, status } = filters;
     const conditions = [];
     if (searchTerm) {
         conditions.push({
@@ -44,29 +46,51 @@ const getAllProviders = async (filters) => {
             })),
         });
     }
-    if (Object.keys(filterData).length > 0) {
+    if (cuisineType) {
         conditions.push({
-            AND: Object.keys(filterData).map((key) => ({
-                [key]: { equals: filterData[key] },
-            })),
+            cuisineType: {
+                contains: cuisineType,
+                mode: 'insensitive',
+            },
         });
     }
-    const result = await prisma.providerProfile.findMany({
-        where: conditions.length > 0 ? { AND: conditions } : {},
-        include: {
+    if (status) {
+        conditions.push({
             user: {
-                select: { id: true, name: true, email: true, status: true, isDeleted: true }
+                status: {
+                    equals: status,
+                },
             },
-            meals: {
-                include: {
-                    reviews: {
-                        select: { rating: true }
-                    }
-                }
-            }
-        }
-    });
-    return result;
+        });
+    }
+    const whereConditions = conditions.length > 0 ? { AND: conditions } : {};
+    const [result, total] = await prisma.$transaction([
+        prisma.providerProfile.findMany({
+            where: whereConditions,
+            include: {
+                user: {
+                    select: { id: true, name: true, status: true },
+                },
+                meals: {
+                    include: {
+                        reviews: {
+                            select: { rating: true },
+                        },
+                    },
+                },
+            },
+            skip,
+            take: limit,
+            orderBy: {
+                [sortBy]: sortOrder,
+            },
+        }),
+        prisma.providerProfile.count({ where: whereConditions }),
+    ]);
+    return {
+        meta: buildPaginationMeta(page, limit, total),
+        data: result,
+    };
 };
 const getProviderById = async (id) => {
     const result = await prisma.providerProfile.findUnique({
