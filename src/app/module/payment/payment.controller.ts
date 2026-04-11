@@ -9,14 +9,14 @@ import AppError from '../../errorHelpers/AppError';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 const createPaymentIntent = catchAsync(async (req: Request, res: Response) => {
-  const { orderId, amount } = req.body;
+  const { orderId } = req.body;
   const userId = req.user?.userId;
 
   if (!userId) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized request');
   }
 
-  const result = await PaymentService.createPaymentIntent(userId, orderId, amount);
+  const result = await PaymentService.createPaymentIntent(userId, orderId);
 
   sendResponse(res, {
     httpStatusCode: httpStatus.OK,

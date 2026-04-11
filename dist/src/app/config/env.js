@@ -34,7 +34,18 @@ const loadEnvVariables = () => {
         JWT_SECRET: process.env.JWT_SECRET,
         JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN,
         BCRYPT_SALT_ROUNDS: process.env.BCRYPT_SALT_ROUNDS,
+        BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN: Number(process.env.BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN || 60 * 60 * 24),
+        BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE: Number(process.env.BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE || 60 * 60 * 12),
         CLIENT_URL: process.env.CLIENT_URL,
+        EMAIL_SENDER: {
+            SMTP_HOST: process.env.EMAIL_SENDER_SMTP_HOST,
+            SMTP_PORT: process.env.EMAIL_SENDER_SMTP_PORT
+                ? Number(process.env.EMAIL_SENDER_SMTP_PORT)
+                : undefined,
+            SMTP_USER: process.env.EMAIL_SENDER_SMTP_USER,
+            SMTP_PASS: process.env.EMAIL_SENDER_SMTP_PASS,
+            SMTP_FROM: process.env.EMAIL_SENDER_SMTP_FROM,
+        },
         STRIPE: {
             STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
             STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,

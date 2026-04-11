@@ -4,6 +4,7 @@ import { OrderController } from '../module/order/order.controller';
 import auth from '../middleware/auth';
 import validateRequest from '../middleware/validateRequest';
 import { MealValidation } from '../module/meal/meal.validation';
+import { OrderValidation } from '../module/order/order.validation';
 
 const router = express.Router();
 
@@ -25,7 +26,11 @@ router.put(
 router.delete('/meals/:id', auth('PROVIDER'), MealController.deleteMeal);
 
 // Order Management (Provider Only)
-// Update order status PATCH /orders/:id
-router.patch('/orders/:id', auth('PROVIDER'), OrderController.updateOrderStatus);
+router.patch(
+  '/orders/:id/status',
+  auth('PROVIDER'),
+  validateRequest(OrderValidation.updateOrderStatusZodSchema),
+  OrderController.updateOrderStatus
+);
 
 export const ProviderRoutes = router;

@@ -68,10 +68,17 @@ const getAllProviders = async (filters: { searchTerm?: string }) => {
     include: {
       user: {
          select: { id: true, name: true, email: true, status: true, isDeleted: true }
+      },
+      meals: {
+         include: {
+           reviews: {
+             select: { rating: true }
+           }
+         }
       }
     }
   });
-  
+
   return result;
 };
 
@@ -83,7 +90,20 @@ const getProviderById = async (id: string) => {
          select: { id: true, name: true, email: true, status: true, isDeleted: true }
       },
       meals: {
-         where: { isAvailable: true }
+         where: { isAvailable: true },
+         include: {
+           reviews: {
+             select: { 
+               id: true,
+               rating: true,
+               comment: true,
+               createdAt: true,
+               customer: {
+                 select: { name: true, image: true }
+               }
+             }
+           }
+         }
       }
     }
   });

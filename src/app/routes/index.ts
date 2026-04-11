@@ -41,7 +41,7 @@ const moduleRoutes = [
       route: CategoryRoutes,
     },
     {
-      path: '/providers', // Renamed from provider-profiles to match README spec
+      path: '/providers', 
       route: ProviderProfileRoutes,
     },
     {

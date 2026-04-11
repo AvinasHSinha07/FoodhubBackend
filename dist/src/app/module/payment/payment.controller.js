@@ -3,10 +3,15 @@ import { catchAsync } from '../../shared/catchAsync';
 import { sendResponse } from '../../shared/sendResponse';
 import { PaymentService } from './payment.service';
 import Stripe from 'stripe';
+import AppError from '../../errorHelpers/AppError';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const createPaymentIntent = catchAsync(async (req, res) => {
-    const { orderId, amount } = req.body;
-    const result = await PaymentService.createPaymentIntent(orderId, amount);
+    const { orderId } = req.body;
+    const userId = req.user?.userId;
+    if (!userId) {
+        throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized request');
+    }
+    const result = await PaymentService.createPaymentIntent(userId, orderId);
     sendResponse(res, {
         httpStatusCode: httpStatus.OK,
         success: true,
@@ -16,7 +21,11 @@ const createPaymentIntent = catchAsync(async (req, res) => {
 });
 const confirmPayment = catchAsync(async (req, res) => {
     const { orderId, paymentIntentId } = req.body;
-    const result = await PaymentService.confirmPayment(orderId, paymentIntentId);
+    const userId = req.user?.userId;
+    if (!userId) {
+        throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized request');
+    }
+    const result = await PaymentService.confirmPayment(userId, orderId, paymentIntentId);
     sendResponse(res, {
         httpStatusCode: httpStatus.OK,
         success: true,

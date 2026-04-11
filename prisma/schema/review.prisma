@@ -7,6 +7,8 @@ model Review {
   rating     Int
   comment    String?
   createdAt  DateTime @default(now())
+
+  @@unique([customerId, mealId])
   
   @@map("review")
 }

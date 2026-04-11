@@ -17,6 +17,14 @@ const UserStatus = {
     BLOCKED: "BLOCKED"
 } as const;
 
+const isProduction = envVars.NODE_ENV === "production";
+const sessionExpiresIn = Number.isFinite(envVars.BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN)
+    ? envVars.BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN
+    : 60 * 60 * 24;
+const sessionUpdateAge = Number.isFinite(envVars.BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE)
+    ? envVars.BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE
+    : 60 * 60 * 12;
+
 export const auth = betterAuth({
     baseURL: envVars.BETTER_AUTH_URL,
     basePath: "/api/v1/auth",
@@ -108,7 +116,7 @@ export const auth = betterAuth({
                    }
                   
                     if (user && !user.emailVerified){
-                    sendEmail({
+                    await sendEmail({
                         to : email,
                         subject : "Verify your email",
                         templateName : "otp",
@@ -124,7 +132,7 @@ export const auth = betterAuth({
                     });
 
                     if(user){
-                        sendEmail({
+                        await sendEmail({
                             to : email,
                             subject : "Password Reset OTP",
                             templateName : "otp",
@@ -142,11 +150,11 @@ export const auth = betterAuth({
     ],
 
     session: {
-        expiresIn: 60 * 60 * 60 * 24, // 1 day
-        updateAge: 60 * 60 * 60 * 24, 
+        expiresIn: sessionExpiresIn,
+        updateAge: sessionUpdateAge,
         cookieCache: {
             enabled: true,
-            maxAge: 60 * 60 * 60 * 24, 
+            maxAge: sessionExpiresIn,
         }
     },
 
@@ -154,23 +162,26 @@ export const auth = betterAuth({
         signIn : `${envVars.BETTER_AUTH_URL}/api/v1/auth/google/success`,
     },
 
-    trustedOrigins: [process.env.BETTER_AUTH_URL || "http://localhost:5000", envVars.CLIENT_URL || "http://localhost:3000"],
+    trustedOrigins: [
+        envVars.BETTER_AUTH_URL || "http://localhost:5000",
+        envVars.CLIENT_URL || "http://localhost:3000",
+    ],
 
     advanced: {
-        useSecureCookies : false,
+        useSecureCookies : isProduction,
         cookies:{
             state:{
                 attributes:{
-                    sameSite: "lax",
-                    secure: false,
+                    sameSite: isProduction ? "none" : "lax",
+                    secure: isProduction,
                     httpOnly: true,
                     path: "/",
                 }
             },
             sessionToken:{
                 attributes:{
-                    sameSite: "lax",
-                    secure: false,
+                    sameSite: isProduction ? "none" : "lax",
+                    secure: isProduction,
                     httpOnly: true,
                     path: "/",
                 }

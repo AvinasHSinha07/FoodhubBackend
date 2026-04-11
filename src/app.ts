@@ -8,6 +8,7 @@ import globalErrorHandler from './app/middleware/globalErrorHandler';
 import notFound from './app/middleware/notFound';
 
 const app: Application = express();
+const SELF_ASSIGNABLE_ROLES = new Set(['CUSTOMER', 'PROVIDER']);
 
 // Stripe Webhook MUST be placed before express.json() so it gets raw body access for signature verification
 import { PaymentController } from './app/module/payment/payment.controller';
@@ -25,6 +26,24 @@ app.use(cors({
 }));
 
 // Better-Auth Core Handler
+app.use('/api/v1/auth', (req, res, next) => {
+  if (req.method !== 'POST') {
+    return next();
+  }
+
+  const isSignUpPath = req.path.includes('sign-up');
+  if (!isSignUpPath) {
+    return next();
+  }
+
+  const role = req.body?.role;
+  if (typeof role === 'string' && !SELF_ASSIGNABLE_ROLES.has(role)) {
+    req.body.role = 'CUSTOMER';
+  }
+
+  return next();
+});
+
 app.all("/api/v1/auth/*path", toNodeHandler(auth));
 app.all("/api/v1/auth", toNodeHandler(auth));
 

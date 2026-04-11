@@ -1,8 +1,28 @@
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import status from 'http-status';
+const normalizeOrderItems = (data) => {
+    if (Array.isArray(data?.orderItems)) {
+        return data.orderItems;
+    }
+    if (Array.isArray(data?.items)) {
+        return data.items;
+    }
+    return [];
+};
+const ALLOWED_ORDER_STATUS_TRANSITIONS = {
+    PLACED: ['PREPARING', 'CANCELLED'],
+    PREPARING: ['READY', 'CANCELLED'],
+    READY: ['DELIVERED', 'CANCELLED'],
+    DELIVERED: [],
+    CANCELLED: [],
+};
 const createOrder = async (userId, data) => {
-    const { providerId, deliveryAddress, orderItems } = data;
+    const { providerId, deliveryAddress } = data;
+    const orderItems = normalizeOrderItems(data);
+    if (orderItems.length === 0) {
+        throw new AppError(status.BAD_REQUEST, 'Order must contain at least one item.');
+    }
     // Verify Provider
     const provider = await prisma.providerProfile.findUnique({
         where: { id: providerId },
@@ -18,6 +38,9 @@ const createOrder = async (userId, data) => {
             throw new AppError(status.NOT_FOUND, `Meal with ID ${item.mealId} not found.`);
         if (meal.providerId !== providerId) {
             throw new AppError(status.BAD_REQUEST, `Meal with ID ${item.mealId} does not belong to the selected provider.`);
+        }
+        if (!meal.isAvailable) {
+            throw new AppError(status.BAD_REQUEST, `Meal with ID ${item.mealId} is currently unavailable.`);
         }
         const itemTotalPrice = meal.price * item.quantity;
         totalPrice += itemTotalPrice;
@@ -115,6 +138,11 @@ const updateOrderStatus = async (id, userId, updateStatus) => {
     // Only the Provider of the order can update the status
     if (order.provider.userId !== userId) {
         throw new AppError(status.FORBIDDEN, 'Only the designated provider can update the order status!');
+    }
+    const currentStatus = order.orderStatus;
+    const allowedNextStatuses = ALLOWED_ORDER_STATUS_TRANSITIONS[currentStatus] || [];
+    if (!allowedNextStatuses.includes(updateStatus)) {
+        throw new AppError(status.BAD_REQUEST, `Invalid status transition from ${currentStatus} to ${updateStatus}.`);
     }
     const result = await prisma.order.update({
         where: { id },

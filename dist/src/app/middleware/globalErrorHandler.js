@@ -40,8 +40,8 @@ const globalErrorHandler = (err, req, res, next) => {
         success: false,
         message,
         errorSources,
-        err,
-        stack: envVars.NODE_ENV === 'development' ? err?.stack : null,
+        error: envVars.NODE_ENV === 'development' ? err : undefined,
+        stack: envVars.NODE_ENV === 'development' ? err?.stack : undefined,
     });
 };
 export default globalErrorHandler;

@@ -5,8 +5,9 @@ import status from 'http-status';
 import AppError from '../../errorHelpers/AppError';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+const TAX_AND_FEES_MULTIPLIER = 1.1;
 
-const createPaymentIntent = async (userId: string, orderId: string, amount?: number) => {
+const createPaymentIntent = async (userId: string, orderId: string) => {
   const order = await prisma.order.findUnique({
     where: { id: orderId },
   });
@@ -23,15 +24,10 @@ const createPaymentIntent = async (userId: string, orderId: string, amount?: num
     throw new AppError(status.CONFLICT, 'This order is already paid');
   }
 
-  const requestedAmount = typeof amount === 'number' ? amount : order.totalPrice;
+  const requestedAmount = Number((order.totalPrice * TAX_AND_FEES_MULTIPLIER).toFixed(2));
 
   if (!Number.isFinite(requestedAmount) || requestedAmount <= 0) {
     throw new AppError(status.BAD_REQUEST, 'Invalid payment amount');
-  }
-
-  // Never allow charging less than the persisted order value.
-  if (requestedAmount < order.totalPrice) {
-    throw new AppError(status.BAD_REQUEST, 'Payment amount cannot be lower than order total');
   }
 
   const amountInCents = Math.round(requestedAmount * 100);

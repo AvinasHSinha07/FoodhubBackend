@@ -5,6 +5,23 @@ import AppError from '../errorHelpers/AppError';
 import { auth as betterAuthInstance } from '../lib/auth';
 import { IRequestUser } from '../interfaces/requestUser.interface';
 
+const hasRequiredRole = (userRole: string, requiredRoles: string[]) => {
+  if (requiredRoles.length === 0) {
+    return true;
+  }
+
+  if (requiredRoles.includes(userRole)) {
+    return true;
+  }
+
+  // SUPER_ADMIN should implicitly satisfy ADMIN-scoped routes.
+  if (userRole === 'SUPER_ADMIN' && requiredRoles.includes('ADMIN')) {
+    return true;
+  }
+
+  return false;
+};
+
 const auth = (...requiredRoles: string[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     // 1. Get the session using better-auth
@@ -23,12 +40,12 @@ const auth = (...requiredRoles: string[]) => {
       throw new AppError(status.FORBIDDEN, 'This user is deleted!');
     }
 
-    if (user.status === 'BLOCKED') {
-      throw new AppError(status.FORBIDDEN, 'This user is blocked!');
+    if (user.status === 'BLOCKED' || user.status === 'DELETED') {
+      throw new AppError(status.FORBIDDEN, 'This user is inactive!');
     }
 
     // 3. Role Authorization
-    if (requiredRoles.length > 0 && !requiredRoles.includes(user.role as string)) {
+    if (!hasRequiredRole(user.role as string, requiredRoles)) {
       throw new AppError(status.FORBIDDEN, 'You do not have the required permissions!');
     }
 

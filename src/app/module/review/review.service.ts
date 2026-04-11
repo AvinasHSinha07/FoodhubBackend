@@ -40,26 +40,35 @@ const createReview = async (userId: string, data: Prisma.ReviewUncheckedCreateIn
     throw new AppError(status.CONFLICT, 'You have already reviewed this meal!');
   }
 
-  data.customerId = userId;
+  // Exclude orderId if it was passed from the frontend since it's not in the Review schema
+  const { orderId, ...reviewData } = data as any;
+  reviewData.customerId = userId;
 
-  const result = await prisma.review.create({
-    data,
-    include: {
-      customer: {
-        select: {
-          name: true,
-          image: true,
+  try {
+    const result = await prisma.review.create({
+      data: reviewData,
+      include: {
+        customer: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+        meal: {
+          select: {
+            title: true,
+          },
         },
       },
-      meal: {
-        select: {
-          title: true,
-        },
-      },
-    },
-  });
+    });
 
-  return result;
+    return result;
+  } catch (error: any) {
+    if (error?.code === 'P2002') {
+      throw new AppError(status.CONFLICT, 'You have already reviewed this meal!');
+    }
+    throw error;
+  }
 };
 
 const getReviewsByMeal = async (mealId: string) => {

@@ -39,7 +39,12 @@ const getOrderById = catchAsync(async (req: Request, res: Response) => {
 
 const updateOrderStatus = catchAsync(async (req: Request, res: Response) => {
   const { userId } = req.user as any;
-  const result = await OrderServices.updateOrderStatus(req.params.id as string, userId, req.body.status);
+  const normalizedStatus = req.body.status || req.body.orderStatus;
+  const result = await OrderServices.updateOrderStatus(
+    req.params.id as string,
+    userId,
+    normalizedStatus
+  );
   sendResponse(res, {
     httpStatusCode: status.OK,
     success: true,
