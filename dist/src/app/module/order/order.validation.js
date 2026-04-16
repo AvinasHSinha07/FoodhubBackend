@@ -6,8 +6,28 @@ const orderItemSchema = z.object({
 const createOrderZodSchema = z.object({
     body: z.object({
         providerId: z.string({ message: 'Provider ID is required' }),
-        deliveryAddress: z.string({ message: 'Delivery Address is required' }),
+        deliveryAddress: z.string().optional(),
+        addressId: z.string().optional(),
+        paymentMethod: z.enum(['STRIPE', 'COD']).optional(),
+        couponCode: z.string().min(2).optional(),
         // Keep backward compatibility with frontend payload naming.
+        orderItems: z.array(orderItemSchema).optional(),
+        items: z.array(orderItemSchema).optional(),
+    }).refine((data) => {
+        const normalizedItems = data.orderItems || data.items || [];
+        return normalizedItems.length > 0;
+    }, {
+        message: 'Order must contain at least one item',
+        path: ['orderItems'],
+    }).refine((data) => Boolean(data.deliveryAddress || data.addressId), {
+        message: 'Delivery address or addressId is required',
+        path: ['deliveryAddress'],
+    }),
+});
+const couponPreviewZodSchema = z.object({
+    body: z.object({
+        providerId: z.string({ message: 'Provider ID is required' }),
+        couponCode: z.string({ message: 'Coupon code is required' }),
         orderItems: z.array(orderItemSchema).optional(),
         items: z.array(orderItemSchema).optional(),
     }).refine((data) => {
@@ -29,5 +49,6 @@ const updateOrderStatusZodSchema = z.object({
 });
 export const OrderValidation = {
     createOrderZodSchema,
+    couponPreviewZodSchema,
     updateOrderStatusZodSchema,
 };

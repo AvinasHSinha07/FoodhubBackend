@@ -5,6 +5,7 @@ import auth from '../middleware/auth';
 import validateRequest from '../middleware/validateRequest';
 import { MealValidation } from '../module/meal/meal.validation';
 import { OrderValidation } from '../module/order/order.validation';
+import { AnalyticsController } from '../module/analytics/analytics.controller';
 
 const router = express.Router();
 
@@ -32,5 +33,7 @@ router.patch(
   validateRequest(OrderValidation.updateOrderStatusZodSchema),
   OrderController.updateOrderStatus
 );
+
+router.get('/analytics/overview', auth('PROVIDER'), AnalyticsController.getProviderOverview);
 
 export const ProviderRoutes = router;

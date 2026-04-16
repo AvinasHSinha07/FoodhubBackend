@@ -19,6 +19,26 @@ router.patch(
   UserController.updateMyProfile,
 );
 
+router.get('/me/addresses', auth('CUSTOMER'), UserController.getMyAddresses);
+
+router.post(
+  '/me/addresses',
+  auth('CUSTOMER'),
+  validateRequest(UserValidation.createAddressZodSchema),
+  UserController.createMyAddress
+);
+
+router.patch(
+  '/me/addresses/:id',
+  auth('CUSTOMER'),
+  validateRequest(UserValidation.updateAddressZodSchema),
+  UserController.updateMyAddress
+);
+
+router.patch('/me/addresses/:id/default', auth('CUSTOMER'), UserController.setMyDefaultAddress);
+
+router.delete('/me/addresses/:id', auth('CUSTOMER'), UserController.deleteMyAddress);
+
 router.get(
   '/',
   auth('ADMIN'), // Admin only endpoint

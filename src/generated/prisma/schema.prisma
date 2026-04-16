@@ -53,6 +53,50 @@ model Category {
   @@map("category")
 }
 
+model Coupon {
+  id                String             @id @default(uuid())
+  code              String             @unique
+  description       String?
+  discountType      CouponDiscountType
+  discountValue     Float
+  minOrderAmount    Float?
+  maxDiscountAmount Float?
+  usageLimit        Int?
+  usedCount         Int                @default(0)
+  perUserLimit      Int                @default(1)
+  isActive          Boolean            @default(true)
+  startsAt          DateTime?
+  expiresAt         DateTime?
+  providerId        String?
+  provider          ProviderProfile?   @relation(fields: [providerId], references: [id])
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  orders      Order[]
+  redemptions CouponRedemption[]
+
+  @@index([code])
+  @@index([isActive])
+  @@index([providerId])
+  @@map("coupon")
+}
+
+model CouponRedemption {
+  id             String   @id @default(uuid())
+  couponId       String
+  coupon         Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  orderId        String   @unique
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  customerId     String
+  customer       User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  discountAmount Float
+  createdAt      DateTime @default(now())
+
+  @@index([couponId])
+  @@index([customerId])
+  @@map("coupon_redemption")
+}
+
 enum Role {
   SUPER_ADMIN
   ADMIN
@@ -76,13 +120,21 @@ enum OrderStatus {
 
 enum PaymentStatus {
   PENDING
+  COD_PENDING
   PAID
+  COD_COLLECTED
   FAILED
   REFUNDED
 }
 
 enum PaymentMethod {
   STRIPE
+  COD
+}
+
+enum CouponDiscountType {
+  PERCENTAGE
+  FIXED
 }
 
 model MealFavorite {
@@ -141,6 +193,10 @@ model Order {
   customer              User            @relation(fields: [customerId], references: [id])
   providerId            String
   provider              ProviderProfile @relation(fields: [providerId], references: [id])
+  couponId              String?
+  coupon                Coupon?         @relation(fields: [couponId], references: [id])
+  subtotalPrice         Float
+  discountAmount        Float           @default(0)
   totalPrice            Float
   deliveryAddress       String
   orderStatus           OrderStatus     @default(PLACED)
@@ -150,7 +206,8 @@ model Order {
   createdAt             DateTime        @default(now())
   updatedAt             DateTime        @updatedAt
 
-  orderItems OrderItem[]
+  orderItems       OrderItem[]
+  couponRedemption CouponRedemption?
 
   @@map("order")
 }
@@ -169,23 +226,57 @@ model OrderItem {
 }
 
 model ProviderProfile {
-  id             String   @id @default(uuid())
-  userId         String   @unique
-  user           User     @relation(fields: [userId], references: [id])
-  restaurantName String
-  description    String?
-  address        String
-  cuisineType    String?
-  logo           String?
-  bannerImage    String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id                     String   @id @default(uuid())
+  userId                 String   @unique
+  user                   User     @relation(fields: [userId], references: [id])
+  restaurantName         String
+  description            String?
+  address                String
+  cuisineType            String?
+  preparationTimeMinutes Int      @default(30)
+  timezone               String   @default("UTC")
+  logo                   String?
+  bannerImage            String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 
-  meals             Meal[]
-  orders            Order[]
-  providerFavorites ProviderFavorite[]
+  meals               Meal[]
+  orders              Order[]
+  providerFavorites   ProviderFavorite[]
+  availabilityWindows ProviderAvailabilityWindow[]
+  specialClosures     ProviderSpecialClosure[]
+  coupons             Coupon[]
 
   @@map("provider_profile")
+}
+
+model ProviderAvailabilityWindow {
+  id         String          @id @default(uuid())
+  providerId String
+  provider   ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  dayOfWeek  Int
+  openTime   String
+  closeTime  String
+  isClosed   Boolean         @default(false)
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  @@unique([providerId, dayOfWeek])
+  @@index([providerId])
+  @@map("provider_availability_window")
+}
+
+model ProviderSpecialClosure {
+  id         String          @id @default(uuid())
+  providerId String
+  provider   ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  date       DateTime
+  reason     String?
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  @@index([providerId, date])
+  @@map("provider_special_closure")
 }
 
 model Review {
@@ -233,6 +324,29 @@ model User {
   reviews           Review[]
   mealFavorites     MealFavorite[]
   providerFavorites ProviderFavorite[]
+  addresses         CustomerAddress[]
+  couponRedemptions CouponRedemption[]
 
   @@map("user")
+}
+
+model CustomerAddress {
+  id           String   @id @default(uuid())
+  customerId   String
+  customer     User     @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  label        String
+  line1        String
+  line2        String?
+  city         String
+  state        String?
+  postalCode   String?
+  country      String   @default("Bangladesh")
+  instructions String?
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([customerId])
+  @@index([customerId, isDefault])
+  @@map("customer_address")
 }

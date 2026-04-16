@@ -13,6 +13,13 @@ router.post(
   OrderController.createOrder
 );
 
+router.post(
+  '/coupon-preview',
+  auth('CUSTOMER'),
+  validateRequest(OrderValidation.couponPreviewZodSchema),
+  OrderController.previewCoupon
+);
+
 router.get('/my-orders', auth('CUSTOMER', 'PROVIDER', 'ADMIN'), OrderController.getMyOrders);
 router.get('/:id', auth('CUSTOMER', 'PROVIDER', 'ADMIN'), OrderController.getOrderById);
 router.post('/:id/reorder', auth('CUSTOMER'), OrderController.reorderFromPrevious);

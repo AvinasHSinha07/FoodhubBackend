@@ -6,6 +6,9 @@ import { UserValidation } from '../module/user/user.validation';
 import auth from '../middleware/auth';
 import validateRequest from '../middleware/validateRequest';
 import { CategoryValidation } from '../module/category/category.validation';
+import { CouponController } from '../module/coupon/coupon.controller';
+import { CouponValidation } from '../module/coupon/coupon.validation';
+import { AnalyticsController } from '../module/analytics/analytics.controller';
 
 const router = express.Router();
 
@@ -20,6 +23,25 @@ router.patch(
 
 // Order Monitoring (Admin Only)
 router.get('/orders', auth('ADMIN'), OrderController.getMyOrders);
+
+// Coupon Management (Admin Only)
+router.post(
+  '/coupons',
+  auth('ADMIN'),
+  validateRequest(CouponValidation.createCouponZodSchema),
+  CouponController.createCoupon
+);
+router.get('/coupons', auth('ADMIN'), CouponController.getAllCoupons);
+router.patch(
+  '/coupons/:id',
+  auth('ADMIN'),
+  validateRequest(CouponValidation.updateCouponZodSchema),
+  CouponController.updateCoupon
+);
+router.delete('/coupons/:id', auth('ADMIN'), CouponController.deleteCoupon);
+
+// Platform Analytics (Admin Only)
+router.get('/analytics/overview', auth('ADMIN'), AnalyticsController.getAdminOverview);
 
 // Category Management (Admin Only)
 router.post(

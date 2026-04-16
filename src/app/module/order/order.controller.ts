@@ -16,6 +16,18 @@ const createOrder = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const previewCoupon = catchAsync(async (req: Request, res: Response) => {
+  const { userId } = req.user as any;
+  const result = await OrderServices.previewCoupon(userId, req.body);
+
+  sendResponse(res, {
+    httpStatusCode: status.OK,
+    success: true,
+    message: 'Coupon preview calculated successfully!',
+    data: result,
+  });
+});
+
 const getMyOrders = catchAsync(async (req: Request, res: Response) => {
   const { userId, role } = req.user as any;
   const queryOptions = parsePaginationQuery(req.query, {
@@ -81,6 +93,7 @@ const reorderFromPrevious = catchAsync(async (req: Request, res: Response) => {
 
 export const OrderController = {
   createOrder,
+  previewCoupon,
   getMyOrders,
   getOrderById,
   updateOrderStatus,

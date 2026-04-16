@@ -44,6 +44,24 @@ const confirmPayment = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const collectCodPayment = catchAsync(async (req: Request, res: Response) => {
+  const { orderId } = req.body;
+  const userId = req.user?.userId;
+
+  if (!userId) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized request');
+  }
+
+  const result = await PaymentService.markCodAsCollected(userId, orderId);
+
+  sendResponse(res, {
+    httpStatusCode: httpStatus.OK,
+    success: true,
+    message: 'COD payment marked as collected successfully',
+    data: result,
+  });
+});
+
 const handleWebhook = catchAsync(async (req: Request, res: Response) => {
   const sig = req.headers['stripe-signature'] as string;
 
@@ -67,5 +85,6 @@ const handleWebhook = catchAsync(async (req: Request, res: Response) => {
 export const PaymentController = {
   createPaymentIntent,
   confirmPayment,
+  collectCodPayment,
   handleWebhook,
 };

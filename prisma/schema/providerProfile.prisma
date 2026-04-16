@@ -6,6 +6,8 @@ model ProviderProfile {
   description    String?
   address        String
   cuisineType    String?
+  preparationTimeMinutes Int @default(30)
+  timezone       String   @default("UTC")
   logo           String?
   bannerImage    String?
   createdAt      DateTime @default(now())
@@ -14,6 +16,38 @@ model ProviderProfile {
   meals          Meal[]
   orders         Order[]
   providerFavorites ProviderFavorite[]
+  availabilityWindows ProviderAvailabilityWindow[]
+  specialClosures ProviderSpecialClosure[]
+  coupons        Coupon[]
   
   @@map("provider_profile")
+}
+
+model ProviderAvailabilityWindow {
+  id        String          @id @default(uuid())
+  providerId String
+  provider  ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  dayOfWeek Int
+  openTime  String
+  closeTime String
+  isClosed  Boolean         @default(false)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@unique([providerId, dayOfWeek])
+  @@index([providerId])
+  @@map("provider_availability_window")
+}
+
+model ProviderSpecialClosure {
+  id         String          @id @default(uuid())
+  providerId String
+  provider   ProviderProfile @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  date       DateTime
+  reason     String?
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  @@index([providerId, date])
+  @@map("provider_special_closure")
 }

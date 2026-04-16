@@ -16,4 +16,10 @@ router.post(
   PaymentController.confirmPayment
 );
 
+router.post(
+  '/cod/collect',
+  auth('PROVIDER'),
+  PaymentController.collectCodPayment
+);
+
 export const PaymentRoutes = router;

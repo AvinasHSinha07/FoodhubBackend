@@ -46,6 +46,11 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
   const { email } = req.user as any;
   const payload = req.body; // usually name, image
 
+  if ((payload as any).profileImage && !(payload as any).image) {
+    (payload as any).image = (payload as any).profileImage;
+  }
+  delete (payload as any).profileImage;
+
   // Prevent role/status/auth field injection here
   delete (payload as any).role;
   delete (payload as any).status;
@@ -58,6 +63,66 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
     httpStatusCode: status.OK,
     success: true,
     message: 'Profile updated successfully!',
+    data: result,
+  });
+});
+
+const getMyAddresses = catchAsync(async (req: Request, res: Response) => {
+  const { userId } = req.user as any;
+  const result = await UserServices.getCustomerAddresses(userId);
+
+  sendResponse(res, {
+    httpStatusCode: status.OK,
+    success: true,
+    message: 'Saved addresses retrieved successfully!',
+    data: result,
+  });
+});
+
+const createMyAddress = catchAsync(async (req: Request, res: Response) => {
+  const { userId } = req.user as any;
+  const result = await UserServices.createCustomerAddress(userId, req.body);
+
+  sendResponse(res, {
+    httpStatusCode: status.CREATED,
+    success: true,
+    message: 'Address added successfully!',
+    data: result,
+  });
+});
+
+const updateMyAddress = catchAsync(async (req: Request, res: Response) => {
+  const { userId } = req.user as any;
+  const result = await UserServices.updateCustomerAddress(userId, req.params.id as string, req.body);
+
+  sendResponse(res, {
+    httpStatusCode: status.OK,
+    success: true,
+    message: 'Address updated successfully!',
+    data: result,
+  });
+});
+
+const setMyDefaultAddress = catchAsync(async (req: Request, res: Response) => {
+  const { userId } = req.user as any;
+  const result = await UserServices.setDefaultAddress(userId, req.params.id as string);
+
+  sendResponse(res, {
+    httpStatusCode: status.OK,
+    success: true,
+    message: 'Default address updated successfully!',
+    data: result,
+  });
+});
+
+const deleteMyAddress = catchAsync(async (req: Request, res: Response) => {
+  const { userId } = req.user as any;
+  const result = await UserServices.deleteCustomerAddress(userId, req.params.id as string);
+
+  sendResponse(res, {
+    httpStatusCode: status.OK,
+    success: true,
+    message: 'Address deleted successfully!',
     data: result,
   });
 });
@@ -81,4 +146,9 @@ export const UserController = {
   getMyProfile,
   updateMyProfile,
   updateUserStatus,
+  getMyAddresses,
+  createMyAddress,
+  updateMyAddress,
+  deleteMyAddress,
+  setMyDefaultAddress,
 };

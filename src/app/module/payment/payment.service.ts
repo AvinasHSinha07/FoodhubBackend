@@ -3,6 +3,7 @@ import { prisma } from '../../lib/prisma';
 import Stripe from 'stripe';
 import status from 'http-status';
 import AppError from '../../errorHelpers/AppError';
+import { OrderStatus, PaymentMethod, PaymentStatus } from '../../../generated/prisma';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 const TAX_AND_FEES_MULTIPLIER = 1.1;
@@ -20,7 +21,11 @@ const createPaymentIntent = async (userId: string, orderId: string) => {
     throw new AppError(status.FORBIDDEN, 'You are not allowed to pay for this order');
   }
 
-  if (order.paymentStatus === 'PAID') {
+  if (order.paymentMethod !== PaymentMethod.STRIPE) {
+    throw new AppError(status.BAD_REQUEST, 'This order does not require Stripe payment.');
+  }
+
+  if (order.paymentStatus === PaymentStatus.PAID) {
     throw new AppError(status.CONFLICT, 'This order is already paid');
   }
 
@@ -59,6 +64,10 @@ const confirmPayment = async (userId: string, orderId: string, paymentIntentId: 
 
   if (order.customerId !== userId) {
     throw new AppError(status.FORBIDDEN, 'You are not allowed to confirm payment for this order');
+  }
+
+  if (order.paymentMethod !== PaymentMethod.STRIPE) {
+    throw new AppError(status.BAD_REQUEST, 'This order does not require Stripe payment.');
   }
 
   const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
@@ -106,8 +115,47 @@ const handleWebhook = async (event: Stripe.Event) => {
   }
 };
 
+const markCodAsCollected = async (providerUserId: string, orderId: string) => {
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+    include: {
+      provider: {
+        select: { userId: true },
+      },
+    },
+  });
+
+  if (!order) {
+    throw new AppError(status.NOT_FOUND, 'Order not found');
+  }
+
+  if (order.provider.userId !== providerUserId) {
+    throw new AppError(status.FORBIDDEN, 'You are not allowed to collect payment for this order');
+  }
+
+  if (order.paymentMethod !== PaymentMethod.COD) {
+    throw new AppError(status.BAD_REQUEST, 'This order is not a cash-on-delivery order');
+  }
+
+  if (order.paymentStatus === PaymentStatus.COD_COLLECTED || order.paymentStatus === PaymentStatus.PAID) {
+    throw new AppError(status.CONFLICT, 'Payment is already collected for this order');
+  }
+
+  if (order.orderStatus !== OrderStatus.READY && order.orderStatus !== OrderStatus.DELIVERED) {
+    throw new AppError(status.BAD_REQUEST, 'COD can only be collected when order is ready or delivered');
+  }
+
+  return prisma.order.update({
+    where: { id: orderId },
+    data: {
+      paymentStatus: PaymentStatus.COD_COLLECTED,
+    },
+  });
+};
+
 export const PaymentService = {
   createPaymentIntent,
   confirmPayment,
   handleWebhook,
+  markCodAsCollected,
 };

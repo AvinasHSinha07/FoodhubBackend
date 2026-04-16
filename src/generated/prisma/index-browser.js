@@ -163,6 +163,34 @@ exports.Prisma.CategoryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CouponScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  description: 'description',
+  discountType: 'discountType',
+  discountValue: 'discountValue',
+  minOrderAmount: 'minOrderAmount',
+  maxDiscountAmount: 'maxDiscountAmount',
+  usageLimit: 'usageLimit',
+  usedCount: 'usedCount',
+  perUserLimit: 'perUserLimit',
+  isActive: 'isActive',
+  startsAt: 'startsAt',
+  expiresAt: 'expiresAt',
+  providerId: 'providerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CouponRedemptionScalarFieldEnum = {
+  id: 'id',
+  couponId: 'couponId',
+  orderId: 'orderId',
+  customerId: 'customerId',
+  discountAmount: 'discountAmount',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.MealFavoriteScalarFieldEnum = {
   id: 'id',
   customerId: 'customerId',
@@ -195,6 +223,9 @@ exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   customerId: 'customerId',
   providerId: 'providerId',
+  couponId: 'couponId',
+  subtotalPrice: 'subtotalPrice',
+  discountAmount: 'discountAmount',
   totalPrice: 'totalPrice',
   deliveryAddress: 'deliveryAddress',
   orderStatus: 'orderStatus',
@@ -221,8 +252,30 @@ exports.Prisma.ProviderProfileScalarFieldEnum = {
   description: 'description',
   address: 'address',
   cuisineType: 'cuisineType',
+  preparationTimeMinutes: 'preparationTimeMinutes',
+  timezone: 'timezone',
   logo: 'logo',
   bannerImage: 'bannerImage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProviderAvailabilityWindowScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  dayOfWeek: 'dayOfWeek',
+  openTime: 'openTime',
+  closeTime: 'closeTime',
+  isClosed: 'isClosed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProviderSpecialClosureScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  date: 'date',
+  reason: 'reason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -251,6 +304,22 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CustomerAddressScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  label: 'label',
+  line1: 'line1',
+  line2: 'line2',
+  city: 'city',
+  state: 'state',
+  postalCode: 'postalCode',
+  country: 'country',
+  instructions: 'instructions',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -265,6 +334,11 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.CouponDiscountType = exports.$Enums.CouponDiscountType = {
+  PERCENTAGE: 'PERCENTAGE',
+  FIXED: 'FIXED'
+};
+
 exports.OrderStatus = exports.$Enums.OrderStatus = {
   PLACED: 'PLACED',
   PREPARING: 'PREPARING',
@@ -275,13 +349,16 @@ exports.OrderStatus = exports.$Enums.OrderStatus = {
 
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
   PENDING: 'PENDING',
+  COD_PENDING: 'COD_PENDING',
   PAID: 'PAID',
+  COD_COLLECTED: 'COD_COLLECTED',
   FAILED: 'FAILED',
   REFUNDED: 'REFUNDED'
 };
 
 exports.PaymentMethod = exports.$Enums.PaymentMethod = {
-  STRIPE: 'STRIPE'
+  STRIPE: 'STRIPE',
+  COD: 'COD'
 };
 
 exports.Role = exports.$Enums.Role = {
@@ -302,14 +379,19 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   Category: 'Category',
+  Coupon: 'Coupon',
+  CouponRedemption: 'CouponRedemption',
   MealFavorite: 'MealFavorite',
   ProviderFavorite: 'ProviderFavorite',
   Meal: 'Meal',
   Order: 'Order',
   OrderItem: 'OrderItem',
   ProviderProfile: 'ProviderProfile',
+  ProviderAvailabilityWindow: 'ProviderAvailabilityWindow',
+  ProviderSpecialClosure: 'ProviderSpecialClosure',
   Review: 'Review',
-  User: 'User'
+  User: 'User',
+  CustomerAddress: 'CustomerAddress'
 };
 
 /**

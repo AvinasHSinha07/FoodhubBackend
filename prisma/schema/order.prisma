@@ -4,6 +4,10 @@ model Order {
   customer              User            @relation(fields: [customerId], references: [id])
   providerId            String
   provider              ProviderProfile @relation(fields: [providerId], references: [id])
+  couponId              String?
+  coupon                Coupon?         @relation(fields: [couponId], references: [id])
+  subtotalPrice         Float           @default(0)
+  discountAmount        Float           @default(0)
   totalPrice            Float
   deliveryAddress       String
   orderStatus           OrderStatus     @default(PLACED)
@@ -14,6 +18,7 @@ model Order {
   updatedAt             DateTime        @updatedAt
   
   orderItems            OrderItem[]
+  couponRedemption      CouponRedemption?
   
   @@map("order")
 }

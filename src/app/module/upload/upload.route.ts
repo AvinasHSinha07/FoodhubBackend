@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post(
   '/image',
-  auth('PROVIDER', 'ADMIN'),
+  auth('CUSTOMER', 'PROVIDER', 'ADMIN'),
   upload.single('file'),
   UploadController.uploadImage
 );

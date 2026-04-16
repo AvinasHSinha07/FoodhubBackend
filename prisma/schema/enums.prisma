@@ -21,11 +21,19 @@ enum OrderStatus {
 
 enum PaymentStatus {
   PENDING
+  COD_PENDING
   PAID
+  COD_COLLECTED
   FAILED
   REFUNDED
 }
 
 enum PaymentMethod {
   STRIPE
+  COD
+}
+
+enum CouponDiscountType {
+  PERCENTAGE
+  FIXED
 }
