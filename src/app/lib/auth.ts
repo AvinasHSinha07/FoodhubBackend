@@ -119,24 +119,13 @@ export const auth = betterAuth({
     ],
 
     advanced: {
-        useSecureCookies : true,
-        cookies:{
-            state:{
-                attributes:{
-                    sameSite: "none",
-                    secure: true,
-                    httpOnly: true,
-                    path: "/",
-                }
-            },
-            sessionToken:{
-                attributes:{
-                    sameSite: "none",
-                    secure: true,
-                    httpOnly: true,
-                    path: "/",
-                }
-            }
+        defaultCookieAttributes: {
+            sameSite: "none",
+            secure: true,
+        },
+        useSecureCookies: true,
+        crossSubDomainCookies: {
+            enabled: true,
         }
     }
 });
