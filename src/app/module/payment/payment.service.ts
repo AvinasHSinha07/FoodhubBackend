@@ -3,7 +3,7 @@ import { prisma } from '../../lib/prisma';
 import Stripe from 'stripe';
 import status from 'http-status';
 import AppError from '../../errorHelpers/AppError';
-import { OrderStatus, PaymentMethod, PaymentStatus } from '../../../generated/prisma';
+import { OrderStatus, PaymentMethod, PaymentStatus } from '@prisma/client';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 const TAX_AND_FEES_MULTIPLIER = 1.1;
@@ -90,9 +90,9 @@ const confirmPayment = async (userId: string, orderId: string, paymentIntentId: 
   throw new AppError(status.BAD_REQUEST, 'Payment not successful');
 };
 
-const handleWebhook = async (event: Stripe.Event) => {
+const handleWebhook = async (event: any) => {
   if (event.type === 'payment_intent.succeeded') {
-    const paymentIntent = event.data.object as Stripe.PaymentIntent;
+    const paymentIntent = event.data.object as any;
     if (paymentIntent.metadata.orderId) {
       await prisma.order.update({
         where: { id: paymentIntent.metadata.orderId },
@@ -105,7 +105,7 @@ const handleWebhook = async (event: Stripe.Event) => {
   }
 
   if (event.type === 'payment_intent.payment_failed') {
-    const paymentIntent = event.data.object as Stripe.PaymentIntent;
+    const paymentIntent = event.data.object as any;
     if (paymentIntent.metadata.orderId) {
       await prisma.order.update({
         where: { id: paymentIntent.metadata.orderId },

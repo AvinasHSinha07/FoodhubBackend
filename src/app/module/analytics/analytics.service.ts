@@ -1,4 +1,4 @@
-import { PaymentMethod, PaymentStatus } from '../../../generated/prisma';
+import { PaymentMethod, PaymentStatus } from '@prisma/client';
 import status from 'http-status';
 import AppError from '../../errorHelpers/AppError';
 import { prisma } from '../../lib/prisma';

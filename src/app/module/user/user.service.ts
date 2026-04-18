@@ -1,7 +1,7 @@
 import status from 'http-status';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
-import { Prisma } from '../../../generated/prisma';
+import { Prisma } from '@prisma/client';
 import { buildPaginationMeta, TPaginationQueryOptions } from '../../shared/queryParser';
 
 type TCustomerAddressPayload = {

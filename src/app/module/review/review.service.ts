@@ -1,4 +1,4 @@
-import { Prisma } from '../../../generated/prisma';
+import { Prisma } from '@prisma/client';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import status from 'http-status';

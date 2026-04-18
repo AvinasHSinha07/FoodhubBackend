@@ -1,4 +1,4 @@
-import { Coupon, CouponDiscountType, OrderStatus, PaymentMethod, PaymentStatus, Prisma } from '../../../generated/prisma';
+import { Coupon, CouponDiscountType, OrderStatus, PaymentMethod, PaymentStatus, Prisma } from '@prisma/client';
 import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import status from 'http-status';
