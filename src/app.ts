@@ -72,6 +72,16 @@ app.get('/', (req: Request, res: Response) => {
   });
 });
 
+
+app.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({
+    success: true,
+    status: 'ok',
+    message: 'FoodHub backend is healthy',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Global Error Handler & Not Found Middleware
 app.use(notFound);
 app.use(globalErrorHandler);
