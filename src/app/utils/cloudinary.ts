@@ -1,12 +1,19 @@
 import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
 import fs from 'fs';
+import path from 'path';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+// Ensure uploads directory exists (Render has ephemeral filesystem)
+const uploadsDir = path.join(process.cwd(), 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 export const sendImageToCloudinary = async (
   imageName: string,
@@ -49,7 +56,7 @@ export const deleteImageFromCloudinary = async (
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, process.cwd() + '/uploads/');
+    cb(null, uploadsDir);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);

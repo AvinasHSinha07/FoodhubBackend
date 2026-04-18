@@ -1,8 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { bearer, emailOTP } from "better-auth/plugins";
+import { bearer } from "better-auth/plugins";
 import { envVars } from "../config/env";
-import { sendEmail } from "../utils/email";
 import { prisma } from "./prisma";
 
 // Mock roles since generated/prisma/enums has not been configured yet
@@ -97,56 +96,6 @@ export const auth = betterAuth({
 
     plugins: [
         bearer(),
-        emailOTP({
-            overrideDefaultEmailVerification: true,
-            async sendVerificationOTP({email, otp, type}) {
-                if(type === "email-verification"){
-                  const user = await prisma.user.findUnique({
-                    where : { email }
-                  });
-
-                   if(!user){
-                    console.error(`User with email ${email} not found. Cannot send verification OTP.`);
-                    return;
-                   }
-
-                   if(user && user.role === Role.ADMIN){
-                    console.log(`User with email ${email} is an admin. Skipping sending verification OTP.`);
-                    return;
-                   }
-                  
-                    if (user && !user.emailVerified){
-                    await sendEmail({
-                        to : email,
-                        subject : "Verify your email",
-                        templateName : "otp",
-                        templateData :{
-                            name : user.name,
-                            otp,
-                        }
-                    })
-                  }
-                }else if(type === "forget-password"){
-                    const user = await prisma.user.findUnique({
-                        where : { email }
-                    });
-
-                    if(user){
-                        await sendEmail({
-                            to : email,
-                            subject : "Password Reset OTP",
-                            templateName : "otp",
-                            templateData :{
-                                name : user.name,
-                                otp,
-                            }
-                        });
-                    }
-                }
-            },
-            expiresIn : 2 * 60, // 2 minutes in seconds
-            otpLength : 6,
-        })
     ],
 
     session: {

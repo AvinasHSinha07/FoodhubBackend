@@ -195,7 +195,7 @@ model Order {
   provider              ProviderProfile @relation(fields: [providerId], references: [id])
   couponId              String?
   coupon                Coupon?         @relation(fields: [couponId], references: [id])
-  subtotalPrice         Float
+  subtotalPrice         Float           @default(0)
   discountAmount        Float           @default(0)
   totalPrice            Float
   deliveryAddress       String

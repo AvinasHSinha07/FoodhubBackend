@@ -25110,7 +25110,7 @@ export namespace Prisma {
 
   export type OrderCreateInput = {
     id?: string
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -25132,7 +25132,7 @@ export namespace Prisma {
     customerId: string
     providerId: string
     couponId?: string | null
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -25189,7 +25189,7 @@ export namespace Prisma {
     customerId: string
     providerId: string
     couponId?: string | null
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -29114,7 +29114,7 @@ export namespace Prisma {
 
   export type OrderCreateWithoutCouponInput = {
     id?: string
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -29134,7 +29134,7 @@ export namespace Prisma {
     id?: string
     customerId: string
     providerId: string
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -29346,7 +29346,7 @@ export namespace Prisma {
 
   export type OrderCreateWithoutCouponRedemptionInput = {
     id?: string
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -29367,7 +29367,7 @@ export namespace Prisma {
     customerId: string
     providerId: string
     couponId?: string | null
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -30675,7 +30675,7 @@ export namespace Prisma {
 
   export type OrderCreateWithoutOrderItemsInput = {
     id?: string
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -30696,7 +30696,7 @@ export namespace Prisma {
     customerId: string
     providerId: string
     couponId?: string | null
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -30936,7 +30936,7 @@ export namespace Prisma {
 
   export type OrderCreateWithoutProviderInput = {
     id?: string
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -30956,7 +30956,7 @@ export namespace Prisma {
     id?: string
     customerId: string
     couponId?: string | null
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -31814,7 +31814,7 @@ export namespace Prisma {
 
   export type OrderCreateWithoutCustomerInput = {
     id?: string
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -31834,7 +31834,7 @@ export namespace Prisma {
     id?: string
     providerId: string
     couponId?: string | null
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -32394,7 +32394,7 @@ export namespace Prisma {
     id?: string
     customerId: string
     providerId: string
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -32627,7 +32627,7 @@ export namespace Prisma {
     id?: string
     customerId: string
     couponId?: string | null
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string
@@ -32936,7 +32936,7 @@ export namespace Prisma {
     id?: string
     providerId: string
     couponId?: string | null
-    subtotalPrice: number
+    subtotalPrice?: number
     discountAmount?: number
     totalPrice: number
     deliveryAddress: string

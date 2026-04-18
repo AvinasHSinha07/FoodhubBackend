@@ -16,13 +16,6 @@ interface EnvConfig {
     BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN: number;
     BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE: number;
     CLIENT_URL: string;
-    EMAIL_SENDER: {
-        SMTP_HOST?: string;
-        SMTP_PORT?: number;
-        SMTP_USER?: string;
-        SMTP_PASS?: string;
-        SMTP_FROM?: string;
-    };
     STRIPE: {
         STRIPE_SECRET_KEY: string;
         STRIPE_WEBHOOK_SECRET: string;
@@ -38,10 +31,8 @@ interface EnvConfig {
 const loadEnvVariables = (): EnvConfig => {
     const requireEnvVariable = [
         'NODE_ENV',
-        'PORT',
         'DATABASE_URL',
         'BETTER_AUTH_SECRET',
-        'BETTER_AUTH_URL',
         'JWT_SECRET',
         'JWT_EXPIRES_IN',
         'BCRYPT_SALT_ROUNDS',
@@ -62,10 +53,10 @@ const loadEnvVariables = (): EnvConfig => {
 
     return {
         NODE_ENV: process.env.NODE_ENV as string,
-        PORT: process.env.PORT as string,
+        PORT: process.env.PORT || '5000',
         DATABASE_URL: process.env.DATABASE_URL as string,
         BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET as string,
-        BETTER_AUTH_URL: process.env.BETTER_AUTH_URL as string,
+        BETTER_AUTH_URL: process.env.BETTER_AUTH_URL || process.env.RENDER_EXTERNAL_URL || 'http://localhost:5000',
         JWT_SECRET: process.env.JWT_SECRET as string,
         JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN as string,
         BCRYPT_SALT_ROUNDS: process.env.BCRYPT_SALT_ROUNDS as string,
@@ -76,15 +67,6 @@ const loadEnvVariables = (): EnvConfig => {
             process.env.BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE || 60 * 60 * 12
         ),
         CLIENT_URL: process.env.CLIENT_URL as string,
-        EMAIL_SENDER: {
-            SMTP_HOST: process.env.EMAIL_SENDER_SMTP_HOST,
-            SMTP_PORT: process.env.EMAIL_SENDER_SMTP_PORT
-                ? Number(process.env.EMAIL_SENDER_SMTP_PORT)
-                : undefined,
-            SMTP_USER: process.env.EMAIL_SENDER_SMTP_USER,
-            SMTP_PASS: process.env.EMAIL_SENDER_SMTP_PASS,
-            SMTP_FROM: process.env.EMAIL_SENDER_SMTP_FROM,
-        },
         STRIPE: {
             STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY as string,
             STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET as string,

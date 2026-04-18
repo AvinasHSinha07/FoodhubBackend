@@ -7,10 +7,17 @@ import router from './app/routes';
 import globalErrorHandler from './app/middleware/globalErrorHandler';
 import notFound from './app/middleware/notFound';
 
+
 const app: Application = express();
 const SELF_ASSIGNABLE_ROLES = new Set(['CUSTOMER', 'PROVIDER']);
 
-// Stripe Webhook MUST be placed before express.json() so it gets raw body access for signature verification
+// CORS (must be before parsers for preflight OPTIONS handling)
+app.use(cors({
+  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  credentials: true
+}));
+
+// Stripe webhook (needs raw body, before express.json)
 import { PaymentController } from './app/module/payment/payment.controller';
 app.post('/api/v1/payments/webhook', express.raw({ type: 'application/json' }), PaymentController.handleWebhook);
 
@@ -18,12 +25,6 @@ app.post('/api/v1/payments/webhook', express.raw({ type: 'application/json' }), 
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-
-// CORS
-app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
-  credentials: true
-}));
 
 // Better-Auth Core Handler
 app.use('/api/v1/auth', (req, res, next) => {
