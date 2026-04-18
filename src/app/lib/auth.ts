@@ -4,7 +4,6 @@ import { bearer } from "better-auth/plugins";
 import { envVars } from "../config/env";
 import { prisma } from "./prisma";
 
-// Mock roles since generated/prisma/enums has not been configured yet
 const Role = {
     CUSTOMER: "CUSTOMER",
     ADMIN: "ADMIN",
@@ -16,10 +15,13 @@ const UserStatus = {
     BLOCKED: "BLOCKED"
 } as const;
 
+// ✅ FIX 1: Use this flag throughout for conditional settings
 const isProduction = envVars.NODE_ENV === "production";
+
 const sessionExpiresIn = Number.isFinite(envVars.BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN)
     ? envVars.BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN
     : 60 * 60 * 24;
+
 const sessionUpdateAge = Number.isFinite(envVars.BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE)
     ? envVars.BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE
     : 60 * 60 * 12;
@@ -28,6 +30,7 @@ export const auth = betterAuth({
     baseURL: envVars.BETTER_AUTH_URL,
     basePath: "/api/v1/auth",
     secret: envVars.BETTER_AUTH_SECRET,
+
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
@@ -37,22 +40,7 @@ export const auth = betterAuth({
         requireEmailVerification: false,
     },
 
-    socialProviders: {
-        // google:{
-        //     clientId: envVars.GOOGLE_CLIENT_ID,
-        //     clientSecret: envVars.GOOGLE_CLIENT_SECRET,
-        //     mapProfileToUser: ()=>{
-        //         return {
-        //             role : Role.CUSTOMER,
-        //             status : UserStatus.ACTIVE,
-        //             needPasswordChange : false,
-        //             emailVerified : true,
-        //             isDeleted : false,
-        //             deletedAt : null,
-        //         }
-        //     }
-        // }
-    },
+    socialProviders: {},
 
     emailVerification: {
         sendOnSignUp: false,
@@ -65,37 +53,33 @@ export const auth = betterAuth({
             role: {
                 type: "string",
                 required: true,
-                defaultValue: Role.CUSTOMER
+                defaultValue: Role.CUSTOMER,
             },
-
             status: {
                 type: "string",
                 required: true,
-                defaultValue: UserStatus.ACTIVE
+                defaultValue: UserStatus.ACTIVE,
             },
-
             needPasswordChange: {
                 type: "boolean",
                 required: true,
-                defaultValue: false
+                defaultValue: false,
             },
-
             isDeleted: {
                 type: "boolean",
                 required: true,
-                defaultValue: false
+                defaultValue: false,
             },
-
             deletedAt: {
                 type: "date",
                 required: false,
-                defaultValue: null
+                defaultValue: null,
             },
-        }
+        },
     },
 
     plugins: [
-        bearer(),
+        bearer(), // allows Authorization: Bearer <token> as fallback
     ],
 
     session: {
@@ -104,28 +88,34 @@ export const auth = betterAuth({
         cookieCache: {
             enabled: true,
             maxAge: sessionExpiresIn,
-        }
+        },
     },
 
-    redirectURLs: {
-        signIn: `${envVars.BETTER_AUTH_URL}/api/v1/auth/google/success`,
-    },
-
+    // ✅ FIX 2: trustedOrigins must include exact frontend URL
     trustedOrigins: [
-        envVars.BETTER_AUTH_URL || "http://localhost:5000",
-        envVars.CLIENT_URL || "http://localhost:3000",
-        envVars.CLIENT_URL?.replace(/\/$/, '') || "http://localhost:3000",
-        "https://foodhub-frontend-vyqi.vercel.app"
+        "http://localhost:3000",
+        "http://localhost:5000",
+        "https://foodhub-frontend-vyqi.vercel.app",
+        "https://foodhubbackend-5iv9.onrender.com",
+        ...(envVars.CLIENT_URL ? [envVars.CLIENT_URL, envVars.CLIENT_URL.replace(/\/$/, "")] : []),
+        ...(envVars.BETTER_AUTH_URL ? [envVars.BETTER_AUTH_URL] : []),
     ],
 
     advanced: {
+        // ✅ FIX 3: sameSite "none" is REQUIRED for cross-origin cookies
+        // (Vercel frontend → Render backend = different domains)
         defaultCookieAttributes: {
-            sameSite: "lax",
-            secure: true,
+            sameSite: isProduction ? "none" : "lax",
+            secure: isProduction,       // required by browser when sameSite=none
+            httpOnly: true,
+            path: "/",
         },
-        useSecureCookies: false,
+        // ✅ FIX 4: useSecureCookies true in prod (adds __Secure- prefix)
+        useSecureCookies: isProduction,
+        // ✅ FIX 5: crossSubDomainCookies MUST be false
+        // Vercel and Render are completely different domains, not subdomains
         crossSubDomainCookies: {
-            enabled: true,
-        }
-    }
+            enabled: false,
+        },
+    },
 });
