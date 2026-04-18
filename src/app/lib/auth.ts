@@ -29,7 +29,7 @@ export const auth = betterAuth({
     basePath: "/api/v1/auth",
     secret: envVars.BETTER_AUTH_SECRET,
     database: prismaAdapter(prisma, {
-        provider: "postgresql", 
+        provider: "postgresql",
     }),
 
     emailAndPassword: {
@@ -37,7 +37,7 @@ export const auth = betterAuth({
         requireEmailVerification: false,
     },
 
-    socialProviders:{
+    socialProviders: {
         // google:{
         //     clientId: envVars.GOOGLE_CLIENT_ID,
         //     clientSecret: envVars.GOOGLE_CLIENT_SECRET,
@@ -54,7 +54,7 @@ export const auth = betterAuth({
         // }
     },
 
-    emailVerification:{
+    emailVerification: {
         sendOnSignUp: false,
         sendOnSignIn: false,
         autoSignInAfterVerification: false,
@@ -107,8 +107,8 @@ export const auth = betterAuth({
         }
     },
 
-    redirectURLs:{
-        signIn : `${envVars.BETTER_AUTH_URL}/api/v1/auth/google/success`,
+    redirectURLs: {
+        signIn: `${envVars.BETTER_AUTH_URL}/api/v1/auth/google/success`,
     },
 
     trustedOrigins: [
