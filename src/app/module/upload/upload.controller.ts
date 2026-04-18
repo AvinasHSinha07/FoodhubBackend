@@ -12,8 +12,9 @@ const uploadImage = catchAsync(async (req: Request, res: Response) => {
   const imageName = req.file.originalname + '-' + Date.now();
   const path = req.file.path;
 
-  const result = await sendImageToCloudinary(imageName, path);
-
+  const result = await sendImageToCloudinary(imageName, path) as any;
+  result.url = result.secure_url || result.url; // Force HTTPS url for frontend
+  
   sendResponse(res, {
     httpStatusCode: httpStatus.OK,
     success: true,

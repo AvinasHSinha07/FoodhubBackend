@@ -119,20 +119,20 @@ export const auth = betterAuth({
     ],
 
     advanced: {
-        useSecureCookies : isProduction,
+        useSecureCookies : true,
         cookies:{
             state:{
                 attributes:{
-                    sameSite: isProduction ? "none" : "lax",
-                    secure: isProduction,
+                    sameSite: "none",
+                    secure: true,
                     httpOnly: true,
                     path: "/",
                 }
             },
             sessionToken:{
                 attributes:{
-                    sameSite: isProduction ? "none" : "lax",
-                    secure: isProduction,
+                    sameSite: "none",
+                    secure: true,
                     httpOnly: true,
                     path: "/",
                 }
