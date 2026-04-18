@@ -12,8 +12,21 @@ const app: Application = express();
 const SELF_ASSIGNABLE_ROLES = new Set(['CUSTOMER', 'PROVIDER']);
 
 // CORS (must be before parsers for preflight OPTIONS handling)
+const allowedOrigins = [
+  process.env.CLIENT_URL?.replace(/\/$/, '') || 'http://localhost:3000',
+  process.env.CLIENT_URL || 'http://localhost:3000',
+  'http://localhost:3000'
+];
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      console.error(`CORS blocked request from origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 

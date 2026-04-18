@@ -114,6 +114,8 @@ export const auth = betterAuth({
     trustedOrigins: [
         envVars.BETTER_AUTH_URL || "http://localhost:5000",
         envVars.CLIENT_URL || "http://localhost:3000",
+        envVars.CLIENT_URL?.replace(/\/$/, '') || "http://localhost:3000",
+        "https://foodhub-frontend-vyqi.vercel.app"
     ],
 
     advanced: {
