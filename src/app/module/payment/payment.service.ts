@@ -8,9 +8,58 @@ import { OrderStatus, PaymentMethod, PaymentStatus } from '@prisma/client';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 const TAX_AND_FEES_MULTIPLIER = 1.1;
 
+const getOrCreateStripeCustomer = async ({
+  userId,
+  name,
+  email,
+}: {
+  userId: string;
+  name: string;
+  email: string;
+}) => {
+  const existingCustomers = await stripe.customers.list({
+    email,
+    limit: 10,
+  });
+
+  const matchedCustomer =
+    existingCustomers.data.find((customer) => customer.metadata?.appUserId === userId) ||
+    existingCustomers.data[0];
+
+  if (matchedCustomer) {
+    if (matchedCustomer.name !== name || matchedCustomer.metadata?.appUserId !== userId) {
+      return stripe.customers.update(matchedCustomer.id, {
+        name,
+        metadata: {
+          ...matchedCustomer.metadata,
+          appUserId: userId,
+        },
+      });
+    }
+
+    return matchedCustomer;
+  }
+
+  return stripe.customers.create({
+    name,
+    email,
+    metadata: {
+      appUserId: userId,
+    },
+  });
+};
+
 const createPaymentIntent = async (userId: string, orderId: string) => {
   const order = await prisma.order.findUnique({
     where: { id: orderId },
+    include: {
+      customer: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+    },
   });
 
   if (!order) {
@@ -36,11 +85,19 @@ const createPaymentIntent = async (userId: string, orderId: string) => {
   }
 
   const amountInCents = Math.round(requestedAmount * 100);
+  const stripeCustomer = await getOrCreateStripeCustomer({
+    userId,
+    name: order.customer.name,
+    email: order.customer.email,
+  });
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: amountInCents,
     currency: 'usd',
     payment_method_types: ['card'],
+    customer: stripeCustomer.id,
+    receipt_email: order.customer.email,
+    description: `Foodhub order ${orderId}`,
     metadata: {
       orderId,
       customerId: userId,
