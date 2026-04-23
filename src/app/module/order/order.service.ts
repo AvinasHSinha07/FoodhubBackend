@@ -3,6 +3,7 @@ import { prisma } from '../../lib/prisma';
 import AppError from '../../errorHelpers/AppError';
 import status from 'http-status';
 import { buildPaginationMeta, TPaginationQueryOptions } from '../../shared/queryParser';
+import { computeOrderFinancialSnapshot } from '../../utils/revenue';
 
 type IncomingOrderItem = {
   mealId: string;
@@ -326,7 +327,8 @@ const ALLOWED_ORDER_STATUS_TRANSITIONS: Record<string, string[]> = {
 
 const createOrder = async (userId: string, data: any) => {
   const normalizedData = normalizeOrderData(data);
-  const { providerId, paymentMethod, couponCode, items } = normalizedData;
+  const { providerId, couponCode, items } = normalizedData;
+  const paymentMethod = normalizedData.paymentMethod || PaymentMethod.STRIPE;
   const deliveryAddress = await resolveDeliveryAddress(userId, normalizedData);
 
   if (items.length === 0) {
@@ -343,6 +345,12 @@ const createOrder = async (userId: string, data: any) => {
 
     const discountAmount = couponMeta.discountAmount;
     const totalPrice = Number(Math.max(0, subtotalPrice - discountAmount).toFixed(2));
+    const revenueSnapshot = computeOrderFinancialSnapshot({
+      totalPrice,
+      discountAmount,
+      paymentMethod,
+      couponProviderId: couponMeta.coupon?.providerId,
+    });
 
     const order = await tx.order.create({
       data: {
@@ -355,6 +363,7 @@ const createOrder = async (userId: string, data: any) => {
         totalPrice,
         paymentMethod,
         paymentStatus: paymentMethod === PaymentMethod.COD ? PaymentStatus.COD_PENDING : PaymentStatus.PENDING,
+        ...revenueSnapshot,
         orderItems: {
           createMany: {
             data: processedOrderItems,

@@ -2,6 +2,7 @@ import { PaymentMethod, PaymentStatus } from '@prisma/client';
 import status from 'http-status';
 import AppError from '../../errorHelpers/AppError';
 import { prisma } from '../../lib/prisma';
+import { computeOrderFinancialSnapshot, isSettledPaymentStatus } from '../../utils/revenue';
 
 const getRangeStartDate = (days: number) => {
   const safeDays = Number.isFinite(days) && days > 0 ? Math.min(Math.floor(days), 365) : 30;
@@ -25,14 +26,61 @@ const buildDateBuckets = (startDate: Date, endDate: Date) => {
   return buckets;
 };
 
-const computeRevenue = (orders: Array<{ totalPrice: number; paymentStatus: PaymentStatus }>) => {
-  return orders
-    .filter(
-      (order) =>
-        order.paymentStatus === PaymentStatus.PAID ||
-        order.paymentStatus === PaymentStatus.COD_COLLECTED
-    )
-    .reduce((sum, order) => sum + order.totalPrice, 0);
+const toMoney = (value: number) => Number(value.toFixed(2));
+
+type TRevenueSnapshot = {
+  adminGrossRevenue: number;
+  adminNetRevenue: number;
+  providerGrossEarning: number;
+  providerNetPayout: number;
+};
+
+const resolveRevenueSnapshot = (order: {
+  totalPrice: number;
+  discountAmount: number;
+  paymentMethod: PaymentMethod;
+  platformFeeRate: number;
+  platformFeeAmount: number;
+  serviceFeeAmount: number;
+  paymentGatewayFeeAmount: number;
+  adminCouponSubsidyAmount: number;
+  providerCouponShareAmount: number;
+  refundCostToAdmin: number;
+  refundCostToProvider: number;
+  adminGrossRevenue: number;
+  adminNetRevenue: number;
+  providerGrossEarning: number;
+  providerNetPayout: number;
+  customerPaidAmount: number;
+  coupon?: { providerId: string | null } | null;
+}): TRevenueSnapshot => {
+  const hasSnapshotData =
+    order.adminGrossRevenue !== 0 ||
+    order.adminNetRevenue !== 0 ||
+    order.providerGrossEarning !== 0 ||
+    order.providerNetPayout !== 0 ||
+    order.platformFeeAmount !== 0 ||
+    order.customerPaidAmount !== 0;
+
+  if (hasSnapshotData || order.totalPrice === 0) {
+    return {
+      adminGrossRevenue: order.adminGrossRevenue,
+      adminNetRevenue: order.adminNetRevenue,
+      providerGrossEarning: order.providerGrossEarning,
+      providerNetPayout: order.providerNetPayout,
+    };
+  }
+
+  return computeOrderFinancialSnapshot({
+    totalPrice: order.totalPrice,
+    discountAmount: order.discountAmount,
+    paymentMethod: order.paymentMethod,
+    couponProviderId: order.coupon?.providerId,
+    customerPaidAmount: order.customerPaidAmount || undefined,
+    platformFeeRate: order.platformFeeRate,
+    refundCostToAdmin: order.refundCostToAdmin,
+    refundCostToProvider: order.refundCostToProvider,
+  });
 };
 
 const getAdminOverviewAnalytics = async (days: number) => {
@@ -49,9 +97,28 @@ const getAdminOverviewAnalytics = async (days: number) => {
       id: true,
       createdAt: true,
       totalPrice: true,
+      discountAmount: true,
       paymentMethod: true,
       paymentStatus: true,
       orderStatus: true,
+      platformFeeRate: true,
+      platformFeeAmount: true,
+      serviceFeeAmount: true,
+      paymentGatewayFeeAmount: true,
+      adminCouponSubsidyAmount: true,
+      providerCouponShareAmount: true,
+      refundCostToAdmin: true,
+      refundCostToProvider: true,
+      adminGrossRevenue: true,
+      adminNetRevenue: true,
+      providerGrossEarning: true,
+      providerNetPayout: true,
+      customerPaidAmount: true,
+      coupon: {
+        select: {
+          providerId: true,
+        },
+      },
       provider: {
         select: {
           id: true,
@@ -71,17 +138,20 @@ const getAdminOverviewAnalytics = async (days: number) => {
     { providerId: string; restaurantName: string; orders: number; revenue: number }
   >();
 
+  let gmv = 0;
+  let adminGrossRevenue = 0;
+  let adminNetRevenue = 0;
+
   orders.forEach((order) => {
+    const settled = isSettledPaymentStatus(order.paymentStatus);
+    const snapshot = resolveRevenueSnapshot(order);
     const dateKey = toDateKey(order.createdAt);
     const existing = ordersByDayMap.get(dateKey);
 
     if (existing) {
       existing.orders += 1;
-      if (
-        order.paymentStatus === PaymentStatus.PAID ||
-        order.paymentStatus === PaymentStatus.COD_COLLECTED
-      ) {
-        existing.revenue += order.totalPrice;
+      if (settled) {
+        existing.revenue += snapshot.adminNetRevenue;
       }
     }
 
@@ -93,11 +163,11 @@ const getAdminOverviewAnalytics = async (days: number) => {
     };
 
     providerStats.orders += 1;
-    if (
-      order.paymentStatus === PaymentStatus.PAID ||
-      order.paymentStatus === PaymentStatus.COD_COLLECTED
-    ) {
-      providerStats.revenue += order.totalPrice;
+    if (settled) {
+      providerStats.revenue += snapshot.providerNetPayout;
+      gmv += order.totalPrice;
+      adminGrossRevenue += snapshot.adminGrossRevenue;
+      adminNetRevenue += snapshot.adminNetRevenue;
     }
 
     providerPerformanceMap.set(order.provider.id, providerStats);
@@ -118,20 +188,20 @@ const getAdminOverviewAnalytics = async (days: number) => {
     orderStatusBreakdownMap.set(order.orderStatus, (orderStatusBreakdownMap.get(order.orderStatus) || 0) + 1);
   });
 
-  const totalRevenue = computeRevenue(orders);
+  const paidOrders = orders.filter((order) => isSettledPaymentStatus(order.paymentStatus)).length;
+  const pendingPayments = orders.filter((order) =>
+    order.paymentStatus === PaymentStatus.PENDING || order.paymentStatus === PaymentStatus.COD_PENDING
+  ).length;
 
   return {
     summary: {
       totalOrders: orders.length,
-      totalRevenue: Number(totalRevenue.toFixed(2)),
-      paidOrders: orders.filter((order) =>
-        order.paymentStatus === PaymentStatus.PAID ||
-        order.paymentStatus === PaymentStatus.COD_COLLECTED
-      ).length,
-      pendingPayments: orders.filter((order) =>
-        order.paymentStatus === PaymentStatus.PENDING ||
-        order.paymentStatus === PaymentStatus.COD_PENDING
-      ).length,
+      totalRevenue: toMoney(adminNetRevenue),
+      gmv: toMoney(gmv),
+      adminGrossRevenue: toMoney(adminGrossRevenue),
+      adminNetRevenue: toMoney(adminNetRevenue),
+      paidOrders,
+      pendingPayments,
     },
     ordersByDay: Array.from(ordersByDayMap.entries()).map(([date, value]) => ({
       date,
@@ -181,9 +251,28 @@ const getProviderOverviewAnalytics = async (providerUserId: string, days: number
       id: true,
       createdAt: true,
       totalPrice: true,
+      discountAmount: true,
       paymentMethod: true,
       paymentStatus: true,
       orderStatus: true,
+      platformFeeRate: true,
+      platformFeeAmount: true,
+      serviceFeeAmount: true,
+      paymentGatewayFeeAmount: true,
+      adminCouponSubsidyAmount: true,
+      providerCouponShareAmount: true,
+      refundCostToAdmin: true,
+      refundCostToProvider: true,
+      adminGrossRevenue: true,
+      adminNetRevenue: true,
+      providerGrossEarning: true,
+      providerNetPayout: true,
+      customerPaidAmount: true,
+      coupon: {
+        select: {
+          providerId: true,
+        },
+      },
       orderItems: {
         select: {
           mealId: true,
@@ -206,18 +295,31 @@ const getProviderOverviewAnalytics = async (providerUserId: string, days: number
 
   const topMealsMap = new Map<string, { mealId: string; title: string; quantity: number; revenue: number }>();
 
+  let gmv = 0;
+  let providerGrossEarning = 0;
+  let providerNetPayout = 0;
+
   orders.forEach((order) => {
+    const settled = isSettledPaymentStatus(order.paymentStatus);
+    const snapshot = resolveRevenueSnapshot(order);
     const dateKey = toDateKey(order.createdAt);
     const existing = ordersByDayMap.get(dateKey);
 
     if (existing) {
       existing.orders += 1;
-      if (
-        order.paymentStatus === PaymentStatus.PAID ||
-        order.paymentStatus === PaymentStatus.COD_COLLECTED
-      ) {
-        existing.revenue += order.totalPrice;
+      if (settled) {
+        existing.revenue += snapshot.providerNetPayout;
       }
+    }
+
+    if (settled) {
+      gmv += order.totalPrice;
+      providerGrossEarning += snapshot.providerGrossEarning;
+      providerNetPayout += snapshot.providerNetPayout;
+    }
+
+    if (!settled) {
+      return;
     }
 
     order.orderItems.forEach((item) => {
@@ -240,21 +342,21 @@ const getProviderOverviewAnalytics = async (providerUserId: string, days: number
     count: orders.filter((order) => order.paymentStatus === paymentStatus).length,
   }));
 
-  const totalRevenue = computeRevenue(orders);
+  const paidOrders = orders.filter((order) => isSettledPaymentStatus(order.paymentStatus)).length;
+  const pendingPayments = orders.filter((order) =>
+    order.paymentStatus === PaymentStatus.PENDING || order.paymentStatus === PaymentStatus.COD_PENDING
+  ).length;
 
   return {
     provider,
     summary: {
       totalOrders: orders.length,
-      totalRevenue: Number(totalRevenue.toFixed(2)),
-      paidOrders: orders.filter((order) =>
-        order.paymentStatus === PaymentStatus.PAID ||
-        order.paymentStatus === PaymentStatus.COD_COLLECTED
-      ).length,
-      pendingPayments: orders.filter((order) =>
-        order.paymentStatus === PaymentStatus.PENDING ||
-        order.paymentStatus === PaymentStatus.COD_PENDING
-      ).length,
+      totalRevenue: toMoney(providerNetPayout),
+      gmv: toMoney(gmv),
+      providerGrossEarning: toMoney(providerGrossEarning),
+      providerNetPayout: toMoney(providerNetPayout),
+      paidOrders,
+      pendingPayments,
     },
     ordersByDay: Array.from(ordersByDayMap.entries()).map(([date, value]) => ({
       date,

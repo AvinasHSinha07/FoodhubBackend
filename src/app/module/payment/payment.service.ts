@@ -4,9 +4,53 @@ import Stripe from 'stripe';
 import status from 'http-status';
 import AppError from '../../errorHelpers/AppError';
 import { OrderStatus, PaymentMethod, PaymentStatus } from '@prisma/client';
+import {
+  computeOrderFinancialSnapshot,
+  STRIPE_CUSTOMER_CHARGE_MULTIPLIER,
+} from '../../utils/revenue';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-const TAX_AND_FEES_MULTIPLIER = 1.1;
+const toMoney = (value: number) => Number(value.toFixed(2));
+
+type TStripePaymentIntentLike = {
+  id: string;
+  amount: number;
+  amount_received: number;
+  metadata: Record<string, string>;
+  status: string;
+};
+
+const resolveCapturedCustomerAmount = (paymentIntent: TStripePaymentIntentLike) => {
+  const capturedAmountInCents = paymentIntent.amount_received || paymentIntent.amount;
+  return toMoney(capturedAmountInCents / 100);
+};
+
+const buildSettledSnapshot = ({
+  order,
+  customerPaidAmount,
+}: {
+  order: {
+    totalPrice: number;
+    discountAmount: number;
+    paymentMethod: PaymentMethod;
+    coupon: { providerId: string | null } | null;
+    refundCostToAdmin: number;
+    refundCostToProvider: number;
+    platformFeeRate: number;
+  };
+  customerPaidAmount?: number;
+}) => {
+  return computeOrderFinancialSnapshot({
+    totalPrice: order.totalPrice,
+    discountAmount: order.discountAmount,
+    paymentMethod: order.paymentMethod,
+    couponProviderId: order.coupon?.providerId,
+    customerPaidAmount,
+    platformFeeRate: order.platformFeeRate,
+    refundCostToAdmin: order.refundCostToAdmin,
+    refundCostToProvider: order.refundCostToProvider,
+  });
+};
 
 const getOrCreateStripeCustomer = async ({
   userId,
@@ -78,7 +122,10 @@ const createPaymentIntent = async (userId: string, orderId: string) => {
     throw new AppError(status.CONFLICT, 'This order is already paid');
   }
 
-  const requestedAmount = Number((order.totalPrice * TAX_AND_FEES_MULTIPLIER).toFixed(2));
+  const requestedAmount =
+    order.customerPaidAmount > 0
+      ? order.customerPaidAmount
+      : Number((order.totalPrice * STRIPE_CUSTOMER_CHARGE_MULTIPLIER).toFixed(2));
 
   if (!Number.isFinite(requestedAmount) || requestedAmount <= 0) {
     throw new AppError(status.BAD_REQUEST, 'Invalid payment amount');
@@ -113,6 +160,13 @@ const createPaymentIntent = async (userId: string, orderId: string) => {
 const confirmPayment = async (userId: string, orderId: string, paymentIntentId: string) => {
   const order = await prisma.order.findUnique({
     where: { id: orderId },
+    include: {
+      coupon: {
+        select: {
+          providerId: true,
+        },
+      },
+    },
   });
 
   if (!order) {
@@ -134,11 +188,17 @@ const confirmPayment = async (userId: string, orderId: string, paymentIntentId: 
   }
 
   if (paymentIntent.status === 'succeeded') {
+    const settledSnapshot = buildSettledSnapshot({
+      order,
+      customerPaidAmount: resolveCapturedCustomerAmount(paymentIntent),
+    });
+
     const updatedOrder = await prisma.order.update({
       where: { id: orderId },
       data: {
-        paymentStatus: 'PAID',
+        paymentStatus: PaymentStatus.PAID,
         stripePaymentIntentId: paymentIntent.id,
+        ...settledSnapshot,
       },
     });
     return updatedOrder;
@@ -149,24 +209,45 @@ const confirmPayment = async (userId: string, orderId: string, paymentIntentId: 
 
 const handleWebhook = async (event: any) => {
   if (event.type === 'payment_intent.succeeded') {
-    const paymentIntent = event.data.object as any;
+    const paymentIntent = event.data.object as TStripePaymentIntentLike;
     if (paymentIntent.metadata.orderId) {
+      const order = await prisma.order.findUnique({
+        where: { id: paymentIntent.metadata.orderId },
+        include: {
+          coupon: {
+            select: {
+              providerId: true,
+            },
+          },
+        },
+      });
+
+      if (!order) {
+        return;
+      }
+
+      const settledSnapshot = buildSettledSnapshot({
+        order,
+        customerPaidAmount: resolveCapturedCustomerAmount(paymentIntent),
+      });
+
       await prisma.order.update({
         where: { id: paymentIntent.metadata.orderId },
         data: {
-          paymentStatus: 'PAID',
+          paymentStatus: PaymentStatus.PAID,
           stripePaymentIntentId: paymentIntent.id,
+          ...settledSnapshot,
         },
       });
     }
   }
 
   if (event.type === 'payment_intent.payment_failed') {
-    const paymentIntent = event.data.object as any;
+    const paymentIntent = event.data.object as TStripePaymentIntentLike;
     if (paymentIntent.metadata.orderId) {
       await prisma.order.update({
         where: { id: paymentIntent.metadata.orderId },
-        data: { paymentStatus: 'FAILED' },
+        data: { paymentStatus: PaymentStatus.FAILED },
       });
     }
   }
@@ -178,6 +259,11 @@ const markCodAsCollected = async (providerUserId: string, orderId: string) => {
     include: {
       provider: {
         select: { userId: true },
+      },
+      coupon: {
+        select: {
+          providerId: true,
+        },
       },
     },
   });
@@ -202,10 +288,16 @@ const markCodAsCollected = async (providerUserId: string, orderId: string) => {
     throw new AppError(status.BAD_REQUEST, 'COD can only be collected when order is ready or delivered');
   }
 
+  const settledSnapshot = buildSettledSnapshot({
+    order,
+    customerPaidAmount: order.totalPrice,
+  });
+
   return prisma.order.update({
     where: { id: orderId },
     data: {
       paymentStatus: PaymentStatus.COD_COLLECTED,
+      ...settledSnapshot,
     },
   });
 };
