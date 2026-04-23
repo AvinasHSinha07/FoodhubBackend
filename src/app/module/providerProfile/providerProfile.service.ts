@@ -327,7 +327,7 @@ const getAllProviders = async (
       where: whereConditions,
       include: {
         user: {
-          select: { id: true, name: true, status: true },
+          select: { id: true, name: true, email: true, status: true },
         },
         meals: {
           include: {
