@@ -45,6 +45,7 @@ model OrderItem {
   quantity   Int
   unitPrice  Float
   totalPrice Float
+  review     Review?
   
   @@map("order_item")
 }

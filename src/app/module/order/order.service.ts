@@ -492,7 +492,12 @@ const getMyOrders = async (
           include: {
             meal: {
               select: { title: true, price: true, image: true, providerId: true }
-            }
+            },
+            review: {
+              select: {
+                id: true,
+              },
+            },
           }
         },
         customer: { select: { name: true, email: true } },
@@ -526,7 +531,14 @@ const getOrderById = async (id: string, userId: string, role: string) => {
     where: { id },
     include: {
       orderItems: {
-        include: { meal: { select: { title: true } } }
+        include: {
+          meal: { select: { title: true } },
+          review: {
+            select: {
+              id: true,
+            },
+          },
+        }
       },
       customer: { select: { name: true, email: true } },
       provider: { select: { restaurantName: true, userId: true } },

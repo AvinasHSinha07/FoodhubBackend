@@ -4,49 +4,56 @@ import AppError from '../../errorHelpers/AppError';
 import status from 'http-status';
 
 const createReview = async (userId: string, data: Prisma.ReviewUncheckedCreateInput) => {
+  const { orderItemId, mealId, rating, comment } = data as any;
+
+  if (!orderItemId) {
+    throw new AppError(status.BAD_REQUEST, 'Order item ID is required!');
+  }
+
   // Check if meal exists
   const meal = await prisma.meal.findUnique({
-    where: { id: data.mealId as string },
+    where: { id: mealId as string },
   });
 
   if (!meal) {
     throw new AppError(status.NOT_FOUND, 'Meal not found!');
   }
 
-  // Check if the user has ordered the meal before they can review it
-  const hasOrdered = await prisma.orderItem.findFirst({
+  // Ensure the order item belongs to the customer, matches the meal, and was delivered.
+  const orderItem = await prisma.orderItem.findFirst({
     where: {
-      mealId: data.mealId as string,
+      id: orderItemId as string,
+      mealId: mealId as string,
       order: {
         customerId: userId,
-        orderStatus: 'DELIVERED', // Must explicitly be delivered
+        orderStatus: 'DELIVERED',
       },
     },
   });
 
-  if (!hasOrdered) {
-    throw new AppError(status.FORBIDDEN, 'You can only review meals you have successfully ordered and received.');
+  if (!orderItem) {
+    throw new AppError(status.FORBIDDEN, 'You can only review delivered meals from your own orders.');
   }
 
-  // Check if user already reviewed this meal
-  const existingReview = await prisma.review.findFirst({
+  const existingReview = await prisma.review.findUnique({
     where: {
-      customerId: userId,
-      mealId: data.mealId as string,
+      orderItemId: orderItemId as string,
     },
   });
 
   if (existingReview) {
-    throw new AppError(status.CONFLICT, 'You have already reviewed this meal!');
+    throw new AppError(status.CONFLICT, 'You have already reviewed this ordered item.');
   }
-
-  // Exclude orderId if it was passed from the frontend since it's not in the Review schema
-  const { orderId, ...reviewData } = data as any;
-  reviewData.customerId = userId;
 
   try {
     const result = await prisma.review.create({
-      data: reviewData,
+      data: {
+        customerId: userId,
+        mealId: mealId as string,
+        orderItemId: orderItemId as string,
+        rating: Number(rating),
+        comment,
+      },
       include: {
         customer: {
           select: {
@@ -65,7 +72,7 @@ const createReview = async (userId: string, data: Prisma.ReviewUncheckedCreateIn
     return result;
   } catch (error: any) {
     if (error?.code === 'P2002') {
-      throw new AppError(status.CONFLICT, 'You have already reviewed this meal!');
+      throw new AppError(status.CONFLICT, 'You have already reviewed this ordered item.');
     }
     throw error;
   }

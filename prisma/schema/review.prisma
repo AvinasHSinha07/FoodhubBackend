@@ -2,13 +2,13 @@ model Review {
   id         String   @id @default(uuid())
   customerId String
   customer   User     @relation(fields: [customerId], references: [id])
+  orderItemId String?  @unique
+  orderItem   OrderItem? @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
   mealId     String
   meal       Meal     @relation(fields: [mealId], references: [id], onDelete: Cascade)
   rating     Int
   comment    String?
   createdAt  DateTime @default(now())
-
-  @@unique([customerId, mealId])
   
   @@map("review")
 }
