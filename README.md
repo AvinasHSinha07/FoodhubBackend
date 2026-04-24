@@ -7,6 +7,10 @@ FoodHub Backend is a highly secure, scalable, role-based RESTful API that powers
 - **Backend API Live URL**: [https://foodhubbackend-5iv9.onrender.com/](https://foodhubbackend-5iv9.onrender.com/)
 - **Frontend Live URL**: [https://foodhub-frontend-vyqi.vercel.app/](https://foodhub-frontend-vyqi.vercel.app/)
 
+## 🔑 Admin Credentials
+- **Email**: `avi@gmail.com`
+- **Password**: `asdfghjk`
+
 ## ✨ Comprehensive Features
 
 ### Robust Authentication & Security
