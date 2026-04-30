@@ -13,6 +13,7 @@ import { UploadRoutes } from '../module/upload/upload.route';
 import { PaymentRoutes } from '../module/payment/payment.route';
 import { HomeRoutes } from '../module/home/home.route';
 import { FavoriteRoutes } from '../module/favorite/favorite.route';
+import { ChatRoutes } from '../module/chat/chat.route';
 
 const router = express.Router();
 
@@ -40,6 +41,10 @@ const moduleRoutes = [
     {
       path: '/favorites',
       route: FavoriteRoutes,
+    },
+    {
+      path: '/chat',
+      route: ChatRoutes,
     },
     // Standard Public/Customer Routes
     {

@@ -26,6 +26,7 @@ interface EnvConfig {
         CLOUDINARY_API_KEY: string;
         CLOUDINARY_API_SECRET: string;
     };
+    GEMINI_API_KEY: string;
 }
 
 const loadEnvVariables = (): EnvConfig => {
@@ -42,7 +43,9 @@ const loadEnvVariables = (): EnvConfig => {
         'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY',
         'CLOUDINARY_CLOUD_NAME',
         'CLOUDINARY_API_KEY',
-        'CLOUDINARY_API_SECRET'
+        'CLOUDINARY_API_SECRET',
+        'GEMINI_API_KEY'
+        
     ];
 
     requireEnvVariable.forEach((variable) => {
@@ -53,6 +56,7 @@ const loadEnvVariables = (): EnvConfig => {
 
     return {
         NODE_ENV: process.env.NODE_ENV as string,
+        
         PORT: process.env.PORT || '5000',
         DATABASE_URL: process.env.DATABASE_URL as string,
         BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET as string,
@@ -77,6 +81,7 @@ const loadEnvVariables = (): EnvConfig => {
             CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string,
             CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
         },
+        GEMINI_API_KEY: process.env.GEMINI_API_KEY as string,
     };
 };
 
