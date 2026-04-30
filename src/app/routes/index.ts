@@ -14,6 +14,7 @@ import { PaymentRoutes } from '../module/payment/payment.route';
 import { HomeRoutes } from '../module/home/home.route';
 import { FavoriteRoutes } from '../module/favorite/favorite.route';
 import { ChatRoutes } from '../module/chat/chat.route';
+import { SearchRoutes } from '../module/search/search.route';
 
 const router = express.Router();
 
@@ -45,6 +46,10 @@ const moduleRoutes = [
     {
       path: '/chat',
       route: ChatRoutes,
+    },
+    {
+      path: '/search',
+      route: SearchRoutes,
     },
     // Standard Public/Customer Routes
     {
