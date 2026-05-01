@@ -39,7 +39,20 @@ const getProviderOverview = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAdminAiInsights = catchAsync(async (req: Request, res: Response) => {
+  const days = toDays(req.query.days);
+  const insight = await AnalyticsServices.getAdminAiInsights(days);
+
+  sendResponse(res, {
+    httpStatusCode: status.OK,
+    success: true,
+    message: 'AI insights generated successfully.',
+    data: { insight },
+  });
+});
+
 export const AnalyticsController = {
   getAdminOverview,
   getProviderOverview,
+  getAdminAiInsights,
 };

@@ -42,6 +42,8 @@ router.delete('/coupons/:id', auth('ADMIN'), CouponController.deleteCoupon);
 
 // Platform Analytics (Admin Only)
 router.get('/analytics/overview', auth('ADMIN'), AnalyticsController.getAdminOverview);
+router.get('/analytics/ai-insights', auth('ADMIN'), AnalyticsController.getAdminAiInsights);
+
 
 // Category Management (Admin Only)
 router.post(

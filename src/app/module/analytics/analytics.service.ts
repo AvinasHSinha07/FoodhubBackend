@@ -3,6 +3,29 @@ import status from 'http-status';
 import AppError from '../../errorHelpers/AppError';
 import { prisma } from '../../lib/prisma';
 import { computeOrderFinancialSnapshot, isSettledPaymentStatus } from '../../utils/revenue';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const MODEL_FALLBACKS = ['gemini-2.5-flash', 'gemini-2.0-flash-lite', 'gemini-flash-latest'];
+
+const generateWithFallback = async (prompt: string): Promise<string> => {
+  let lastError: unknown;
+  for (const modelName of MODEL_FALLBACKS) {
+    try {
+      const model = genAI.getGenerativeModel({ model: modelName });
+      const result = await model.generateContent(prompt);
+      return result.response.text();
+    } catch (err: unknown) {
+      const httpErr = err as { status?: number };
+      if (httpErr?.status === 429 || httpErr?.status === 503 || httpErr?.status === 404) {
+        lastError = err;
+        continue;
+      }
+      throw err;
+    }
+  }
+  throw lastError;
+};
 
 const getRangeStartDate = (days: number) => {
   const safeDays = Number.isFinite(days) && days > 0 ? Math.min(Math.floor(days), 365) : 30;
@@ -378,7 +401,63 @@ const getProviderOverviewAnalytics = async (providerUserId: string, days: number
   };
 };
 
+const getAdminAiInsights = async (days: number): Promise<string> => {
+  const analytics = await getAdminOverviewAnalytics(days);
+
+  const { summary, topProviders, ordersByDay, orderStatusBreakdown, paymentStatusBreakdown } = analytics;
+
+  // Compute simple week-over-week revenue trend from daily data
+  const mid = Math.floor(ordersByDay.length / 2);
+  const firstHalf = ordersByDay.slice(0, mid).reduce((s, d) => s + d.revenue, 0);
+  const secondHalf = ordersByDay.slice(mid).reduce((s, d) => s + d.revenue, 0);
+  const trendPct = firstHalf > 0 ? (((secondHalf - firstHalf) / firstHalf) * 100).toFixed(1) : null;
+  const trendLabel = trendPct === null ? 'no prior data' : `${Number(trendPct) >= 0 ? 'up' : 'down'} ${Math.abs(Number(trendPct))}% vs the previous half of the period`;
+
+  // Best and worst day
+  const daysWithOrders = ordersByDay.filter(d => d.orders > 0);
+  const bestDay = daysWithOrders.sort((a, b) => b.orders - a.orders)[0];
+  const slowestDay = daysWithOrders.sort((a, b) => a.orders - b.orders)[0];
+
+  // Top provider
+  const topProvider = topProviders[0];
+
+  // Cancelled/refunded
+  const cancelledCount = orderStatusBreakdown.find(s => s.orderStatus === 'CANCELLED')?.count ?? 0;
+  const refundedCount = paymentStatusBreakdown.find(s => s.paymentStatus === 'REFUNDED')?.count ?? 0;
+
+  const prompt = `You are an AI business analyst for FoodHub, a premium food delivery platform. Analyze the following ${days}-day platform data and generate a concise, insightful management summary.
+
+DATA:
+- Period: Last ${days} days
+- Total Orders: ${summary.totalOrders}
+- Paid Orders: ${summary.paidOrders}
+- Pending Payments: ${summary.pendingPayments}
+- Platform GMV: $${summary.gmv}
+- Admin Net Revenue: $${summary.adminNetRevenue}
+- Revenue trend: ${trendLabel}
+- Cancelled Orders: ${cancelledCount}
+- Refunded Payments: ${refundedCount}
+- Top Restaurant: ${topProvider ? `${topProvider.restaurantName} (${topProvider.orders} orders, $${topProvider.revenue} revenue)` : 'N/A'}
+- All Top Providers: ${topProviders.map(p => `${p.restaurantName}: ${p.orders} orders`).join(', ')}
+- Best performing day: ${bestDay ? `${bestDay.date} (${bestDay.orders} orders)` : 'N/A'}
+- Slowest day: ${slowestDay && slowestDay.date !== bestDay?.date ? `${slowestDay.date} (${slowestDay.orders} orders)` : 'N/A'}
+
+INSTRUCTIONS:
+- Write exactly 3-5 sentences as a professional business insight
+- Start with the most important metric (revenue or orders)
+- Highlight the top performing restaurant by name
+- Mention the revenue trend direction
+- If there are pending payments or cancelled orders, flag them as action items
+- Use $ for currency, be specific with numbers
+- Keep it sharp and actionable — no fluff
+- Do NOT use markdown, bullet points, or headers — plain paragraph only`;
+
+  const insight = await generateWithFallback(prompt);
+  return insight.trim();
+};
+
 export const AnalyticsServices = {
   getAdminOverviewAnalytics,
   getProviderOverviewAnalytics,
+  getAdminAiInsights,
 };
