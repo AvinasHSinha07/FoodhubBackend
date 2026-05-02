@@ -27,7 +27,7 @@ const sessionUpdateAge = Number.isFinite(envVars.BETTER_AUTH_SESSION_TOKEN_UPDAT
     : 60 * 60 * 12;
 
 export const auth = betterAuth({
-    baseURL: envVars.BETTER_AUTH_URL,
+    baseURL: isProduction ? envVars.CLIENT_URL : envVars.BETTER_AUTH_URL,
     basePath: "/api/v1/auth",
     secret: envVars.BETTER_AUTH_SECRET,
     account: {
