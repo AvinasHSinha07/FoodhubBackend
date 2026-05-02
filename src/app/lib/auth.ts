@@ -30,7 +30,13 @@ export const auth = betterAuth({
     baseURL: envVars.BETTER_AUTH_URL,
     basePath: "/api/v1/auth",
     secret: envVars.BETTER_AUTH_SECRET,
+    account: {
 
+		accountLinking: {
+			trustedProviders: ["github", "google"], 
+            
+		},
+	},
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
@@ -40,7 +46,13 @@ export const auth = betterAuth({
         requireEmailVerification: false,
     },
 
-    socialProviders: {},
+    socialProviders: {
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+            prompt: "select_account",
+        },
+    },
 
     emailVerification: {
         sendOnSignUp: false,

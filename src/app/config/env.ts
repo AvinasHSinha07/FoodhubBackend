@@ -27,6 +27,8 @@ interface EnvConfig {
         CLOUDINARY_API_SECRET: string;
     };
     GEMINI_API_KEY: string;
+    GOOGLE_CLIENT_ID: string;
+    GOOGLE_CLIENT_SECRET: string;
 }
 
 const loadEnvVariables = (): EnvConfig => {
@@ -82,6 +84,8 @@ const loadEnvVariables = (): EnvConfig => {
             CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
         },
         GEMINI_API_KEY: process.env.GEMINI_API_KEY as string,
+        GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || "",
+        GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || "",
     };
 };
 
